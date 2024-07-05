@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"nuxt": "^3.12.3",
+		"primeicons": "^7.0.0",
 		"vue": "latest"
 	},
 	"devDependencies": {
