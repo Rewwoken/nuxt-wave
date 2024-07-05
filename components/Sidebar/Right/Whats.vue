@@ -17,7 +17,7 @@
 
 <template>
 	<section class="border rounded-2xl">
-		<h2 class="px-3 py-2 text-2xl font-bold border-b">
+		<h2 class="px-3 py-2 text-xl font-bold border-b">
 			What's happening
 		</h2>
 		<ul>

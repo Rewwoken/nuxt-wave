@@ -20,7 +20,7 @@
 
 <template>
 	<section class="border rounded-2xl">
-		<h2 class="px-3 py-2 text-2xl font-bold border-b">
+		<h2 class="px-3 py-2 text-xl font-bold border-b">
 			Who to follow
 		</h2>
 		<li v-for="item in items" :key="item.handle" class="flex items-center p-2 py-3 border-b gap-x-2">

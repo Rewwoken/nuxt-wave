@@ -7,4 +7,7 @@ export default defineNuxtConfig({
 	build: {
 		transpile: ['primevue'],
 	},
+	alias: {
+		"@/*": "./src/*"
+	}
 });
