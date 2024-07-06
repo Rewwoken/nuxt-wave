@@ -1,5 +1,8 @@
 import argon2 from 'argon2';
+import { createRefreshToken } from '~/server/database/refreshToken';
 import { findUser } from '~/server/database/user';
+import { issueTokens } from '~/server/utils/issueTokens';
+import { setRefreshToken } from '~/server/utils/setRefreshToken';
 
 export default defineEventHandler(async (event) => {
 	const body = await readBody(event);
@@ -21,7 +24,12 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
+	const { accessToken, refreshToken } = issueTokens(user.id);
+
+	await createRefreshToken(user.id, refreshToken);
+	setRefreshToken(event, refreshToken);
+
 	const { password, ...data } = user;
 
-	return data;
+	return { ...data, accessToken };
 });

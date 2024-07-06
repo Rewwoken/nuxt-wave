@@ -10,6 +10,8 @@ interface RegisterBody {
 export default defineEventHandler(async (event) => {
 	const body: RegisterBody = await readBody(event);
 
+	// TODO: BODY VALIDATION...
+
 	const { username, email, password } = body;
 	if (!username || !email || !password) {
 		throw createError({
