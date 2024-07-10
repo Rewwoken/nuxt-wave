@@ -1,20 +1,35 @@
+<script setup lang="ts">
+	const links = [
+		{ to: '/home', icon: 'pi-home', text: 'Home' },
+		{ to: '/explore', icon: 'pi-hashtag', text: 'Explore' },
+		{ to: '/notifications', icon: 'pi-bell', text: 'Notifications' },
+		{ to: '/messages', icon: 'pi-envelope', text: 'Messages' },
+		{ to: '/bookmarks', icon: 'pi-bookmark', text: 'Bookmarks' },
+		{ to: '/lists', icon: 'pi-file', text: 'Lists' },
+		{ to: '/profile', icon: 'pi-user', text: 'Profile' },
+		{ to: '/more', icon: 'pi-ellipsis-h', text: 'More' },
+	];
+</script>
+
 <template>
-	<div class="flex flex-col w-full">
+	<div class="flex flex-col items-end w-full xl:items-stretch">
 		<NuxtLink to="/home" class="p-2 transition-colors rounded-full size-12 hover:bg-gray-500/10">
 			<LogoNuxt />
 		</NuxtLink>
-		<nav class="flex flex-col items-start gap-y-4">
-			<!-- <SidebarLeftLink to="/home" icon="pi-home" text="Home" />
-			<SidebarLeftLink to="/explore" icon="pi-hashtag" text="Explore" />
-			<SidebarLeftLink to="/notifications" icon="pi-bell" text="Notifications" />
-			<SidebarLeftLink to="/messages" icon="pi-envelope" text="Messages" />
-			<SidebarLeftLink to="/bookmarks" icon="pi-bookmark" text="Bookmarks" />
-			<SidebarLeftLink to="/lists" icon="pi-file" text="Lists" />
-			<SidebarLeftLink to="/profile" icon="pi-user" text="Profile" />
-			<SidebarLeftLink to="/more" icon="pi-ellipsis-h" text="More" /> -->
+		<nav class="flex flex-col gap-y-4">
+			<NuxtLink
+				v-for="link in links"
+				:key="link.to"
+				:to="link.to"
+				class="flex items-center p-3 rounded-full gap-x-5 hover:bg-gray-500/10"
+			>
+				<i :class="`text-2xl pi ${link.icon}`" />
+				<span class="hidden text-xl xl:inline">{{ link.text }}</span>
+			</NuxtLink>
 		</nav>
-		<button class="w-full py-2 mt-4 text-white rounded-full bg-sky-500">
-			New
+		<Button label="Post" class="hidden rounded-full xl:block" />
+		<button class="rounded-full size-12 xl:hidden bg-sky-500" aria-label="Post">
+			<i class="text-xl text-white pi pi-pen-to-square" />
 		</button>
 		<SidebarLeftAccount />
 	</div>

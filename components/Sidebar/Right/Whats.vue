@@ -23,7 +23,7 @@
 		<ul>
 			<li v-for="item in items" :key="item.title" class="p-2 border-b">
 				<span class="font-bold">{{ item.title }}</span>
-				<p class="text-sm text-neutral-400">
+				<p class="text-sm text-neutral-500">
 					{{ item.count }} Tweets
 				</p>
 			</li>

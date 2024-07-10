@@ -1,5 +1,5 @@
 <template>
-	<div class="grid gap-x-4 h-full grid-cols-12 mx-auto max-w-[1250px]">
+	<div class="grid px-1 gap-x-4 h-full grid-cols-12 mx-auto max-w-[1250px]">
 		<aside class="hidden col-span-1 select-none md:flex xl:col-span-2">
 			<SidebarLeft />
 		</aside>

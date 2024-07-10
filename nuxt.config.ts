@@ -33,6 +33,14 @@ export default defineNuxtConfig({
 			},
 		},
 	},
+	routeRules: {
+		'/': {
+			redirect: {
+				to: '/home',
+				statusCode: 301,
+			},
+		},
+	},
 	compatibilityDate: '2024-07-04',
 	css: ['primeicons/primeicons.css'],
 	runtimeConfig: {

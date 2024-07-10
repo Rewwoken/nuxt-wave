@@ -17,7 +17,7 @@
 			label="Haven't registered yet?"
 			size="small"
 			text
-			class="!p-0 mt-2"
+			class="!px-1 !py-0 mt-2 !border-none"
 			@click="showModal"
 		/>
 		<Dialog
@@ -26,6 +26,7 @@
 			header="Create an account"
 			:dismissable-mask="true"
 			:close-on-escape="true"
+			:draggable="false"
 			:style="{ width: '20rem' }"
 		>
 			<AuthRegister @close-modal="closeModal" />

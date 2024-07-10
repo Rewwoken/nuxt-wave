@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 		});
 	}
 
-	const user = await createUser(body);
+	await createUser(body);
 
-	return user;
+	setResponseStatus(event, 201);
 });

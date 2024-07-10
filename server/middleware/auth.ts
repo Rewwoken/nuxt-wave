@@ -1,5 +1,5 @@
 import logoutPost from '~/server/api/auth/logout.post';
-import { handleInvalidAccess, handleValidAccess } from '~/server/utils/handleTokens';
+import { handleInvalidAccessToken, handleValidAccessToken } from '~/server/utils/handleTokens';
 import { verifyToken } from '~/server/utils/jwt';
 
 export default defineEventHandler(async (event) => {
@@ -13,10 +13,10 @@ export default defineEventHandler(async (event) => {
 		const isAccessValid = verifyToken(cookies.accessToken);
 
 		if (!isAccessValid) {
-			await handleInvalidAccess(event, cookies);
+			await handleInvalidAccessToken(event, cookies);
 		}
 		else {
-			await handleValidAccess(event, cookies);
+			await handleValidAccessToken(event, cookies);
 		}
 	}
 	catch (error) {

@@ -4,11 +4,17 @@ import { prisma } from '~/server/database';
 export async function createUser(data: any) {
 	data.password = await argon2.hash(data.password);
 
-	const { password, ...user } = await prisma.user.create({ data });
-
-	return user;
+	return await prisma.user.create({ data });
 }
 
-export async function findUser(username: string) {
-	return await prisma.user.findUnique({ where: { username } });
+export async function findUserByUsername(username: string) {
+	return await prisma.user.findUnique({
+		where: { username },
+	});
+}
+
+export async function findUserById(id: string) {
+	return await prisma.user.findUnique({
+		where: { id },
+	});
 }

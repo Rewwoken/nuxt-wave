@@ -1,7 +1,4 @@
 <script setup lang="ts">
-	import Button from 'primevue/button';
-	import InputText from 'primevue/inputtext';
-
 	const user = reactive({
 		username: '',
 		password: '',
@@ -15,7 +12,7 @@
 </script>
 
 <template>
-	<form class="flex flex-col gap-y-2">
+	<form class="flex flex-col gap-y-2" @keydown.enter="onSubmit">
 		<InputText
 			v-model="user.username"
 			type="text"

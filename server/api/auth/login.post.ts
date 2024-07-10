@@ -1,11 +1,11 @@
 import argon2 from 'argon2';
-import { findUser } from '~/server/database/user';
+import { findUserByUsername } from '~/server/database/user';
 import { issueTokens, setAccessToken, setRefreshToken } from '~/server/utils/jwt';
 
 export default defineEventHandler(async (event) => {
 	const body = await readBody(event);
 
-	const user = await findUser(body.username);
+	const user = await findUserByUsername(body.username);
 
 	if (!user) {
 		throw createError({

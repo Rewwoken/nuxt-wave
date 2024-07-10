@@ -1,9 +1,5 @@
 <script setup lang="ts">
-	import Button from 'primevue/button';
-	import InputText from 'primevue/inputtext';
-	import Password from 'primevue/password';
-
-	// const emit = defineEmits(['closeModal']);
+	const emit = defineEmits(['closeModal']);
 
 	const user = reactive({
 		name: '',
@@ -15,6 +11,8 @@
 
 	async function onSubmit() {
 		await register(user);
+
+		emit('closeModal');
 	}
 </script>
 
