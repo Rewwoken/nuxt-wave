@@ -1,6 +1,13 @@
 import { findUserById } from '~/server/database/user';
 
-// TODO: exclude password hash
 export default defineEventHandler(async (event) => {
-	return await findUserById(event.context.userId);
+	const result = await findUserById(event.context.userId);
+
+	if (!result) {
+		return null;
+	}
+
+	const { password, ...user } = result;
+
+	return user;
 });

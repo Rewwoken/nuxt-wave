@@ -29,5 +29,5 @@ export default defineEventHandler(async (event) => {
 
 	const { password, ...data } = user;
 
-	return { ...data, accessToken };
+	return data;
 });

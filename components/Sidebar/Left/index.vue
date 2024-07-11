@@ -26,11 +26,14 @@
 				<i :class="`text-2xl pi ${link.icon}`" />
 				<span class="hidden text-xl xl:inline">{{ link.text }}</span>
 			</NuxtLink>
+			<Button label="Post" class="!hidden xl:!block !text-white" />
+			<Button
+				size="large"
+				icon="pi pi-pen-to-square"
+				aria-label="Post"
+				class="xl:!hidden !size-12"
+			/>
 		</nav>
-		<Button label="Post" class="hidden rounded-full xl:block" />
-		<button class="rounded-full size-12 xl:hidden bg-sky-500" aria-label="Post">
-			<i class="text-xl text-white pi pi-pen-to-square" />
-		</button>
 		<SidebarLeftAccount />
 	</div>
 </template>

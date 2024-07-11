@@ -12,6 +12,7 @@ export default antfu({
 			'style/indent': ['off'],
 			'vue/html-quotes': ['error', 'single', { avoidEscape: true }],
 			'vue/script-indent': ['error', 'tab', { baseIndent: 1 }],
+			'node/prefer-global/process': ['off'],
 		},
 	},
 });

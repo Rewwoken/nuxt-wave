@@ -1,4 +1,3 @@
-/* eslint-disable node/prefer-global/process */
 import { definePreset } from '@primevue/themes';
 import Aura from '@primevue/themes/aura';
 
@@ -42,9 +41,12 @@ export default defineNuxtConfig({
 		},
 	},
 	compatibilityDate: '2024-07-04',
-	css: ['primeicons/primeicons.css'],
+	css: ['primeicons/primeicons.css', '~/assets/primevue.css'],
 	runtimeConfig: {
 		jwtSecret: process.env.JWT_SECRET,
+		cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+		cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+		cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
 	},
 	build: {
 		transpile: ['primevue'],

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	const { data: user, status } = useFetch('/api/me', {
 		method: 'GET',
-		server: false,
 	});
 
 	const op = ref();
@@ -45,13 +44,11 @@
 		Loading...
 	</p>
 	<Popover ref="op">
-		<Button
-			label="Log out"
-			size="small"
-			severity="danger"
-			icon="pi pi-sign-out"
-			class="px-6"
+		<button
+			class="w-40 p-1 font-bold text-left"
 			@click="logout"
-		/>
+		>
+			Log out {{ user?.username }}
+		</button>
 	</Popover>
 </template>

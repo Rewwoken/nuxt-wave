@@ -28,7 +28,7 @@
 				</p>
 			</li>
 		</ul>
-		<button class="w-full p-3 text-sm text-left text-sky-600 hover:underline">
+		<button class="w-full p-3 text-sm font-semibold text-left text-sky-500 hover:underline">
 			Show more
 		</button>
 	</section>

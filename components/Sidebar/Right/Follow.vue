@@ -33,11 +33,11 @@
 				<span class="font-bold leading-4">{{ item.name }}</span>
 				<span class="text-sm leading-4 text-neutral-500">{{ item.handle }}</span>
 			</div>
-			<button class="px-4 py-1.5 font-semibold ml-auto text-sm text-white rounded-full dark:text-black bg-dim dark:bg-white">
+			<button class="px-4 py-1.5 ml-auto font-semibold text-sm text-white rounded-full dark:text-black bg-dim dark:bg-white">
 				Follow
 			</button>
 		</li>
-		<button class="w-full p-3 text-sm text-left text-sky-600 hover:underline">
+		<button class="w-full p-3 text-sm font-semibold text-left text-sky-400 hover:underline">
 			Show more
 		</button>
 	</section>

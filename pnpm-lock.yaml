@@ -17,6 +17,12 @@ importers:
       argon2:
         specifier: ^0.40.3
         version: 0.40.3
+      cloudinary:
+        specifier: ^2.2.0
+        version: 2.2.0
+      formidable:
+        specifier: ^3.5.1
+        version: 3.5.1
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -42,6 +48,9 @@ importers:
       '@primevue/nuxt-module':
         specifier: ^4.0.0
         version: 4.0.0(@babel/parser@7.24.7)(@primeuix/utils@0.0.5)(magicast@0.3.4)(rollup@4.18.0)(vue@3.4.31(typescript@5.5.3))
+      '@types/formidable':
+        specifier: ^3.4.5
+        version: 3.4.5
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.6
@@ -1234,6 +1243,9 @@ packages:
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
+  '@types/formidable@3.4.5':
+    resolution: {integrity: sha512-s7YPsNVfnsng5L8sKnG/Gbb2tiwwJTY1conOkJzTMRvJAlLFW1nEua+ADsJQu8N1c0oTHx9+d5nqg10WuT9gHQ==}
+
   '@types/http-proxy@1.17.14':
     resolution: {integrity: sha512-SSrD0c1OQzlFX7pGu1eXxSEjemej64aaNPRhhVYUGqXh0BtldAAx37MG8btcumvpgKyZp1F5Gn3JkktdxiFv6w==}
 
@@ -1534,6 +1546,9 @@ packages:
     resolution: {integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==}
     engines: {node: '>=8'}
 
+  asap@2.0.6:
+    resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
+
   ast-kit@0.12.2:
     resolution: {integrity: sha512-es1zHFsnZ4Y4efz412nnrU3KvVAhgqy90a7Yt9Wpi5vQ3l4aYMOX0Qx4FD0elKr5ITEhiUGCSFcgGYf4YTuACg==}
     engines: {node: '>=16.14.0'}
@@ -1710,6 +1725,10 @@ packages:
   cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
     engines: {node: '>=12'}
+
+  cloudinary@2.2.0:
+    resolution: {integrity: sha512-akbLTZcNegGSkl07Frnt9fyiK9KZ2zPS+a+j7uLrjNYxVhDpDdIBz9G6snPCYqgk+WLVMRPfXTObalLr5L6g0Q==}
+    engines: {node: '>=9'}
 
   cluster-key-slot@1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
@@ -1997,6 +2016,9 @@ packages:
 
   devalue@5.0.0:
     resolution: {integrity: sha512-gO+/OMXF7488D+u3ue+G7Y4AA3ZmUnB3eHJXmBTgNHvr4ZNzl36A0ZtG+XCRNYCkYx/bFmw4qtkoFLa+wSrwAA==}
+
+  dezalgo@1.0.4:
+    resolution: {integrity: sha512-rXSP0bf+5n0Qonsb+SVVfNfIsimO4HEtmnIpPHY8Q1UCzKlQrDMfdobr8nJOOsRgWCyMRqeSBQzmWUMq7zvVig==}
 
   didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
@@ -2400,6 +2422,9 @@ packages:
     resolution: {integrity: sha512-PXUUyLqrR2XCWICfv6ukppP96sdFwWbNEnfEMt7jNsISjMsvaLNinAHNDYyvkyU+SZG2BTSbT5NjG+vZslfGTA==}
     engines: {node: '>=14'}
 
+  formidable@3.5.1:
+    resolution: {integrity: sha512-WJWKelbRHN41m5dumb0/k8TeAx7Id/y3a+Z7QfhxP/htI9Js5zYaEDtG8uMgG0vM0lOlqnmjE99/kfpOYi/0Og==}
+
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
@@ -2559,6 +2584,10 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
+
+  hexoid@1.0.0:
+    resolution: {integrity: sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g==}
+    engines: {node: '>=8'}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -3656,6 +3685,14 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
+
+  q@1.5.1:
+    resolution: {integrity: sha512-kV/CThkXo6xyFEZUugw/+pIOywXcDbFYgSct5cT3gqlbkBE1SJdwy6UQoZvodiWF/ckQLZyDE/Bu1M6gVu5lVw==}
+    engines: {node: '>=0.6.0', teleport: '>=0.2.0'}
+    deprecated: |-
+      You or someone you depend on is using Q, the JavaScript Promise library that gave JavaScript developers strong feelings about promises. They can almost certainly migrate to the native JavaScript promise now. Thank you literally everyone for joining me in this bet against the odds. Be excellent to each other.
+
+      (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -5734,6 +5771,10 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
+  '@types/formidable@3.4.5':
+    dependencies:
+      '@types/node': 20.14.9
+
   '@types/http-proxy@1.17.14':
     dependencies:
       '@types/node': 20.14.9
@@ -6138,6 +6179,8 @@ snapshots:
 
   array-union@2.1.0: {}
 
+  asap@2.0.6: {}
+
   ast-kit@0.12.2:
     dependencies:
       '@babel/parser': 7.24.7
@@ -6321,6 +6364,11 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
+
+  cloudinary@2.2.0:
+    dependencies:
+      lodash: 4.17.21
+      q: 1.5.1
 
   cluster-key-slot@1.1.2: {}
 
@@ -6546,6 +6594,11 @@ snapshots:
   detect-libc@2.0.3: {}
 
   devalue@5.0.0: {}
+
+  dezalgo@1.0.4:
+    dependencies:
+      asap: 2.0.6
+      wrappy: 1.0.2
 
   didyoumean@1.2.2: {}
 
@@ -7106,6 +7159,12 @@ snapshots:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
 
+  formidable@3.5.1:
+    dependencies:
+      dezalgo: 1.0.4
+      hexoid: 1.0.0
+      once: 1.4.0
+
   fraction.js@4.3.7: {}
 
   fresh@0.5.2: {}
@@ -7288,6 +7347,8 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
+
+  hexoid@1.0.0: {}
 
   hookable@5.5.3: {}
 
@@ -8503,6 +8564,8 @@ snapshots:
   protocols@2.0.1: {}
 
   punycode@2.3.1: {}
+
+  q@1.5.1: {}
 
   queue-microtask@1.2.3: {}
 
