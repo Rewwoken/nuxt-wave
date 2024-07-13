@@ -1,3 +1,7 @@
 .p-button {
 	@apply rounded-full;
 }
+
+.p-button-label {
+	@apply font-bold;
+}

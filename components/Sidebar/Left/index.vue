@@ -14,7 +14,7 @@
 <template>
 	<div class="flex flex-col items-end w-full xl:items-stretch">
 		<NuxtLink to="/home" class="p-2 transition-colors rounded-full size-12 hover:bg-gray-500/10">
-			<LogoNuxt />
+			<IconNuxt />
 		</NuxtLink>
 		<nav class="flex flex-col gap-y-4">
 			<NuxtLink
@@ -26,7 +26,10 @@
 				<i :class="`text-2xl pi ${link.icon}`" />
 				<span class="hidden text-xl xl:inline">{{ link.text }}</span>
 			</NuxtLink>
-			<Button label="Post" class="!hidden xl:!block !text-white" />
+			<Button
+				label="Post"
+				class="!hidden xl:!block !text-white text-lg"
+			/>
 			<Button
 				size="large"
 				icon="pi pi-pen-to-square"

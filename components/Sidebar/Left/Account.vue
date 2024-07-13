@@ -22,19 +22,7 @@
 		class="flex items-center mt-8 rounded-full cursor-pointer xl:p-2 gap-x-2 xl:hover:bg-gray-500/10"
 		@click="toggle"
 	>
-		<Avatar
-			v-if="user.image"
-			shape="circle"
-			size="large"
-			:image="user.image"
-		/>
-		<Avatar
-			v-else
-			shape="circle"
-			size="large"
-			icon="pi pi-user"
-			class="dark:bg-dim dark:border"
-		/>
+		<UserAvatar :src="user.image" />
 		<div class="xl:flex flex-col gap-y-0.5 hidden">
 			<span class="font-bold leading-4">{{ user.name }}</span>
 			<span class="text-sm leading-4 text-neutral-500">{{ user.username }}</span>

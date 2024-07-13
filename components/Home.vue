@@ -1,3 +1,0 @@
-<template>
-	HOME
-</template>

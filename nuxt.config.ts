@@ -21,7 +21,7 @@ const MyPreset = definePreset(Aura, {
 
 export default defineNuxtConfig({
 	devtools: { enabled: true },
-	modules: ['@nuxtjs/tailwindcss', '@primevue/nuxt-module'],
+	modules: ['@nuxtjs/tailwindcss', '@primevue/nuxt-module', '@nuxt/image'],
 	primevue: {
 		options: {
 			theme: {

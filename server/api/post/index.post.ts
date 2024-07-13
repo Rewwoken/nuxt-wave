@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
 	const replyToId = query.replyToId as string | undefined;
 
 	const { fields, files } = await parseForm(event);
+
 	const postData = { text: fields.text?.join(' ') };
 
 	const userId = event.context.userId;

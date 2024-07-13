@@ -12,6 +12,7 @@
 		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
+		"@nuxt/image": "^1.7.0",
 		"@primevue/themes": "^4.0.0",
 		"@prisma/client": "5.15.0",
 		"argon2": "^0.40.3",
