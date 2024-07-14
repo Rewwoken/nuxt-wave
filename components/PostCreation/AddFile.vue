@@ -33,8 +33,9 @@
 		title="Upload image"
 		size="large"
 		:icon="icon"
-		class="text-xs !border-none"
+		class="!border-none"
 		text
+		rounded
 		@click="onIconClick"
 	/>
 	<input

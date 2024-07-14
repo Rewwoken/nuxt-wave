@@ -4,7 +4,7 @@
 		password: '',
 	});
 
-	const { login } = useAuth();
+	const { login, isPending } = useAuth();
 
 	async function onSubmit() {
 		await login(user);
@@ -12,7 +12,10 @@
 </script>
 
 <template>
-	<form class="flex flex-col gap-y-2" @keydown.enter="onSubmit">
+	<form
+		class="flex flex-col gap-y-2"
+		@keydown.enter="onSubmit"
+	>
 		<InputText
 			v-model="user.username"
 			type="text"
@@ -32,6 +35,7 @@
 			icon="pi pi-user"
 			size="small"
 			class="w-full !text-white !rounded-full mt-1"
+			:loading="isPending"
 			@click.prevent="onSubmit"
 		/>
 	</form>

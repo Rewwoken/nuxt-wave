@@ -10,6 +10,7 @@
 			</NuxtLayout>
 		</div>
 	</div>
+	<Toast />
 </template>
 
 <style>

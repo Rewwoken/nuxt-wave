@@ -1,3 +1,4 @@
+// TOOD: refactor
 import { definePreset } from '@primevue/themes';
 import Aura from '@primevue/themes/aura';
 
@@ -21,7 +22,7 @@ const MyPreset = definePreset(Aura, {
 
 export default defineNuxtConfig({
 	devtools: { enabled: true },
-	modules: ['@nuxtjs/tailwindcss', '@primevue/nuxt-module', '@nuxt/image'],
+	modules: ['@nuxtjs/tailwindcss', '@primevue/nuxt-module', '@nuxt/image', '@vee-validate/nuxt'],
 	primevue: {
 		options: {
 			theme: {
@@ -41,7 +42,7 @@ export default defineNuxtConfig({
 		},
 	},
 	compatibilityDate: '2024-07-04',
-	css: ['primeicons/primeicons.css', '~/assets/primevue.css'],
+	css: ['primeicons/primeicons.css'],
 	runtimeConfig: {
 		jwtSecret: process.env.JWT_SECRET,
 		cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,

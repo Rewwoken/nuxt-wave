@@ -58,7 +58,8 @@
 				<Button
 					type="button"
 					label="Post"
-					class="px-6 py-1 !font-bold !text-white"
+					class="px-6 py-1 !text-white"
+					rounded
 					@click="onSubmit"
 				/>
 			</div>

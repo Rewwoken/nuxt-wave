@@ -1,6 +1,6 @@
 <template>
 	<main class="absolute flex items-center justify-center w-full gap-x-64 top-1/2 bottom-1/2">
-		<LogoNuxt class="size-96" />
+		<IconNuxt class="size-96" />
 		<div class="flex flex-col items-start">
 			<h1 class="mb-10 text-6xl font-bold">
 				Happening now

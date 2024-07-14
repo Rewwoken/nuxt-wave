@@ -1,7 +1,7 @@
 <script setup lang="ts">
-	const { data: user, status } = useFetch('/api/me', {
-		method: 'GET',
-	});
+	const { user } = defineProps<{
+		user: Record<string, any>;
+	}>();
 
 	const op = ref();
 
@@ -17,20 +17,16 @@
 </script>
 
 <template>
-	<div
-		v-if="status === 'success' && user"
+	<button
 		class="flex items-center mt-8 rounded-full cursor-pointer xl:p-2 gap-x-2 xl:hover:bg-gray-500/10"
 		@click="toggle"
 	>
 		<UserAvatar :src="user.image" />
-		<div class="xl:flex flex-col gap-y-0.5 hidden">
+		<div class="xl:flex flex-col gap-y-0.5 hidden items-start">
 			<span class="font-bold leading-4">{{ user.name }}</span>
 			<span class="text-sm leading-4 text-neutral-500">{{ user.username }}</span>
 		</div>
-	</div>
-	<p v-else>
-		Loading...
-	</p>
+	</button>
 	<Popover ref="op">
 		<button
 			class="w-40 p-1 font-bold text-left"
