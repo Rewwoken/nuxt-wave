@@ -3,31 +3,31 @@ import { findUserByUsername } from '~/server/database/user';
 import { issueTokens, setAccessToken, setRefreshToken } from '~/server/utils/jwt';
 
 export default defineEventHandler(async (event) => {
-	const body = await readBody(event);
+  const body = await readBody(event);
 
-	const user = await findUserByUsername(body.username);
+  const user = await findUserByUsername(body.username);
 
-	if (!user) {
-		throw createError({
-			statusCode: 400,
-			message: 'User does not exist!',
-		});
-	}
+  if (!user) {
+    throw createError({
+      statusCode: 400,
+      message: 'User does not exist!',
+    });
+  }
 
-	const valid = await argon2.verify(user.password, body.password);
-	if (!valid) {
-		throw createError({
-			statusCode: 400,
-			message: 'Password is invalid!',
-		});
-	}
+  const valid = await argon2.verify(user.password, body.password);
+  if (!valid) {
+    throw createError({
+      statusCode: 400,
+      message: 'Password is invalid!',
+    });
+  }
 
-	const { accessToken, refreshToken } = issueTokens(user.id);
+  const { accessToken, refreshToken } = issueTokens(user.id);
 
-	setRefreshToken(event, refreshToken);
-	setAccessToken(event, accessToken);
+  setRefreshToken(event, refreshToken);
+  setAccessToken(event, accessToken);
 
-	const { password, ...data } = user;
+  const { password, ...data } = user;
 
-	return data;
+  return data;
 });

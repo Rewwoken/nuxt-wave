@@ -55,5 +55,5 @@ model MediaFile {
   post   Post?   @relation(fields: [postId], references: [id])
   postId String?
 
-	@@map("media_file")
+  @@map("media_file")
 }

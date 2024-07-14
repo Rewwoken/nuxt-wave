@@ -1,9 +1,9 @@
 <script setup lang="ts">
-	const { params } = useRoute();
+  const { params } = useRoute();
 </script>
 
 <template>
-	<span>
-		{{ params.username }}
-	</span>
+  <span>
+    {{ params.username }}
+  </span>
 </template>

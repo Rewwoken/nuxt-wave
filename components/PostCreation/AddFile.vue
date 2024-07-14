@@ -1,49 +1,49 @@
 <script setup lang="ts">
-	defineProps<{
-		fileType: string;
-		icon: string;
-	}>();
+  defineProps<{
+    fileType: string;
+    icon: string;
+  }>();
 
-	const emit = defineEmits(['onFile']);
+  const emit = defineEmits(['onFile']);
 
-	const hiddenInput = ref();
+  const hiddenInput = ref();
 
-	function onIconClick() {
-		hiddenInput.value.click();
-	}
+  function onIconClick() {
+    hiddenInput.value.click();
+  }
 
-	function onFileChange(event: Event) {
-		// @ts-expect-error | .files property actually exists
-		const file = event.target.files[0] as File;
+  function onFileChange(event: Event) {
+    // @ts-expect-error | .files property actually exists
+    const file = event.target.files[0] as File;
 
-		const fileReader = new FileReader();
+    const fileReader = new FileReader();
 
-		fileReader.onload = (event) => {
-			const url = event.target?.result;
+    fileReader.onload = (event) => {
+      const url = event.target?.result;
 
-			emit('onFile', file, url);
-		};
+      emit('onFile', file, url);
+    };
 
-		fileReader.readAsDataURL(file);
-	}
+    fileReader.readAsDataURL(file);
+  }
 </script>
 
 <template>
-	<Button
-		title="Upload image"
-		size="large"
-		:icon="icon"
-		class="!border-none"
-		text
-		rounded
-		@click="onIconClick"
-	/>
-	<input
-		ref="hiddenInput"
-		type="file"
-		:accept="fileType"
-		multiple
-		hidden
-		@change="onFileChange"
-	>
+  <Button
+    title="Upload image"
+    size="large"
+    :icon="icon"
+    class="!border-none"
+    text
+    rounded
+    @click="onIconClick"
+  />
+  <input
+    ref="hiddenInput"
+    type="file"
+    :accept="fileType"
+    multiple
+    hidden
+    @change="onFileChange"
+  >
 </template>
