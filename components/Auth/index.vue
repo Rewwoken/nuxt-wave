@@ -27,7 +27,6 @@
       :dismissable-mask="true"
       :close-on-escape="true"
       :draggable="false"
-      :style="{ width: '20rem' }"
     >
       <AuthRegister @close-modal="closeModal" />
     </Dialog>

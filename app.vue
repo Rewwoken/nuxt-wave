@@ -1,5 +1,12 @@
 <script setup lang="ts">
-  const darkMode = ref(false);
+  const darkMode = ref(true);
+
+  useHead({
+    title: 'NuxtSocial',
+    meta: [
+      { name: 'description', content: 'A social media website.' },
+    ],
+  });
 </script>
 
 <template>

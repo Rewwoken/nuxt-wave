@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   if (!user) {
     throw createError({
       statusCode: 400,
-      message: 'User does not exist!',
+      message: 'Invalid credentials!',
     });
   }
 
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   if (!valid) {
     throw createError({
       statusCode: 400,
-      message: 'Password is invalid!',
+      message: 'Invalid credentials!',
     });
   }
 

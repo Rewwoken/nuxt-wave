@@ -20,11 +20,18 @@
       Open source
     </NuxtLink>
     <NuxtLink
-      to="https://github.com/Rewwoken/nuxt-social"
+      to="https://github.com/Rewwoken"
       target="_blank"
       class="text-sm text-neutral-500 hover:underline"
     >
-      &copy; Rewwoken
+      &copy; 2024 Rewwoken
+    </NuxtLink>
+    <NuxtLink
+      to="https://github.com/Rewwoken/nuxt-social/blob/main/LICENSE"
+      target="_blank"
+      class="text-sm text-neutral-500 hover:underline"
+    >
+      MIT License
     </NuxtLink>
   </footer>
 </template>

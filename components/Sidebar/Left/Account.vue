@@ -24,7 +24,7 @@
     <UserAvatar :src="user.image" />
     <div class="xl:flex flex-col gap-y-0.5 hidden items-start">
       <span class="font-bold leading-4">{{ user.name }}</span>
-      <span class="text-sm leading-4 text-neutral-500">{{ user.username }}</span>
+      <span class="text-sm leading-4 text-neutral-500">@{{ user.username }}</span>
     </div>
   </button>
   <Popover ref="op">
@@ -32,7 +32,7 @@
       class="w-40 p-1 font-bold text-left"
       @click="logout"
     >
-      Log out {{ user?.username }}
+      Log out @{{ user?.username }}
     </button>
   </Popover>
 </template>
