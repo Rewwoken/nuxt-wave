@@ -1,0 +1,10 @@
+<template>
+  <Button
+    label="Follow"
+    severity="contrast"
+    size="small"
+    pt:root:class="!px-5"
+    pt:label:class="!font-bold"
+    rounded
+  />
+</template>
