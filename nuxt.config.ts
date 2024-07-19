@@ -1,8 +1,7 @@
-// TOOD: refactor
 import { definePreset } from '@primevue/themes';
 import Aura from '@primevue/themes/aura';
 
-const MyPreset = definePreset(Aura, {
+const SkyAura = definePreset(Aura, {
   semantic: {
     primary: {
       50: '{sky.50}',
@@ -22,11 +21,19 @@ const MyPreset = definePreset(Aura, {
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@primevue/nuxt-module', '@nuxt/image', '@vee-validate/nuxt'],
+  devServer: {
+    port: 8000,
+  },
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@primevue/nuxt-module',
+    '@vee-validate/nuxt',
+    '@nuxt/image',
+  ],
   primevue: {
     options: {
       theme: {
-        preset: MyPreset,
+        preset: SkyAura,
         options: {
           darkModeSelector: '.dark',
         },
@@ -48,9 +55,6 @@ export default defineNuxtConfig({
     cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
     cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
     cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
-  },
-  build: {
-    transpile: ['primevue'],
   },
   alias: {
     '@/*': './src/*',

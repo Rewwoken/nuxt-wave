@@ -10,7 +10,7 @@ export async function uploadToCloudinary(filepath: string) {
 
     return response;
   }
-  catch (error) {
+  catch {
     throw createError({
       statusCode: 400,
       message: 'Error uploading to cloud!',

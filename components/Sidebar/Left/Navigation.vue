@@ -1,7 +1,5 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    username: string;
-  }>();
+  const { currentUser } = useCurrentUser();
 
   const links = [
     { to: '/home', icon: 'pi-home', text: 'Home' },
@@ -10,13 +8,16 @@
     { to: '/messages', icon: 'pi-envelope', text: 'Messages' },
     { to: '/bookmarks', icon: 'pi-bookmark', text: 'Bookmarks' },
     { to: '/lists', icon: 'pi-file', text: 'Lists' },
-    { to: `/${props.username}`, icon: 'pi-user', text: 'Profile' }, // Hydration completed but contains mismatches.
+    { to: `/${currentUser.username}`, icon: 'pi-user', text: 'Profile' },
     { to: '/more', icon: 'pi-ellipsis-h', text: 'More' },
-  ].filter(Boolean);
+  ];
 </script>
 
 <template>
-  <NuxtLink to="/home" class="p-2 transition-colors rounded-full size-12 hover:bg-gray-500/10">
+  <NuxtLink
+    to="/home"
+    class="p-2 transition-colors rounded-full size-12 hover:bg-gray-500/10"
+  >
     <IconNuxt />
   </NuxtLink>
   <nav class="flex flex-col gap-y-4">
@@ -31,14 +32,17 @@
     </NuxtLink>
     <Button
       label="Post"
-      class="!hidden xl:!block !text-white text-lg"
+      pt:root:class="!hidden xl:!block"
+      pt:label:class="text-lg font-semibold text-white"
       rounded
     />
     <Button
       size="large"
       icon="pi pi-pen-to-square"
       aria-label="Post"
-      class="xl:!hidden !size-12"
+      pt:root:class="xl:!hidden !size-12"
+      pt:icon:class="text-white"
+      rounded
     />
   </nav>
 </template>

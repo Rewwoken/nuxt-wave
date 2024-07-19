@@ -1,28 +1,23 @@
 <script setup lang="ts">
-  const darkMode = ref(true);
+  const { theme } = useTheme();
 
   useHead({
     title: 'NuxtSocial',
-    meta: [
-      { name: 'description', content: 'A social media website.' },
-    ],
+    meta: [{ name: 'description', content: 'A social media website.' }],
+    bodyAttrs: {
+      class: theme,
+    },
   });
 </script>
 
 <template>
-  <div :class="{ dark: darkMode }">
-    <div class="min-h-screen bg-white dark:bg-dim dark:text-white">
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
-    </div>
+  <div
+    class="min-h-screen bg-white dark:bg-dim dark:text-white"
+    :style="{ 'font-family': 'Inter' }"
+  >
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
   <Toast />
 </template>
-
-<style>
-* {
-  @apply dark:border-slate-300/15;
-  font-family: 'Inter';
-}
-</style>

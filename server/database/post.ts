@@ -10,7 +10,11 @@ export async function getPost(id: string | undefined) {
   });
 }
 
-export async function createPost(authorId: string, replyToId: string | undefined, postData: any) {
+export async function createPost(
+  authorId: string,
+  replyToId: string | undefined,
+  postData: any,
+) {
   const replyToOptions = {
     connect: {
       id: replyToId as string,

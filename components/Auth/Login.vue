@@ -73,20 +73,17 @@
     >
       {{ errors.password }}
     </small>
-    <Message
-      v-if="serverError"
-      severity="error"
-      closable
-    >
+    <Message v-if="serverError" severity="error" closable>
       {{ serverError }}
     </Message>
     <Button
       label="Submit"
       icon="pi pi-user"
-      class="w-full !text-white !rounded-full mt-1"
+      pt:root:class="mt-1 !text-white"
       :loading="isPending"
       :disabled="hasErrors"
       type="submit"
+      rounded
     />
   </form>
 </template>

@@ -1,5 +1,7 @@
 <template>
-  <main class="absolute flex items-center justify-center w-full gap-x-64 top-1/2 bottom-1/2">
+  <main
+    class="absolute flex items-center justify-center w-full gap-x-64 top-1/2 bottom-1/2"
+  >
     <IconNuxt class="size-96" />
     <div class="flex flex-col items-start">
       <h1 class="mb-10 text-6xl font-bold">
@@ -12,26 +14,6 @@
     </div>
   </main>
   <footer class="absolute bottom-0 w-full py-4 space-x-4 text-center">
-    <NuxtLink
-      to="https://github.com/Rewwoken/nuxt-social"
-      target="_blank"
-      class="text-sm text-neutral-500 hover:underline"
-    >
-      Open source
-    </NuxtLink>
-    <NuxtLink
-      to="https://github.com/Rewwoken"
-      target="_blank"
-      class="text-sm text-neutral-500 hover:underline"
-    >
-      &copy; 2024 Rewwoken
-    </NuxtLink>
-    <NuxtLink
-      to="https://github.com/Rewwoken/nuxt-social/blob/main/LICENSE"
-      target="_blank"
-      class="text-sm text-neutral-500 hover:underline"
-    >
-      MIT License
-    </NuxtLink>
+    <WebsiteInfo />
   </footer>
 </template>

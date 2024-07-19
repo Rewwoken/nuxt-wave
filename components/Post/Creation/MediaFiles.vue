@@ -11,18 +11,12 @@
     :src="sources[0]"
     class="w-full rounded-2xl"
   />
-  <div v-if="sources.length === 2" class="grid w-full grid-cols-2 gap-x-2">
-    <NuxtImg
-      :src="sources[0]"
-      class="w-full rounded-2xl"
-    />
-    <NuxtImg
-      :src="sources[1]"
-      class="w-full rounded-2xl"
-    />
+  <div v-else-if="sources.length === 2" class="grid w-full grid-cols-2 gap-x-2">
+    <NuxtImg :src="sources[0]" class="w-full rounded-2xl" />
+    <NuxtImg :src="sources[1]" class="w-full rounded-2xl" />
   </div>
   <Galleria
-    v-if="sources.length > 2"
+    v-else-if="sources.length > 2"
     :value="sources"
     :num-visible="2"
     :circular="false"

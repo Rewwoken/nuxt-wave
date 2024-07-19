@@ -2,7 +2,10 @@ import type { H3Event } from 'h3';
 import logoutPost from '~/server/api/auth/logout.post';
 import { prisma } from '~/server/database';
 
-export async function handleInvalidAccessToken(event: H3Event, cookies: Record<string, string>) {
+export async function handleInvalidAccessToken(
+  event: H3Event,
+  cookies: Record<string, string>,
+) {
   const isRefreshValid = verifyToken(cookies.refreshToken);
 
   if (!isRefreshValid) {
@@ -28,7 +31,10 @@ export async function handleInvalidAccessToken(event: H3Event, cookies: Record<s
   event.context.userId = id;
 }
 
-export async function handleValidAccessToken(event: H3Event, cookies: Record<string, string>) {
+export async function handleValidAccessToken(
+  event: H3Event,
+  cookies: Record<string, string>,
+) {
   const { id } = decodeToken(cookies.accessToken);
 
   const user = await prisma.user.findUnique({ where: { id } });

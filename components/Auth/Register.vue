@@ -47,16 +47,11 @@
         autocomplete="new-password"
         placeholder="Name"
         aria-describedby="name-help"
-        class="w-full"
         :invalid="errors.name"
         autofocus
       />
     </IconField>
-    <small
-      v-if="errors.name"
-      id="name-help"
-      class="ml-2 text-xs text-red-500"
-    >
+    <small v-if="errors.name" id="name-help" class="ml-2 text-xs text-red-500">
       {{ errors.name }}
     </small>
     <IconField class="w-full">
@@ -95,20 +90,16 @@
     >
       {{ errors.password }}
     </small>
-    <Message
-      v-if="serverError"
-      severity="error"
-      closable
-    >
+    <Message v-if="serverError" severity="error" closable>
       {{ serverError }}
     </Message>
     <div class="flex items-end justify-between">
-      <IconNuxt class="size-10 fill-dim" />
+      <IconNuxt class="size-10 !fill-dim" />
       <Button
+        type="submit"
         label="Submit"
         size="small"
-        class="!text-white mt-1 self-end px-6"
-        type="submit"
+        pt:root:class="!text-white mt-1 self-end px-6"
         :loading="isPending"
         :disabled="hasErrors"
       />

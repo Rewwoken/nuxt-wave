@@ -1,21 +1,18 @@
 import { FetchError } from 'ofetch';
-import type { LoginSchema } from '~/schemas/login';
-import type { RegisterSchema } from '~/schemas/register';
+import type { ZodSchema, z } from 'zod';
 
-export default () => {
+// eslint-disable-next-line unused-imports/no-unused-vars
+export default <T extends ZodSchema>(schema: T) => {
   const serverError = ref<string | null>(null);
   const isPending = ref(false);
 
-  async function handleRequest(
-    url: string,
-    body: LoginSchema | RegisterSchema,
-  ) {
+  async function handleRequest(method: any, url: string, body: z.infer<T>) {
     serverError.value = null;
     isPending.value = true;
 
     try {
       await $fetch(url, {
-        method: 'POST',
+        method,
         body,
       });
     }
@@ -34,13 +31,5 @@ export default () => {
     }
   }
 
-  async function login(body: LoginSchema) {
-    await handleRequest('/api/auth/login', body);
-  }
-
-  async function register(body: RegisterSchema) {
-    await handleRequest('/api/auth/register', body);
-  }
-
-  return { login, register, isPending, serverError };
+  return { handleRequest, isPending, serverError };
 };

@@ -32,7 +32,7 @@ export function setAccessToken(event: H3Event, value: string) {
   expires.setMinutes(expires.getMinutes() + 10);
 
   setCookie(event, 'accessToken', value, {
-    httpOnly: false,
+    httpOnly: true,
     sameSite: true,
     expires,
   });
@@ -46,7 +46,7 @@ export function verifyToken(value: string) {
 
     return true;
   }
-  catch (error) {
+  catch {
     return false;
   }
 }

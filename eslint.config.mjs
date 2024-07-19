@@ -11,22 +11,31 @@ export default antfu({
       'style/indent': ['off'],
       'vue/html-quotes': ['error', 'double', { avoidEscape: true }],
       'vue/script-indent': ['error', 2, { baseIndent: 1 }],
-      'vue/max-attributes-per-line': ['error', {
-        singleline: {
-          max: 1,
+      'vue/max-attributes-per-line': [
+        'error',
+        {
+          singleline: {
+            max: 1,
+          },
+          multiline: {
+            max: 1,
+          },
         },
-        multiline: {
-          max: 1,
-        },
-      }],
-      'vue/block-lang': ['error', {
+      ],
+      'vue/block-lang': [
+        'error',
+        {
           script: {
             lang: 'ts',
           },
-        }],
-      'vue/block-order': ['error', {
-        order: ['script', 'template', 'style'],
-      }],
+        },
+      ],
+      'vue/block-order': [
+        'error',
+        {
+          order: ['script', 'template', 'style'],
+        },
+      ],
       'node/prefer-global/process': ['error', 'always'],
     },
   },

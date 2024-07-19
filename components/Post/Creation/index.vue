@@ -1,7 +1,5 @@
 <script setup lang="ts">
-  const { data: user } = useFetch('/api/me', {
-    method: 'GET',
-  });
+  const { currentUser } = useCurrentUser();
 
   const text = ref('');
 
@@ -19,7 +17,7 @@
     formData.append('text', text.value);
 
     files.forEach((file, index) => {
-      formData.append(`media/${index}`, file);
+      formData.append(`media/${index + 1}`, file);
     });
 
     // TODO: handle replyToId
@@ -31,8 +29,8 @@
 </script>
 
 <template>
-  <section v-if="user" class="flex p-3 gap-x-4">
-    <UserAvatar :src="user.image" />
+  <section class="flex p-3 gap-x-4">
+    <UserImage :src="currentUser.image" />
     <form class="flex flex-col w-full">
       <textarea
         id="new-post-text"

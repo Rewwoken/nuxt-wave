@@ -3,6 +3,7 @@ import { createPost } from '~/server/database/post';
 import { parseForm } from '~/server/utils/parseForm';
 import { uploadToCloudinary } from '~/server/utils/uploadToCloudinary';
 
+// TODO: refactor spaghetti code
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 

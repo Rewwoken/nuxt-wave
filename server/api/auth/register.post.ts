@@ -1,5 +1,5 @@
 import { registerSchema } from '~/schemas/register';
-import { findUserByUsername } from '~/server/database/user';
+import { createUser, findUserByUsername } from '~/server/database/user';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  // await createUser(body);
+  await createUser(body);
 
   setResponseStatus(event, 201);
 });
