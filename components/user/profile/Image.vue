@@ -15,7 +15,7 @@
       :full-screen="true"
       :show-item-navigators="false"
       :show-thumbnails="false"
-      :pt="{ root: 'border-0' }"
+      :pt="{ root: '!border-0' }"
     >
       <template #item="slotProps">
         <NuxtImg :src="slotProps.item" class="rounded-full size-96" />

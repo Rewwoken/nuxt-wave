@@ -1,47 +1,40 @@
 import type { H3Event } from 'h3';
-import logoutPost from '~/server/api/auth/logout.post';
 import { prisma } from '~/server/database';
 
 export async function handleInvalidAccessToken(
   event: H3Event,
-  cookies: Record<string, string>,
+  refreshToken: string,
 ) {
-  const isRefreshValid = verifyToken(cookies.refreshToken);
+  const isRefreshValid = verifyToken(refreshToken);
 
   if (!isRefreshValid) {
-    logoutPost(event);
-
-    return sendRedirect(event, '/auth');
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Unauthorized',
+      message: 'Invalid refresh token!',
+    });
   }
 
-  const { id } = decodeToken(cookies.refreshToken);
-
-  const user = await prisma.user.findUnique({ where: { id } });
-  if (!user) {
-    logoutPost(event);
-
-    return sendRedirect(event, '/auth');
-  }
-
-  const { accessToken, refreshToken } = issueTokens(id);
-
-  setAccessToken(event, accessToken);
-  setRefreshToken(event, refreshToken);
-
-  event.context.userId = id;
+  const { id } = decodeToken(refreshToken);
+  await setTokensWithId(event, id);
 }
 
 export async function handleValidAccessToken(
   event: H3Event,
-  cookies: Record<string, string>,
+  accessToken: string,
 ) {
-  const { id } = decodeToken(cookies.accessToken);
+  const { id } = decodeToken(accessToken);
+  await setTokensWithId(event, id);
+}
 
+async function setTokensWithId(event: H3Event, id: string) {
   const user = await prisma.user.findUnique({ where: { id } });
   if (!user) {
-    logoutPost(event);
-
-    return sendRedirect(event, '/auth');
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Unauthorized',
+      message: 'User does not exist!',
+    });
   }
 
   const { accessToken, refreshToken } = issueTokens(id);

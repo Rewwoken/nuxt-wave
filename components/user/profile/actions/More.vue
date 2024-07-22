@@ -30,7 +30,7 @@
       ref="menu"
       :model="items"
       :popup="true"
-      pt:submenu-label:class="hidden"
+      pt:submenu-label:class="!hidden"
     />
   </div>
 </template>

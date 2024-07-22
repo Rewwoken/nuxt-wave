@@ -15,6 +15,7 @@ export async function uploadFiles(files: formidable.Files<string>) {
   catch {
     throw createError({
       statusCode: 500,
+      statusMessage: 'Internal Server Error',
       message: 'Error uploading to cloud!',
     });
   }

@@ -1,5 +1,5 @@
 import { registerSchema } from '~/schemas/register';
-import { createUser, findUserByUsername } from '~/server/database/user';
+import { createUser, findUserByEmailOrUsername } from '~/server/database/user';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -10,16 +10,18 @@ export default defineEventHandler(async (event) => {
 
     throw createError({
       statusCode: 400,
-      message: 'Invalid data passed!',
+      statusMessage: 'Bad Request',
+      message: 'error/body',
       data: errors,
     });
   }
 
-  const existingUser = await findUserByUsername(parseResult.data.username);
+  const existingUser = await findUserByEmailOrUsername(parseResult.data.email, parseResult.data.username);
   if (existingUser) {
     throw createError({
       statusCode: 400,
-      message: 'Username already exists!',
+      statusMessage: 'Bad Request',
+      message: 'error/exist',
     });
   }
 

@@ -26,12 +26,10 @@ export async function findUserByUsername(username: string) {
   });
 }
 
+// TODO: refactor
 export async function findUserById(id: string) {
   const user = await prisma.user.findUnique({
     where: { id },
-    // include: {
-    //   profile: true,
-    // },
     select: {
       id: true,
       username: true,
@@ -49,4 +47,15 @@ export async function findUserById(id: string) {
   const profile = user.profile!;
 
   return { ...user, profile };
+}
+
+export async function findUserByEmailOrUsername(email: string, username: string) {
+  return prisma.user.findFirst({
+    where: {
+      OR: [
+        { email },
+        { username },
+      ],
+    },
+  });
 }

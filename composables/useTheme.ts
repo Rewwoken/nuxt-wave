@@ -13,8 +13,11 @@ export default () => {
     if (theme.value === 'light') {
       theme.value = 'dark';
     }
-    else {
+    else if (theme.value === 'dark') {
       theme.value = 'light';
+    }
+    else {
+      theme.value = 'dark';
     }
   }
 

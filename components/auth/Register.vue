@@ -11,13 +11,23 @@
   const [password] = defineField('password');
   const hasErrors = computed(() => Object.keys(errors.value).length);
 
-  const { register, isPending, serverError } = useAuth();
+  const { handleRequest, isPending, serverError } = useHandleForm(registerSchema);
 
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
-    await register(values);
+    await handleRequest('POST', '/api/auth/register', values);
 
     if (serverError.value) {
+      if (serverError.value === 'error/exist') {
+        serverError.value = 'User already exists!';
+      }
+      else if (serverError.value === 'error/body') {
+        serverError.value = 'Invalid data!';
+      }
+      else {
+        serverError.value = 'Unexpected error!';
+      }
+
       return null;
     }
 
@@ -102,7 +112,7 @@
         type="submit"
         label="Submit"
         size="small"
-        pt:root:class="!text-white mt-1 self-end px-6"
+        pt:root:class="!text-white !mt-1 !self-end !px-6"
         :loading="isPending"
         :disabled="hasErrors"
       />

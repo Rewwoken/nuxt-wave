@@ -5,29 +5,42 @@ import {
   setAccessToken,
   setRefreshToken,
 } from '~/server/utils/jwt';
+import { loginSchema } from '~/schemas/login';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
-  const user = await findUserByUsername(body.username);
+  const parseResult = loginSchema.safeParse(body);
+  if (!parseResult.success) {
+    const errors = parseResult.error.flatten().fieldErrors;
 
-  if (!user) {
     throw createError({
       statusCode: 400,
-      message: 'Invalid credentials!',
+      statusMessage: 'Bad Request',
+      message: 'error/body',
+      data: errors,
     });
   }
 
-  const valid = await argon2.verify(user.password, body.password);
+  const user = await findUserByUsername(parseResult.data.username);
+  if (!user) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+      message: 'error/credentials',
+    });
+  }
+
+  const valid = await argon2.verify(user.password, parseResult.data.password);
   if (!valid) {
     throw createError({
       statusCode: 400,
-      message: 'Invalid credentials!',
+      statusMessage: 'Bad Request',
+      message: 'error/credentials',
     });
   }
 
   const { accessToken, refreshToken } = issueTokens(user.id);
-
   setRefreshToken(event, refreshToken);
   setAccessToken(event, accessToken);
 

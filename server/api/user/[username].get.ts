@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
   if (!usernameParse.success) {
     throw createError({
       statusCode: 400,
+      statusMessage: 'Bad Request',
       message: 'error/invalid',
     });
   }
@@ -17,14 +18,12 @@ export default defineEventHandler(async (event) => {
   if (!findUser) {
     throw createError({
       statusCode: 400,
+      statusMessage: 'Bad Request',
       message: 'error/not-found',
     });
   }
 
   const { password, ...user } = findUser;
 
-  return {
-    ...user,
-    editAccess: event.context.userId === user.id,
-  };
+  return user;
 });

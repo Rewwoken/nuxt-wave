@@ -15,7 +15,7 @@
   <Button
     label="Haven't registered yet?"
     size="small"
-    pt:root:class="mt-2 !border-none"
+    pt:root:class="!mt-2 !border-none"
     text
     rounded
     @click="showModal"

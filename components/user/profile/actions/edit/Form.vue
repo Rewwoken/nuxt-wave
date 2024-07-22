@@ -88,7 +88,7 @@
         aria-describedby="name-help"
         :maxlength="50"
         :invalid="errors.name"
-        pt:root:class="border-gray-700 py-4 dark:bg-dim dark:text-white"
+        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ name?.length || 0 }} / 50</span>
       <small
@@ -107,7 +107,7 @@
         aria-describedby="bio-help"
         :maxlength="160"
         :invalid="errors.bio"
-        pt:root:class="border-gray-700 py-4 dark:bg-dim dark:text-white"
+        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ bio?.length || 0 }} / 160</span>
       <small
@@ -128,7 +128,7 @@
         aria-describedby="location-help"
         :maxlength="30"
         :invalid="errors.location"
-        pt:root:class="border-gray-700 py-4 dark:bg-dim dark:text-white"
+        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ location?.length || 0 }} / 30</span>
       <small
@@ -149,7 +149,7 @@
         aria-describedby="website-help"
         :maxlength="50"
         :invalid="errors.website"
-        pt:root:class="border-gray-700 py-4 dark:bg-dim dark:text-white"
+        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ website?.length || 0 }} / 50</span>
       <small

@@ -33,7 +33,7 @@
     <Button
       label="Post"
       pt:root:class="!hidden xl:!block"
-      pt:label:class="text-lg font-semibold text-white"
+      pt:label:class="!text-lg !font-semibold !text-white"
       rounded
     />
     <Button
@@ -41,7 +41,7 @@
       icon="pi pi-pen-to-square"
       aria-label="Post"
       pt:root:class="xl:!hidden !size-12"
-      pt:icon:class="text-white"
+      pt:icon:class="!text-white"
       rounded
     />
   </nav>

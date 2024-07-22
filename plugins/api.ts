@@ -3,12 +3,16 @@ export default defineNuxtPlugin((nuxtApp) => {
   const headers = useRequestHeaders(['cookie']);
 
   const api = $fetch.create({
-    onRequest({ request, options, error }) {
+    onRequest: ({ request, options, error }) => {
       options.headers = headers;
     },
-    async onResponseError({ response }) {
+    onResponseError: async ({ response }) => {
       if (response.status === 401) {
-        await nuxtApp.runWithContext(() => navigateTo('/auth'));
+        await $fetch('/api/auth/logout', {
+          method: 'POST',
+        });
+
+        await nuxtApp.runWithContext(async () => await navigateTo('/auth'));
       }
     },
   });

@@ -12,7 +12,7 @@
     <Button
       icon="pi pi-times"
       severity="contrast"
-      pt:root:class="!border-0 relative -left-2"
+      pt:root:class="!border-0 !relative !-left-2"
       outlined
       rounded
       @click="$emit('closeModal')"
@@ -23,7 +23,7 @@
       size="small"
       :loading="isPending"
       :disabled="hasErrors"
-      pt:root:class="px-8"
+      pt:root:class="!px-8"
       rounded
       @click="$emit('onSubmit')"
     />

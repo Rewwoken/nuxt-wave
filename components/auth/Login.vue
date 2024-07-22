@@ -8,13 +8,23 @@
   const [password] = defineField('password');
   const hasErrors = computed(() => Object.keys(errors.value).length);
 
-  const { login, isPending, serverError } = useAuth();
+  const { handleRequest, isPending, serverError } = useHandleForm(loginSchema);
 
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
-    await login(values);
+    await handleRequest('POST', '/api/auth/login', values);
 
     if (serverError.value) {
+      if (serverError.value === 'error/credentials') {
+        serverError.value = 'Invalid credentials!';
+      }
+      else if (serverError.value === 'error/body') {
+        serverError.value = 'Invalid data!';
+      }
+      else {
+        serverError.value = 'Unexpected error!';
+      }
+
       return null;
     }
 
@@ -79,7 +89,7 @@
     <Button
       label="Submit"
       icon="pi pi-user"
-      pt:root:class="mt-1 !text-white"
+      pt:root:class="!mt-1 !text-white"
       :loading="isPending"
       :disabled="hasErrors"
       type="submit"

@@ -13,6 +13,7 @@ export async function uploadFile(filepath: string) {
   catch {
     throw createError({
       statusCode: 500,
+      statusMessage: 'Internal Server Error',
       message: 'Error uploading to cloud!',
     });
   }
