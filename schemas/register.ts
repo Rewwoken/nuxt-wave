@@ -3,10 +3,9 @@ import { z } from 'zod';
 export const isUsername = /^[a-z0-9_.]+$/;
 
 export const registerSchema = z.object({
-  name: z
-    .string({ message: 'Name is required!' })
-    .min(3, { message: 'Must be at least 3 characters!' })
-    .max(30, { message: 'Must be less than 30 characters!' }),
+  email: z
+    .string({ message: 'Email is required' })
+    .email({ message: 'Must be a valid email!' }),
   username: z
     .string({ message: 'Username is required!' })
     .min(3, { message: 'Must be at least 3 characters!' })

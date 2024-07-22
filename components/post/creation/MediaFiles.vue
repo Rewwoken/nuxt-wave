@@ -27,7 +27,7 @@
     :show-indicators-on-item="true"
   >
     <template #item="slotProps">
-      <div class="size-full rounded-2xl">
+      <div class="rounded-2xl size-full">
         <NuxtImg :src="slotProps.item" class="h-[504px] rounded-2xlx" />
       </div>
     </template>

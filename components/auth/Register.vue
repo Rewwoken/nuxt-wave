@@ -6,7 +6,7 @@
   const { handleSubmit, errors, defineField } = useForm({
     validationSchema: toTypedSchema(registerSchema),
   });
-  const [name] = defineField('name');
+  const [email] = defineField('email');
   const [username] = defineField('username');
   const [password] = defineField('password');
   const hasErrors = computed(() => Object.keys(errors.value).length);
@@ -35,24 +35,25 @@
 <template>
   <form
     autocomplete="off"
-    class="flex flex-col gap-y-2"
+    class="flex w-80 flex-col gap-y-2"
     novalidate
     @submit="onSubmit"
   >
     <IconField class="w-full">
       <InputIcon class="pi pi-users" />
       <InputText
-        v-model="name"
+        v-model="email"
         type="text"
         autocomplete="new-password"
-        placeholder="Name"
-        aria-describedby="name-help"
-        :invalid="errors.name"
+        placeholder="Email"
+        aria-describedby="email-help"
+        :invalid="errors.email"
         autofocus
+        fluid
       />
     </IconField>
-    <small v-if="errors.name" id="name-help" class="ml-2 text-xs text-red-500">
-      {{ errors.name }}
+    <small v-if="errors.email" id="email-help" class="ml-2 text-xs text-red-500">
+      {{ errors.email }}
     </small>
     <IconField class="w-full">
       <InputIcon class="pi pi-user" />
@@ -63,6 +64,7 @@
         placeholder="Username"
         aria-describedby="username-help"
         :invalid="errors.username"
+        fluid
       />
     </IconField>
     <small
@@ -81,6 +83,7 @@
         placeholder="Password"
         aria-describedby="password-help"
         :invalid="errors.password"
+        fluid
       />
     </IconField>
     <small

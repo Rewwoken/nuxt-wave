@@ -5,8 +5,13 @@ export async function getPost(id: string | undefined) {
     return null;
   }
 
-  return await prisma.post.findUnique({
+  return prisma.post.findUnique({
     where: { id },
+    include: {
+      replyTo: true,
+      replies: true,
+      mediaFiles: true,
+    },
   });
 }
 
@@ -21,7 +26,7 @@ export async function createPost(
     },
   };
 
-  return await prisma.post.create({
+  return prisma.post.create({
     data: {
       ...postData,
       author: {

@@ -2,22 +2,21 @@ import { z } from 'zod';
 
 export const profileSchema = z.object({
   name: z
-    .string({ message: 'Name is required!' })
-    .min(3, { message: 'Must be at least 3 characters!' })
-    .max(30, { message: 'Must be less than 30 characters!' }),
-  // bio: z
-  //   .string({ message: 'Username is required!' })
-  //   .min(3, { message: 'Must be at least 3 characters!' })
-  //   .max(15, { message: 'Must be less than 15 characters!' })
-  //   .regex(isUsername, { message: 'Invalid characters!' }),
-  // location: z
-  //   .string({ message: 'Password is required!' })
-  //   .min(6, { message: 'Must be at least 6 characters!' })
-  //   .max(35, { message: 'Must be less than 35 characters!' }),
-  // website: z
-  //   .string({ message: 'Password is required!' })
-  //   .min(6, { message: 'Must be at least 6 characters!' })
-  //   .max(35, { message: 'Must be less than 35 characters!' }),
+    .string({ message: 'Name must be a string!' })
+    .max(50, { message: 'Must be less than 50 characters!' })
+    .optional(),
+  bio: z
+    .string({ message: 'Bio must be a string!' })
+    .max(160, { message: 'Must be less than 160 characters!' })
+    .optional(),
+  location: z
+    .string({ message: 'Location must be a string!' })
+    .max(30, { message: 'Must be less than 30 characters!' })
+    .optional(),
+  website: z
+    .string({ message: 'Bio must be a string!' })
+    .max(50, { message: 'Must be less than 50 characters!' })
+    .optional(),
 });
 
 export type ProfileSchema = z.infer<typeof profileSchema>;

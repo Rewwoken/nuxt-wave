@@ -9,18 +9,40 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid()) @map("user_id")
-  name      String?
   username  String   @unique
+  email     String   @unique
   password  String
-  image     String?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  profile Profile?
 
   posts Post[]
 
   mediFiles MediaFile[]
 
   @@map("user")
+}
+
+model Profile {
+  id        String   @id @default(uuid()) @map("profile_id")
+  name      String?
+  bio       String?
+  location  String?
+  website   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  imageUrl        String?
+  imageProviderId String? @map("image_provider_id")
+
+  bannerUrl        String?
+  bannerProviderId String? @map("banner_provider_id")
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  @@map("profile")
 }
 
 model Post {

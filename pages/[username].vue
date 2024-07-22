@@ -11,7 +11,7 @@
       };
     }
 
-    return await useFetch(`/api/user/${username}`, {
+    return useFetch(`/api/user/${username}`, {
       method: 'GET',
     });
   }

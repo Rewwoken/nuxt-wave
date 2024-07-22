@@ -4,7 +4,7 @@
 
 <template>
   <div
-    class="flex items-center w-full p-2 px-4 rounded-full gap-x-4 bg-slate-400/20"
+    class="flex w-full items-center gap-x-4 rounded-full bg-slate-400/20 p-2 px-4"
   >
     <i class="pi pi-search size-4" />
     <input

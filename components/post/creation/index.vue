@@ -29,18 +29,18 @@
 </script>
 
 <template>
-  <section class="flex p-3 gap-x-4">
-    <UserImage :src="currentUser.image" />
-    <form class="flex flex-col w-full">
+  <section class="flex gap-x-4 p-3">
+    <UserImage :src="currentUser.profile.image" class="size-12 min-w-12 min-h-12" />
+    <form class="flex w-full flex-col">
       <textarea
         id="new-post-text"
         v-model="text"
         name="postText"
-        class="mt-2 overflow-y-visible text-xl bg-transparent border-none outline-none resize-none"
+        class="mt-2 resize-none overflow-y-visible border-none bg-transparent text-xl outline-none"
         placeholder="What is happening?!"
       />
       <PostCreationMediaFiles :sources="sources" />
-      <div class="flex justify-between mt-2">
+      <div class="mt-2 flex justify-between">
         <fieldset class="flex items-center gap-x-0.5">
           <PostCreationAddFile
             file-type="image/png, image/jpeg"

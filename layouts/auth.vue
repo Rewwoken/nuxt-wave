@@ -1,6 +1,6 @@
 <template>
   <main
-    class="absolute flex items-center justify-center w-full gap-x-64 top-1/2 bottom-1/2"
+    class="absolute top-1/2 bottom-1/2 flex w-full items-center justify-center gap-x-64"
   >
     <IconNuxt class="size-96" />
     <div class="flex flex-col items-start">
@@ -13,7 +13,7 @@
       <slot />
     </div>
   </main>
-  <footer class="absolute bottom-0 w-full py-4 space-x-4 text-center">
+  <footer class="absolute bottom-0 w-full py-4 text-center space-x-4">
     <WebsiteInfo />
   </footer>
 </template>

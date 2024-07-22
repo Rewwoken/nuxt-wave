@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full pt-2 gap-y-2">
+  <div class="flex w-full flex-col gap-y-2 pt-2">
     <SidebarRightSearch />
     <SidebarRightWhatsHappening />
     <SidebarRightMightLike />

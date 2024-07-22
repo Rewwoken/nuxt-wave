@@ -1,40 +1,34 @@
 <script setup lang="ts">
   import { handleFileChange } from '~/utils/handleFileChange';
 
-  defineProps<{
-    fileType: string;
-    icon: string;
-  }>();
-
   const emit = defineEmits(['onFile']);
 
+  const { currentUser } = useCurrentUser();
+  const banner = ref(currentUser.profile.bannerUrl);
   const hiddenInput = ref();
-  function onIconClick() {
+
+  function onClick() {
     hiddenInput.value.click();
   }
 
   function onFileChange(event: Event) {
     return handleFileChange(event, (file, url) => {
-      emit('onFile', file, url);
+      emit('onFile', 'banner', file);
+
+      banner.value = url;
     });
   }
 </script>
 
 <template>
-  <Button
-    title="Upload image"
-    size="large"
-    :icon="icon"
-    class="!border-none"
-    text
-    rounded
-    @click="onIconClick"
-  />
+  <div class="relative flex items-center justify-center">
+    <UserBanner :src="banner" />
+    <UserProfileActionsEditFileButton @on-click="onClick" />
+  </div>
   <input
     ref="hiddenInput"
+    accept="image/png, image/jpeg"
     type="file"
-    :accept="fileType"
-    multiple
     hidden
     @change="onFileChange"
   >

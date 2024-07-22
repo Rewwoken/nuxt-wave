@@ -5,12 +5,16 @@
 </script>
 
 <template>
-  <NuxtImg v-if="src" :src="src" alt="user image" class="rounded-full" />
-  <Avatar
-    v-else
-    icon="pi pi-user"
-    size="large"
-    shape="circle"
-    class="dark:bg-dim dark:border dark:border-gray-800"
-  />
+  <div class="relative flex items-center overflow-hidden rounded-full dark:border dark:border-gray-800">
+    <NuxtImg
+      v-if="src"
+      :src="src"
+      alt="user image"
+      class="absolute w-full"
+    />
+    <div
+      v-else
+      class="bg-neutral-200 size-full dark:bg-dim"
+    />
+  </div>
 </template>

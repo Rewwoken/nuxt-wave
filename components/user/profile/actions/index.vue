@@ -6,9 +6,9 @@
 </script>
 
 <template>
-  <UserProfileHeaderActionsEdit v-if="isCurrentUser" />
+  <UserProfileActionsEdit v-if="isCurrentUser" />
   <div v-else class="flex items-center gap-x-2">
-    <UserProfileHeaderActionsMore />
-    <UserProfileHeaderActionsFollow />
+    <UserProfileActionsMore />
+    <UserProfileActionsFollow />
   </div>
 </template>

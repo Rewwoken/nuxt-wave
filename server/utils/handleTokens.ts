@@ -9,7 +9,7 @@ export async function handleInvalidAccessToken(
   const isRefreshValid = verifyToken(cookies.refreshToken);
 
   if (!isRefreshValid) {
-    await logoutPost(event);
+    logoutPost(event);
 
     return sendRedirect(event, '/auth');
   }
@@ -18,7 +18,7 @@ export async function handleInvalidAccessToken(
 
   const user = await prisma.user.findUnique({ where: { id } });
   if (!user) {
-    await logoutPost(event);
+    logoutPost(event);
 
     return sendRedirect(event, '/auth');
   }
@@ -39,7 +39,7 @@ export async function handleValidAccessToken(
 
   const user = await prisma.user.findUnique({ where: { id } });
   if (!user) {
-    await logoutPost(event);
+    logoutPost(event);
 
     return sendRedirect(event, '/auth');
   }

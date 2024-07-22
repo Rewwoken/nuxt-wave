@@ -6,12 +6,12 @@ export default <T extends ZodSchema>(schema: T) => {
   const serverError = ref<string | null>(null);
   const isPending = ref(false);
 
-  async function handleRequest(method: any, url: string, body: z.infer<T>) {
+  async function handleRequest(method: 'POST' | 'PATCH' | 'PUT', url: string, body: z.infer<T> | FormData) {
     serverError.value = null;
     isPending.value = true;
 
     try {
-      await $fetch(url, {
+      return await $fetch(url, {
         method,
         body,
       });

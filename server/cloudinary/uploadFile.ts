@@ -1,6 +1,6 @@
-import { cloudinary } from '~/server/cloudinary';
+import { cloudinary } from '~/server/cloudinary/index';
 
-export async function uploadToCloudinary(filepath: string) {
+export async function uploadFile(filepath: string) {
   try {
     const response = await cloudinary.uploader.upload(filepath, {}, (err) => {
       if (err) {
@@ -12,7 +12,7 @@ export async function uploadToCloudinary(filepath: string) {
   }
   catch {
     throw createError({
-      statusCode: 400,
+      statusCode: 500,
       message: 'Error uploading to cloud!',
     });
   }

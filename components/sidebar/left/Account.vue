@@ -16,18 +16,18 @@
 
 <template>
   <button
-    class="flex items-center mt-8 rounded-full xl:p-2 xl:pr-3 gap-x-2 xl:hover:bg-gray-500/10"
+    class="mt-8 flex items-center gap-x-2 rounded-full xl:p-2 xl:pr-3 xl:hover:bg-gray-500/10"
     @click="toggle"
   >
-    <UserImage :src="currentUser.image" class="size-11" />
-    <div class="xl:flex flex-col gap-y-0.5 hidden items-start">
-      <span class="font-bold leading-4">{{ currentUser.name }}</span>
+    <UserImage :src="currentUser.profile.imageUrl" class="size-11 min-w-11 min-h-11" />
+    <div class="hidden flex-col items-start gap-y-0.5 xl:flex">
+      <span class="text-left font-bold leading-4 line-clamp-1">{{ currentUser.profile.name }}</span>
       <span class="text-sm leading-4 text-neutral-500">@{{ currentUser.username }}</span>
     </div>
     <i class="!hidden ml-auto pi pi-ellipsis-h xl:!block" />
   </button>
   <Popover ref="op">
-    <button class="w-40 p-1 font-bold text-left" @click="logout">
+    <button class="w-40 p-1 text-left font-bold" @click="logout">
       Log out @{{ currentUser.username }}
     </button>
   </Popover>

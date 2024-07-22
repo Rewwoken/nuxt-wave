@@ -5,7 +5,7 @@ export async function createMediaFile(
   postId: string,
   mediaFileData: any,
 ) {
-  return await prisma.mediaFile.create({
+  return prisma.mediaFile.create({
     data: {
       ...mediaFileData,
       user: {

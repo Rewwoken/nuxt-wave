@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-end w-full xl:items-stretch">
+  <div class="flex w-full flex-col items-end xl:items-stretch">
     <SidebarLeftNavigation />
     <SidebarLeftAccount />
   </div>
