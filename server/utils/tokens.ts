@@ -16,7 +16,9 @@ export async function handleInvalidAccessToken(
   }
 
   const { id } = decodeToken(refreshToken);
-  await setTokensWithId(event, id);
+  await verifyDecodedId(id);
+
+  tokens(event, id);
 }
 
 export async function handleValidAccessToken(
@@ -24,11 +26,14 @@ export async function handleValidAccessToken(
   accessToken: string,
 ) {
   const { id } = decodeToken(accessToken);
-  await setTokensWithId(event, id);
+  await verifyDecodedId(id);
+
+  tokens(event, id);
 }
 
-async function setTokensWithId(event: H3Event, id: string) {
+async function verifyDecodedId(id: string) {
   const user = await prisma.user.findUnique({ where: { id } });
+
   if (!user) {
     throw createError({
       statusCode: 401,
@@ -36,11 +41,13 @@ async function setTokensWithId(event: H3Event, id: string) {
       message: 'User does not exist!',
     });
   }
+}
 
-  const { accessToken, refreshToken } = issueTokens(id);
+function tokens(event: H3Event, userId: string) {
+  const { accessToken, refreshToken } = issueTokens(userId);
 
   setAccessToken(event, accessToken);
   setRefreshToken(event, refreshToken);
 
-  event.context.userId = id;
+  event.context.userId = userId;
 }

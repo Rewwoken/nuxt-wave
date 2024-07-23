@@ -31,6 +31,14 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  if (!user.verified) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+      message: 'error/not-verified',
+    });
+  }
+
   const valid = await argon2.verify(user.password, parseResult.data.password);
   if (!valid) {
     throw createError({

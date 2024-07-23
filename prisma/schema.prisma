@@ -8,38 +8,59 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @map("user_id")
-  username  String   @unique
-  email     String   @unique
+  id        String    @id @default(uuid()) @map("user_id")
+  username  String    @unique
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  verified  DateTime?
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
 
-  profile Profile?
-
-  posts Post[]
-
-  mediFiles MediaFile[]
+  verificationCode VerificationCode?
+  // passwordRecoveryCode PasswordRecoveryCode?
+  profile          Profile?
+  posts            Post[]
+  mediFiles        MediaFile[]
 
   @@map("user")
 }
 
-model Profile {
-  id        String   @id @default(uuid()) @map("profile_id")
-  name      String?
-  bio       String?
-  location  String?
-  website   String?
+model VerificationCode {
+  id        String   @id @default(uuid()) @map("verification_code_id")
+  value     String   @unique
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
 
-  imageUrl        String?
-  imageProviderId String? @map("image_provider_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
 
+  @@map("verification_code")
+}
+
+// model PasswordRecoveryCode {
+//   id        String   @id @default(uuid()) @map("verification_code_id")
+//   value     String   @unique
+//   createdAt DateTime @default(now()) @map("created_at")
+//
+//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   userId String @unique
+//
+//   @@map("password_recovery_code")
+// }
+
+model Profile {
+  id               String   @id @default(uuid()) @map("profile_id")
+  name             String?
+  bio              String?
+  location         String?
+  website          String?
+  imageUrl         String?
+  imageProviderId  String?  @map("image_provider_id")
   bannerUrl        String?
-  bannerProviderId String? @map("banner_provider_id")
+  bannerProviderId String?  @map("banner_provider_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
   @@map("profile")
@@ -51,14 +72,11 @@ model Post {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String
-
-  replyTo   Post?   @relation("PostReplies", fields: [replyToId], references: [id])
-  replyToId String? @map("reply_to_id")
-
-  replies Post[] @relation("PostReplies")
-
+  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId   String
+  replyTo    Post?       @relation("PostReplies", fields: [replyToId], references: [id])
+  replyToId  String?     @map("reply_to_id")
+  replies    Post[]      @relation("PostReplies")
   mediaFiles MediaFile[]
 
   @@map("post")
@@ -71,9 +89,9 @@ model MediaFile {
   createdAt  DateTime @default(now()) @map("created_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
+  // No cascade deletion, should be deleted manually with deleting from Cloudinary
   user   User?   @relation(fields: [userId], references: [id])
   userId String?
-
   post   Post?   @relation(fields: [postId], references: [id])
   postId String?
 

@@ -21,6 +21,9 @@
       if (error.value.data.message === 'error/credentials') {
         serverError.value = 'Invalid credentials!';
       }
+      else if (error.value.data.message === 'error/not-verified') {
+        serverError.value = 'Email is not verified!';
+      }
       else if (error.value.data.message === 'error/body') {
         serverError.value = 'Invalid data!';
       }

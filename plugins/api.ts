@@ -12,7 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
           method: 'POST',
         });
 
-        await nuxtApp.runWithContext(async () => await navigateTo('/auth'));
+        await nuxtApp.runWithContext(() => navigateTo('/auth'));
       }
     },
   });

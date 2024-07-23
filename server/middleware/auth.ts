@@ -1,13 +1,15 @@
 import {
   handleInvalidAccessToken,
   handleValidAccessToken,
-} from '~/server/utils/handleTokens';
+} from '~/server/utils/tokens';
 import { verifyToken } from '~/server/utils/jwt';
+import { notInvoke } from '~/server/utils/notInvoke';
 
-const publicRoutes = ['/api/auth/register', '/api/auth/login', '/api/auth/logout'];
 export default defineEventHandler(async (event) => {
-  // Should not be invoked on client or public routes
-  if (!event.path.startsWith('/api') || publicRoutes.includes(event.path)) {
+  const shouldNotBeInvoked = notInvoke(event.path, {
+    func: () => !event.path.startsWith('/api') || event.path.startsWith('/api/auth'),
+  });
+  if (shouldNotBeInvoked) {
     return;
   }
 

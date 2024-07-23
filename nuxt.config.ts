@@ -52,6 +52,8 @@ export default defineNuxtConfig({
   css: ['primeicons/primeicons.css'],
   runtimeConfig: {
     jwtSecret: process.env.JWT_SECRET,
+    resendApiKey: process.env.RESEND_API_KEY,
+    baseUrl: process.env.BASE_URL,
     cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
     cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
     cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,

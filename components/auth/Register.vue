@@ -35,10 +35,9 @@
     }
 
     toast.add({
-      severity: 'success',
-      summary: 'Registration successful!',
-      detail: 'Now you can log in to a new account.',
-      life: 3000,
+      severity: 'info',
+      summary: 'An email has been sent to verify your email address.',
+      detail: 'Please, check your mailbox and follow the link in the message.',
     });
 
     emit('closeModal');
