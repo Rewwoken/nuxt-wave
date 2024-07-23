@@ -3,7 +3,7 @@
 
   const emit = defineEmits(['closeModal']);
 
-  const { handleSubmit, errors, defineField } = useForm({
+  const { handleSubmit, errors, defineField, isSubmitting } = useForm({
     validationSchema: toTypedSchema(profileSchema),
   });
   const [name] = defineField('name');
@@ -11,6 +11,8 @@
   const [location] = defineField('location');
   const [website] = defineField('website');
   const hasErrors = computed(() => Object.keys(errors.value).length);
+
+  const serverError = ref<string | null>(null);
 
   const files = reactive<{
     image?: File;
@@ -21,8 +23,7 @@
     files[key] = file;
   }
 
-  const { handleRequest, isPending, serverError } = useHandleForm(profileSchema);
-
+  const { updateProfile } = useCurrentUser();
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
     const formData = new FormData();
@@ -40,9 +41,19 @@
       formData.append('banner', files.banner);
     }
 
-    await handleRequest('PATCH', '/api/profile', formData);
+    const { data, error } = await useApi('/api/profile', {
+      method: 'PATCH',
+      body: formData,
+    });
 
-    if (serverError.value) {
+    if (error.value) {
+      if (error.value.data.message === 'error/fields') {
+        serverError.value = 'Invalid fields.';
+      }
+      else {
+        serverError.value = 'Unexpected error, please try again later.';
+      }
+
       toast.add({
         severity: 'error',
         summary: 'An error occurred during profile change!',
@@ -53,6 +64,8 @@
       return null;
     }
 
+    // @ts-expect-error | TODO: add typings
+    updateProfile(data.value);
     toast.add({
       severity: 'success',
       summary: 'Profile has been successfully changed!',
@@ -66,7 +79,7 @@
 
 <template>
   <UserProfileActionsEditHeader
-    :is-pending="isPending"
+    :is-pending="isSubmitting"
     :has-errors="!!hasErrors"
     @close-modal="$emit('closeModal')"
     @on-submit="onSubmit"

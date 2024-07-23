@@ -1,24 +1,27 @@
 <script setup lang="ts">
   import { loginSchema } from '~/schemas/login';
 
-  const { handleSubmit, errors, defineField } = useForm({
+  const { handleSubmit, errors, defineField, isSubmitting } = useForm({
     validationSchema: toTypedSchema(loginSchema),
   });
   const [username] = defineField('username');
   const [password] = defineField('password');
   const hasErrors = computed(() => Object.keys(errors.value).length);
 
-  const { handleRequest, isPending, serverError } = useHandleForm(loginSchema);
+  const serverError = ref<string | null>(null);
 
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
-    await handleRequest('POST', '/api/auth/login', values);
+    const { error } = await useFetch('/api/auth/login', {
+      method: 'POST',
+      body: values,
+    });
 
-    if (serverError.value) {
-      if (serverError.value === 'error/credentials') {
+    if (error.value) {
+      if (error.value.data.message === 'error/credentials') {
         serverError.value = 'Invalid credentials!';
       }
-      else if (serverError.value === 'error/body') {
+      else if (error.value.data.message === 'error/body') {
         serverError.value = 'Invalid data!';
       }
       else {
@@ -90,7 +93,7 @@
       label="Submit"
       icon="pi pi-user"
       pt:root:class="!mt-1 !text-white"
-      :loading="isPending"
+      :loading="isSubmitting"
       :disabled="hasErrors"
       type="submit"
       rounded

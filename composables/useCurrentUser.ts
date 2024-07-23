@@ -1,5 +1,6 @@
 import type { findUserById } from '~/server/database/user';
 import type { ProfileSchema } from '~/schemas/profile';
+import type { FilesData } from '~/server/database/profile';
 
 type User = NonNullable<Awaited<ReturnType<typeof findUserById>>>;
 type UserState = Omit<User, 'password'>;
@@ -16,7 +17,7 @@ export default () => {
     currentUser.value = user;
   }
 
-  async function updateProfile(values: ProfileSchema) {
+  function updateProfile(values: ProfileSchema & FilesData) {
     Object.assign(currentUser.value.profile, values);
   }
 

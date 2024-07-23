@@ -10,7 +10,7 @@
       v-if="src"
       :src="src"
       alt="user image"
-      class="absolute w-full"
+      class="absolute min-h-full min-w-full"
     />
     <div
       v-else

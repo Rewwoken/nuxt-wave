@@ -3,7 +3,7 @@
 
   const emit = defineEmits(['closeModal']);
 
-  const { handleSubmit, errors, defineField } = useForm({
+  const { handleSubmit, errors, defineField, isSubmitting } = useForm({
     validationSchema: toTypedSchema(registerSchema),
   });
   const [email] = defineField('email');
@@ -11,17 +11,20 @@
   const [password] = defineField('password');
   const hasErrors = computed(() => Object.keys(errors.value).length);
 
-  const { handleRequest, isPending, serverError } = useHandleForm(registerSchema);
+  const serverError = ref<string | null>(null);
 
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
-    await handleRequest('POST', '/api/auth/register', values);
+    const { error } = await useFetch('/api/auth/register', {
+      method: 'POST',
+      body: values,
+    });
 
-    if (serverError.value) {
-      if (serverError.value === 'error/exist') {
+    if (error.value) {
+      if (error.value.data.message === 'error/exist') {
         serverError.value = 'User already exists!';
       }
-      else if (serverError.value === 'error/body') {
+      else if (error.value.data.message === 'error/body') {
         serverError.value = 'Invalid data!';
       }
       else {
@@ -113,7 +116,7 @@
         label="Submit"
         size="small"
         pt:root:class="!text-white !mt-1 !self-end !px-6"
-        :loading="isPending"
+        :loading="isSubmitting"
         :disabled="hasErrors"
       />
     </div>

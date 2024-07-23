@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
-      message: 'Invalid text fields!',
+      message: 'error/fields',
       data: errors,
     });
   }
