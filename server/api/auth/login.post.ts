@@ -8,21 +8,9 @@ import {
 import { loginSchema } from '~/schemas/login';
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
+  const body = await readValidatedBody(event, loginSchema.parse);
 
-  const parseResult = loginSchema.safeParse(body);
-  if (!parseResult.success) {
-    const errors = parseResult.error.flatten().fieldErrors;
-
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'error/body',
-      data: errors,
-    });
-  }
-
-  const user = await findUserByUsername(parseResult.data.username);
+  const user = await findUserByUsername(body.username);
   if (!user) {
     throw createError({
       statusCode: 400,
@@ -31,7 +19,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (!user.verified) {
+  if (user.verified === null) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
@@ -39,7 +27,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const valid = await argon2.verify(user.password, parseResult.data.password);
+  const valid = await argon2.verify(user.password, body.password);
   if (!valid) {
     throw createError({
       statusCode: 400,

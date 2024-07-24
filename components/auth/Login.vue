@@ -12,6 +12,7 @@
 
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
+    serverError.value = null;
     const { error } = await useFetch('/api/auth/login', {
       method: 'POST',
       body: values,
@@ -53,7 +54,7 @@
     @submit="onSubmit"
   >
     <IconField class="w-full">
-      <InputIcon class="pi pi-user" />
+      <InputIcon class="pi pi-at" />
       <InputText
         v-model="username"
         type="text"
@@ -95,7 +96,7 @@
     <Button
       label="Submit"
       icon="pi pi-user"
-      pt:root:class="!mt-1 !text-white"
+      pt:root:class="!text-white"
       :loading="isSubmitting"
       :disabled="hasErrors"
       type="submit"

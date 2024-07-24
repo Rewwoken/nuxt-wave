@@ -1,10 +1,11 @@
 import crypto from 'node:crypto';
+import argon2 from 'argon2';
 import { prisma } from '~/server/database/index';
 
-export async function createVerificationCode(userId: string) {
+export async function createRecoveryCode(userId: string) {
   const randomCode = crypto.randomBytes(128).toString('hex');
 
-  return prisma.verificationCode.create({
+  return prisma.recoveryCode.create({
     data: {
       value: randomCode,
       user: {
@@ -14,27 +15,24 @@ export async function createVerificationCode(userId: string) {
   });
 }
 
-export async function verifyUser(userId: string, code: string) {
+export async function recoverUserPassword(userId: string, newPassword: string, recoveryCode: string) {
   return prisma.$transaction([
     prisma.user.findUniqueOrThrow({
       where: {
         id: userId,
-        verificationCode: { value: code },
+        recoveryCode: { value: recoveryCode },
       },
     }),
     prisma.user.update({
-      where: {
-        id: userId,
-        verificationCode: { value: code },
-      },
+      where: { id: userId },
       data: {
-        verified: new Date(),
+        password: await argon2.hash(newPassword),
       },
     }),
-    prisma.verificationCode.delete({
+    prisma.recoveryCode.delete({
       where: {
         userId,
-        value: code,
+        value: recoveryCode,
       },
     }),
   ]);

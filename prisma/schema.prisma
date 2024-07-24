@@ -16,36 +16,38 @@ model User {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
 
-  verificationCode VerificationCode?
-  // passwordRecoveryCode PasswordRecoveryCode?
   profile          Profile?
   posts            Post[]
   mediFiles        MediaFile[]
+  verificationCode VerificationCode?
+  recoveryCode     RecoveryCode?
 
   @@map("user")
 }
 
 model VerificationCode {
   id        String   @id @default(uuid()) @map("verification_code_id")
-  value     String   @unique
+  value     String
   createdAt DateTime @default(now()) @map("created_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
+  @@unique([userId, value])
   @@map("verification_code")
 }
 
-// model PasswordRecoveryCode {
-//   id        String   @id @default(uuid()) @map("verification_code_id")
-//   value     String   @unique
-//   createdAt DateTime @default(now()) @map("created_at")
-//
-//   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   userId String @unique
-//
-//   @@map("password_recovery_code")
-// }
+model RecoveryCode {
+  id        String   @id @default(uuid()) @map("verification_code_id")
+  value     String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  @@unique([userId, value])
+  @@map("recovery_code")
+}
 
 model Profile {
   id               String   @id @default(uuid()) @map("profile_id")

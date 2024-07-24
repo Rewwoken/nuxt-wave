@@ -3,6 +3,21 @@ import { prisma } from '~/server/database';
 import { findUserById } from '~/server/database/user';
 import { cloudinary } from '~/server/cloudinary';
 
+export async function createProfile(userId: string, email: string) {
+  const profileName = email.split('@')[0];
+
+  return prisma.profile.create({
+    data: {
+      name: profileName,
+      user: {
+        connect: {
+          id: userId,
+        },
+      },
+    },
+  });
+}
+
 export interface FilesData {
   imageUrl?: string;
   imageProviderId?: string;

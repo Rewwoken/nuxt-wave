@@ -15,6 +15,7 @@
 
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
+    serverError.value = null;
     const { error } = await useFetch('/api/auth/register', {
       method: 'POST',
       body: values,
@@ -52,7 +53,7 @@
     @submit="onSubmit"
   >
     <IconField class="w-full">
-      <InputIcon class="pi pi-users" />
+      <InputIcon class="pi pi-envelope" />
       <InputText
         v-model="email"
         type="text"
@@ -68,7 +69,7 @@
       {{ errors.email }}
     </small>
     <IconField class="w-full">
-      <InputIcon class="pi pi-user" />
+      <InputIcon class="pi pi-at" />
       <InputText
         v-model="username"
         type="text"

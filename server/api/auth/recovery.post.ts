@@ -1,11 +1,13 @@
-import { verifyUser } from '~/server/database/verificationCode';
 import { codeQuerySchema } from '~/schemas/codeQuery';
+import { recoverUserPassword } from '~/server/database/recoveryCode';
+import { registerSchema } from '~/schemas/register';
 
 export default defineEventHandler(async (event) => {
   const query = await getValidatedQuery(event, codeQuerySchema.parse);
+  const body = await readValidatedBody(event, registerSchema.pick({ password: true }).parse);
 
   try {
-    await verifyUser(query.id, query.code);
+    await recoverUserPassword(query.id, body.password, query.code);
   }
   catch {
     throw createError({
