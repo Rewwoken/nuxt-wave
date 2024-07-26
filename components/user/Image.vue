@@ -5,12 +5,12 @@
 </script>
 
 <template>
-  <div class="relative flex items-center overflow-hidden rounded-full dark:border dark:border-gray-800">
+  <div class="overflow-hidden rounded-full dark:border dark:border-gray-800">
     <NuxtImg
       v-if="src"
       :src="src"
       alt="user image"
-      class="absolute min-h-full min-w-full"
+      class="object-cover size-full"
     />
     <div
       v-else

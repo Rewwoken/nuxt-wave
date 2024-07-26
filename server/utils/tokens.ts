@@ -1,6 +1,28 @@
 import type { H3Event } from 'h3';
 import { prisma } from '~/server/database';
 
+export function setRefreshToken(event: H3Event, value: string) {
+  const expires = new Date();
+  expires.setDate(expires.getDate() + 30);
+
+  setCookie(event, 'refreshToken', value, {
+    httpOnly: true,
+    sameSite: 'strict',
+    expires,
+  });
+}
+
+export function setAccessToken(event: H3Event, value: string) {
+  const expires = new Date();
+  expires.setMinutes(expires.getMinutes() + 10);
+
+  setCookie(event, 'accessToken', value, {
+    httpOnly: true,
+    sameSite: 'strict',
+    expires,
+  });
+}
+
 export async function handleInvalidAccessToken(
   event: H3Event,
   refreshToken: string,

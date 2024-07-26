@@ -1,10 +1,3 @@
-import {
-  handleInvalidAccessToken,
-  handleValidAccessToken,
-} from '~/server/utils/tokens';
-import { verifyToken } from '~/server/utils/jwt';
-import { notInvoke } from '~/server/utils/notInvoke';
-
 export default defineEventHandler(async (event) => {
   const shouldNotBeInvoked = notInvoke(event.path, {
     paths: ['/api/send/recovery'],

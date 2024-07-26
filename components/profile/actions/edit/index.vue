@@ -24,7 +24,7 @@
     pt:root:class="!shadow-md dark:!bg-dim dark:!border-none dark:!text-white"
   >
     <template #container="{ closeCallback }">
-      <UserProfileActionsEditForm @close-modal="closeCallback" />
+      <ProfileActionsEditForm @close-modal="closeCallback" />
     </template>
   </Dialog>
 </template>

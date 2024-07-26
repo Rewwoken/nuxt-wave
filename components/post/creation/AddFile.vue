@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { handleFileChange } from '~/utils/handleFileChange';
-
   defineProps<{
     fileType: string;
     icon: string;

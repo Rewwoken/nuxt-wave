@@ -1,7 +1,6 @@
 import { registerSchema } from '~/schemas/register';
-import { createUser, findUserByEmailOrUsername } from '~/server/database/user';
+import { createUser, findUserByEmailOrUsername } from '~/server/database/user/user';
 import { createVerificationCode } from '~/server/database/verificationCode';
-import { sendEmail } from '~/server/utils/sendEmail';
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, registerSchema.parse);
@@ -19,7 +18,7 @@ export default defineEventHandler(async (event) => {
   const verificationCode = await createVerificationCode(user.id);
 
   const config = useRuntimeConfig();
-  const verificationLink = `${config.baseUrl}/auth/verification?id=${user.id}&code=${verificationCode.value}`;
+  const verificationLink = `${config.public.baseUrl}/auth/verification?id=${user.id}&code=${verificationCode.value}`;
 
   // TODO: add more information
   await sendEmail({

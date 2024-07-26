@@ -1,20 +1,19 @@
-import { createPost } from '~/server/database/post';
-import { parseForm } from '~/server/utils/parseForm';
+// import { createPost } from '~/server/database/post';
 
 // TODO: refactor spaghetti code
 export default defineEventHandler(async (event) => {
-  const query = getQuery(event);
+  // const query = getQuery(event);
 
-  const replyToId = query.replyToId as string | undefined;
+  // const replyToId = query.replyToId as string | undefined;
+  //
+  // // eslint-disable-next-line unused-imports/no-unused-vars
+  // const { fields, files } = await parseForm(event);
+  //
+  // const postData = { text: fields.text?.join(' ') };
+  //
+  // const userId = event.context.userId;
 
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  const { fields, files } = await parseForm(event);
-
-  const postData = { text: fields.text?.join(' ') };
-
-  const userId = event.context.userId;
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  const post = await createPost(userId, replyToId, postData);
+  // const post = await createPost(userId, replyToId, postData);
 
   // const fileNames = Object.keys(files);
   // const filePromises = fileNames.map(async (fileName) => {

@@ -1,6 +1,6 @@
 import { registerSchema } from '~/schemas/register';
 import { createRecoveryCode } from '~/server/database/recoveryCode';
-import { findUserByEmail } from '~/server/database/user';
+import { findUserByEmail } from '~/server/database/user/user';
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, registerSchema.pick({ email: true }).parse);
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   const recoveryCode = await createRecoveryCode(user.id);
 
   const config = useRuntimeConfig();
-  const recoveryLink = `${config.baseUrl}/auth/recovery?id=${user.id}&code=${recoveryCode.value}`;
+  const recoveryLink = `${config.public.baseUrl}/auth/recovery?id=${user.id}&code=${recoveryCode.value}`;
 
   await sendEmail({
     to: body.email,

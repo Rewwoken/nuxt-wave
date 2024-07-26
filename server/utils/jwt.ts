@@ -1,9 +1,12 @@
 import jwt from 'jsonwebtoken';
-import type { H3Event } from 'h3';
+
+interface Payload {
+  id: string;
+}
 
 export function issueTokens(id: string) {
   const config = useRuntimeConfig();
-  const payload = { id };
+  const payload: Payload = { id };
 
   const accessToken = jwt.sign(payload, config.jwtSecret, {
     expiresIn: '10m',
@@ -13,29 +16,6 @@ export function issueTokens(id: string) {
   });
 
   return { accessToken, refreshToken };
-}
-
-export function setRefreshToken(event: H3Event, value: string) {
-  const expires = new Date();
-  expires.setDate(expires.getDate() + 30);
-
-  // TODO: add secure options
-  setCookie(event, 'refreshToken', value, {
-    httpOnly: true,
-    sameSite: true,
-    expires,
-  });
-}
-
-export function setAccessToken(event: H3Event, value: string) {
-  const expires = new Date();
-  expires.setMinutes(expires.getMinutes() + 10);
-
-  setCookie(event, 'accessToken', value, {
-    httpOnly: true,
-    sameSite: true,
-    expires,
-  });
 }
 
 export function verifyToken(value: string) {
@@ -51,9 +31,6 @@ export function verifyToken(value: string) {
   }
 }
 
-interface JwtPayload {
-  id: string;
-}
 export function decodeToken(value: string) {
-  return jwt.decode(value) as JwtPayload;
+  return jwt.decode(value) as Payload;
 }

@@ -1,20 +1,13 @@
 import { z } from 'zod';
 import { isUsername } from '~/schemas/register';
-import { findUserByUsername } from '~/server/database/user';
+import { findUserByUsername } from '~/server/database/user/user';
 
 export default defineEventHandler(async (event) => {
-  const username = getRouterParam(event, 'username');
+  const { username } = await getValidatedRouterParams(event, z.object({
+    username: z.string().regex(isUsername),
+  }).parse);
 
-  const usernameParse = z.string().regex(isUsername).safeParse(username);
-  if (!usernameParse.success) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'error/invalid',
-    });
-  }
-
-  const findUser = await findUserByUsername(usernameParse.data);
+  const findUser = await findUserByUsername(username);
   if (!findUser) {
     throw createError({
       statusCode: 400,

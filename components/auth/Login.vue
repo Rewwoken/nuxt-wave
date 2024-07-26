@@ -42,7 +42,7 @@
       life: 3000,
     });
 
-    navigateTo('/home');
+    await navigateTo('/home');
   });
 </script>
 

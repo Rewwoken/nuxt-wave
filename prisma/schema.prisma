@@ -22,6 +22,11 @@ model User {
   verificationCode VerificationCode?
   recoveryCode     RecoveryCode?
 
+  follows   User[] @relation("Follow")
+  followers User[] @relation("Follow")
+  blocked   User[] @relation("Blocked")
+  blockedBy User[] @relation("Blocked")
+
   @@map("user")
 }
 
@@ -31,9 +36,8 @@ model VerificationCode {
   createdAt DateTime @default(now()) @map("created_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  userId String @unique @map("user_id")
 
-  @@unique([userId, value])
   @@map("verification_code")
 }
 
@@ -43,9 +47,8 @@ model RecoveryCode {
   createdAt DateTime @default(now()) @map("created_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  userId String @unique @map("user_id")
 
-  @@unique([userId, value])
   @@map("recovery_code")
 }
 
@@ -55,15 +58,15 @@ model Profile {
   bio              String?
   location         String?
   website          String?
-  imageUrl         String?
+  imageUrl         String?  @map("image_url")
   imageProviderId  String?  @map("image_provider_id")
-  bannerUrl        String?
+  bannerUrl        String?  @map("banner_url")
   bannerProviderId String?  @map("banner_provider_id")
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  userId String @unique @map("user_id")
 
   @@map("profile")
 }
@@ -74,8 +77,8 @@ model Post {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  author     User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId   String
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String      @map("user_id")
   replyTo    Post?       @relation("PostReplies", fields: [replyToId], references: [id])
   replyToId  String?     @map("reply_to_id")
   replies    Post[]      @relation("PostReplies")
@@ -85,7 +88,7 @@ model Post {
 }
 
 model MediaFile {
-  id         String   @id @default(uuid()) @map("user_id")
+  id         String   @id @default(uuid()) @map("media_file_id")
   url        String
   providerId String   @map("provider_id")
   createdAt  DateTime @default(now()) @map("created_at")
@@ -93,9 +96,9 @@ model MediaFile {
 
   // No cascade deletion, should be deleted manually with deleting from Cloudinary
   user   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  userId String? @map("user_id")
   post   Post?   @relation(fields: [postId], references: [id])
-  postId String?
+  postId String? @map("post_id")
 
   @@map("media_file")
 }

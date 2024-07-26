@@ -1,9 +1,7 @@
-import { findUserById } from '~/server/database/user';
+import { findUserById } from '~/server/database/user/user';
 
 export default defineEventHandler(async (event) => {
-  const result = await findUserById(event.context.userId);
-
-  const { password, ...user } = result!;
+  const { password, ...user } = await findUserById(event.context.userId);
 
   return user;
 });

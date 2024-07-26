@@ -26,6 +26,7 @@
       :key="link.to"
       :to="link.to"
       class="flex items-center gap-x-5 rounded-full p-3 hover:bg-gray-500/10"
+      active-class="font-bold"
     >
       <i :class="`pi ${link.icon}`" style="font-size: 1.5rem" />
       <span class="hidden text-xl xl:inline">{{ link.text }}</span>

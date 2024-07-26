@@ -30,7 +30,7 @@
 
 <template>
   <section class="flex gap-x-4 p-3">
-    <UserImage :src="currentUser.profile.image" class="size-12 min-w-12 min-h-12" />
+    <UserImage :src="currentUser.profile.imageUrl" class="size-12 min-w-12 min-h-12" />
     <form class="flex w-full flex-col">
       <textarea
         id="new-post-text"

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { handleFileChange } from '~/utils/handleFileChange';
-
   const emit = defineEmits(['onFile']);
 
   const { currentUser } = useCurrentUser();
@@ -23,7 +21,7 @@
 <template>
   <div class="relative flex items-center justify-center">
     <UserBanner :src="banner" />
-    <UserProfileActionsEditFileButton @on-click="onClick" />
+    <ProfileActionsEditFileButton @on-click="onClick" />
   </div>
   <input
     ref="hiddenInput"

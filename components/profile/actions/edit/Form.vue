@@ -23,7 +23,6 @@
     files[key] = file;
   }
 
-  const { updateProfile } = useCurrentUser();
   const toast = useToast();
   const onSubmit = handleSubmit(async (values) => {
     const formData = new FormData();
@@ -41,7 +40,7 @@
       formData.append('banner', files.banner);
     }
 
-    const { data, error } = await useApi('/api/profile', {
+    const { error } = await useApi('/api/profile', {
       method: 'PATCH',
       body: formData,
     });
@@ -64,8 +63,6 @@
       return null;
     }
 
-    // @ts-expect-error | TODO: add typings
-    updateProfile(data.value);
     toast.add({
       severity: 'success',
       summary: 'Profile has been successfully changed!',
@@ -78,14 +75,14 @@
 </script>
 
 <template>
-  <UserProfileActionsEditHeader
+  <ProfileActionsEditHeader
     :is-pending="isSubmitting"
     :has-errors="!!hasErrors"
     @close-modal="$emit('closeModal')"
     @on-submit="onSubmit"
   />
-  <UserProfileActionsEditBanner @on-file="onFile" />
-  <UserProfileActionsEditImage @on-file="onFile" />
+  <ProfileActionsEditBanner @on-file="onFile" />
+  <ProfileActionsEditImage @on-file="onFile" />
   <form
     autocomplete="off"
     class="flex flex-col gap-y-8 p-3"
@@ -101,7 +98,7 @@
         aria-describedby="name-help"
         :maxlength="50"
         :invalid="errors.name"
-        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+        pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ name?.length || 0 }} / 50</span>
       <small
@@ -120,7 +117,8 @@
         aria-describedby="bio-help"
         :maxlength="160"
         :invalid="errors.bio"
-        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+        :auto-resize="true"
+        pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ bio?.length || 0 }} / 160</span>
       <small
@@ -141,7 +139,7 @@
         aria-describedby="location-help"
         :maxlength="30"
         :invalid="errors.location"
-        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+        pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ location?.length || 0 }} / 30</span>
       <small
@@ -162,7 +160,7 @@
         aria-describedby="website-help"
         :maxlength="50"
         :invalid="errors.website"
-        pt:root:class="!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+        pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ website?.length || 0 }} / 50</span>
       <small

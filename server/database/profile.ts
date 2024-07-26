@@ -1,6 +1,6 @@
 import type { ProfileSchema } from '~/schemas/profile';
 import { prisma } from '~/server/database';
-import { findUserById } from '~/server/database/user';
+import { findUserById } from '~/server/database/user/user';
 import { cloudinary } from '~/server/cloudinary';
 
 export async function createProfile(userId: string, email: string) {
@@ -29,12 +29,12 @@ export async function updateProfile(userId: string, data: ProfileSchema & FilesD
   if (data.imageUrl || data.bannerUrl) {
     const user = await findUserById(userId);
 
-    if (data.imageUrl && user.profile.imageProviderId) {
-      await cloudinary.uploader.destroy(user.profile.imageProviderId);
+    if (data.imageUrl && user.profile?.imageProviderId) {
+      await cloudinary.uploader.destroy(user.profile?.imageProviderId);
     }
 
-    if (data.bannerUrl && user.profile.bannerProviderId) {
-      await cloudinary.uploader.destroy(user.profile.bannerProviderId);
+    if (data.bannerUrl && user.profile?.bannerProviderId) {
+      await cloudinary.uploader.destroy(user.profile?.bannerProviderId);
     }
   }
 

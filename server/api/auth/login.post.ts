@@ -1,10 +1,5 @@
 import argon2 from 'argon2';
-import { findUserByUsername } from '~/server/database/user';
-import {
-  issueTokens,
-  setAccessToken,
-  setRefreshToken,
-} from '~/server/utils/jwt';
+import { findUserByUsername } from '~/server/database/user/user';
 import { loginSchema } from '~/schemas/login';
 
 export default defineEventHandler(async (event) => {

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { handleFileChange } from '~/utils/handleFileChange';
-
   const emit = defineEmits(['onFile']);
 
   const { currentUser } = useCurrentUser();
@@ -27,7 +25,7 @@
         :src="image"
         class="!size-32 border-white border-2"
       />
-      <UserProfileActionsEditFileButton @on-click="onClick" />
+      <ProfileActionsEditFileButton @on-click="onClick" />
     </div>
   </div>
   <input

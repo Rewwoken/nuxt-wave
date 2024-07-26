@@ -12,7 +12,7 @@
       <SidebarLeft />
     </aside>
     <main
-      class="col-span-10 border-x border-gray-200 main dark:border-gray-800 md:col-span-9 lg:col-span-6 xl:col-span-5"
+      class="col-span-10 border-x border-gray-200 dark:border-gray-800 md:col-span-9 lg:col-span-6 xl:col-span-5"
     >
       <slot />
     </main>

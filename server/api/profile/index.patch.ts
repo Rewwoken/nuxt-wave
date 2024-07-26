@@ -1,4 +1,3 @@
-import { parseForm } from '~/server/utils/parseForm';
 import { profileSchema } from '~/schemas/profile';
 import type { FilesData } from '~/server/database/profile';
 import { updateProfile } from '~/server/database/profile';

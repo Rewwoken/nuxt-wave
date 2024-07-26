@@ -14,18 +14,18 @@ export async function createVerificationCode(userId: string) {
   });
 }
 
-export async function verifyUser(userId: string, code: string) {
+export async function verifyUser(userId: string, verificationCode: string) {
   return prisma.$transaction([
     prisma.user.findUniqueOrThrow({
       where: {
         id: userId,
-        verificationCode: { value: code },
+        verificationCode: { value: verificationCode },
       },
     }),
     prisma.user.update({
       where: {
         id: userId,
-        verificationCode: { value: code },
+        verificationCode: { value: verificationCode },
       },
       data: {
         verified: new Date(),
@@ -34,7 +34,7 @@ export async function verifyUser(userId: string, code: string) {
     prisma.verificationCode.delete({
       where: {
         userId,
-        value: code,
+        value: verificationCode,
       },
     }),
   ]);
