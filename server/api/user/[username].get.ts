@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { isUsername } from '~/schemas/register';
-import { findUserByUsername } from '~/server/database/user/user';
+import { findUserByUsername } from '~/server/database/user';
 
 export default defineEventHandler(async (event) => {
-  const { username } = await getValidatedRouterParams(event, z.object({
+  const query = await getValidatedRouterParams(event, z.object({
     username: z.string().regex(isUsername),
   }).parse);
 
-  const findUser = await findUserByUsername(username);
+  const findUser = await findUserByUsername(query.username);
   if (!findUser) {
     throw createError({
       statusCode: 400,
@@ -16,7 +16,5 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const { password, ...user } = findUser;
-
-  return user;
+  return findUser;
 });

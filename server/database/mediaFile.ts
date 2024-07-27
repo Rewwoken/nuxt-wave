@@ -19,5 +19,8 @@ export async function createMediaFile(
         },
       },
     },
+    select: {
+      url: true,
+    },
   });
 }

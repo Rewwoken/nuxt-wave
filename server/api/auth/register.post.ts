@@ -1,31 +1,35 @@
+import { isAfter } from 'date-fns';
 import { registerSchema } from '~/schemas/register';
-import { createUser, findUserByEmailOrUsername } from '~/server/database/user/user';
-import { createVerificationCode } from '~/server/database/verificationCode';
+import { createUser, deleteUserById, findUserByEmailOrUsername } from '~/server/database/user';
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, registerSchema.parse);
 
-  const existingUser = await findUserByEmailOrUsername(body.email, body.username);
-  if (existingUser) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Bad Request',
-      message: 'error/exist',
-    });
+  const user = await findUserByEmailOrUsername(body.email, body.username);
+  if (user) {
+    if (user.verified !== null) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Bad Request',
+        message: 'error/user-exists',
+      });
+    }
+
+    if (user.verificationCode) {
+      const expired = isAfter(new Date(), user.verificationCode.expiresIn);
+
+      if (!expired) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: 'Bad Request',
+          message: 'error/not-expired',
+        });
+      }
+    }
+
+    await deleteUserById(user.id);
   }
 
-  const user = await createUser(body);
-  const verificationCode = await createVerificationCode(user.id);
-
-  const config = useRuntimeConfig();
-  const verificationLink = `${config.public.baseUrl}/auth/verification?id=${user.id}&code=${verificationCode.value}`;
-
-  // TODO: add more information
-  await sendEmail({
-    to: user.email,
-    subject: 'Email verification',
-    html: `<p>Please, click <a href="${verificationLink}" target="_blank">here</a>.</p>`,
-  });
-
-  setResponseStatus(event, 201);
+  const newUser = await createUser(body);
+  await sendVerificationEmail(newUser.id, newUser.email);
 });

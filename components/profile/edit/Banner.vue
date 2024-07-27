@@ -2,7 +2,7 @@
   const emit = defineEmits(['onFile']);
 
   const { currentUser } = useCurrentUser();
-  const image = ref(currentUser.profile.imageUrl);
+  const banner = ref(currentUser.profile.bannerUrl);
   const hiddenInput = ref();
 
   function onClick() {
@@ -11,22 +11,17 @@
 
   function onFileChange(event: Event) {
     return handleFileChange(event, (file, url) => {
-      emit('onFile', 'image', file);
+      emit('onFile', 'banner', file);
 
-      image.value = url;
+      banner.value = url;
     });
   }
 </script>
 
 <template>
-  <div class="relative h-20 w-full">
-    <div class="absolute bottom-10 ml-10 flex items-center justify-center">
-      <UserImage
-        :src="image"
-        class="!size-32 border-white border-2"
-      />
-      <ProfileActionsEditFileButton @on-click="onClick" />
-    </div>
+  <div class="relative flex items-center justify-center">
+    <UserBanner :src="banner" />
+    <ProfileEditFileButton @on-click="onClick" />
   </div>
   <input
     ref="hiddenInput"

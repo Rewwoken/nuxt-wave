@@ -1,9 +1,9 @@
 import type { H3Event } from 'h3';
+import { addDays, addMinutes } from 'date-fns';
 import { prisma } from '~/server/database';
 
 export function setRefreshToken(event: H3Event, value: string) {
-  const expires = new Date();
-  expires.setDate(expires.getDate() + 30);
+  const expires = addDays(new Date(), 30);
 
   setCookie(event, 'refreshToken', value, {
     httpOnly: true,
@@ -13,8 +13,7 @@ export function setRefreshToken(event: H3Event, value: string) {
 }
 
 export function setAccessToken(event: H3Event, value: string) {
-  const expires = new Date();
-  expires.setMinutes(expires.getMinutes() + 10);
+  const expires = addMinutes(new Date(), 10);
 
   setCookie(event, 'accessToken', value, {
     httpOnly: true,
@@ -40,7 +39,7 @@ export async function handleInvalidAccessToken(
   const { id } = decodeToken(refreshToken);
   await verifyDecodedId(id);
 
-  tokens(event, id);
+  handleTokens(event, id);
 }
 
 export async function handleValidAccessToken(
@@ -50,7 +49,7 @@ export async function handleValidAccessToken(
   const { id } = decodeToken(accessToken);
   await verifyDecodedId(id);
 
-  tokens(event, id);
+  handleTokens(event, id);
 }
 
 async function verifyDecodedId(id: string) {
@@ -65,7 +64,7 @@ async function verifyDecodedId(id: string) {
   }
 }
 
-function tokens(event: H3Event, userId: string) {
+function handleTokens(event: H3Event, userId: string) {
   const { accessToken, refreshToken } = issueTokens(userId);
 
   setAccessToken(event, accessToken);

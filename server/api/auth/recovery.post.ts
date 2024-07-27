@@ -1,9 +1,9 @@
-import { codeQuerySchema } from '~/schemas/codeQuery';
 import { recoverUserPassword } from '~/server/database/recoveryCode';
 import { registerSchema } from '~/schemas/register';
+import { codeSchema } from '~/schemas/code';
 
 export default defineEventHandler(async (event) => {
-  const query = await getValidatedQuery(event, codeQuerySchema.parse);
+  const query = await getValidatedQuery(event, codeSchema.parse);
   const body = await readValidatedBody(event, registerSchema.pick({ password: true }).parse);
 
   try {

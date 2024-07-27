@@ -75,14 +75,14 @@
 </script>
 
 <template>
-  <ProfileActionsEditHeader
+  <ProfileEditHeader
     :is-pending="isSubmitting"
     :has-errors="!!hasErrors"
     @close-modal="$emit('closeModal')"
     @on-submit="onSubmit"
   />
-  <ProfileActionsEditBanner @on-file="onFile" />
-  <ProfileActionsEditImage @on-file="onFile" />
+  <ProfileEditBanner @on-file="onFile" />
+  <ProfileEditImage @on-file="onFile" />
   <form
     autocomplete="off"
     class="flex flex-col gap-y-8 p-3"

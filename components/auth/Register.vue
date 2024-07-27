@@ -22,8 +22,11 @@
     });
 
     if (error.value) {
-      if (error.value.data.message === 'error/exist') {
+      if (error.value.data.message === 'error/user-exists') {
         serverError.value = 'User already exists!';
+      }
+      else if (error.value.data.message === 'error/not-expired') {
+        serverError.value = 'Previous code has not expired!';
       }
       else if (error.value.data.message === 'error/body') {
         serverError.value = 'Invalid data!';
@@ -38,7 +41,7 @@
     toast.add({
       severity: 'info',
       summary: 'An email has been sent to verify your email address.',
-      detail: 'Please, check your mailbox and follow the link in the message.',
+      detail: 'Please, check your mailbox and follow the link in the message within 15 minutes before it expires.',
     });
 
     emit('closeModal');

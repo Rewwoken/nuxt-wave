@@ -1,16 +1,22 @@
 import crypto from 'node:crypto';
-import argon2 from 'argon2';
-import { prisma } from '~/server/database/index';
+import { addMinutes } from 'date-fns';
+import { prisma } from '~/server/database';
 
+// TODO: handle expiration date
 export async function createRecoveryCode(userId: string) {
   const randomCode = crypto.randomBytes(128).toString('hex');
+  const expiresIn = addMinutes(new Date(), 1);
 
   return prisma.recoveryCode.create({
     data: {
-      value: randomCode,
       user: {
         connect: { id: userId },
       },
+      value: randomCode,
+      expiresIn,
+    },
+    select: {
+      value: true,
     },
   });
 }
@@ -26,7 +32,7 @@ export async function recoverUserPassword(userId: string, newPassword: string, r
     prisma.user.update({
       where: { id: userId },
       data: {
-        password: await argon2.hash(newPassword),
+        password: await hash(newPassword),
       },
     }),
     prisma.recoveryCode.delete({

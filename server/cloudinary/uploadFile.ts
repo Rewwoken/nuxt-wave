@@ -1,4 +1,4 @@
-import { cloudinary } from '~/server/cloudinary/index';
+import { cloudinary } from '~/server/cloudinary';
 
 export async function uploadFile(filepath: string) {
   try {

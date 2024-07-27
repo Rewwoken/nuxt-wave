@@ -1,5 +1,6 @@
 import { prisma } from '~/server/database';
 
+// TODO: return less sensitive data
 export async function getPost(id: string | undefined) {
   if (!id) {
     return null;

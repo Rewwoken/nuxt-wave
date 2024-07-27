@@ -6,7 +6,6 @@
   const user = inject('user') as PrismaUser;
 </script>
 
-<!-- TODO: add currentUser name & posts count -->
 <template>
   <div class="flex items-center gap-x-6 py-1">
     <Button

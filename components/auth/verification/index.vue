@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { FetchError } from 'ofetch';
+
   const route = useRoute();
   const toast = useToast();
 
@@ -19,13 +21,40 @@
         life: 7000,
       });
     }
-    catch {
-      toast.add({
-        severity: 'error',
-        summary: 'Error verifying email!',
-        detail: 'Please, try again later.',
-        life: 7000,
-      });
+    catch (err) {
+      if (err instanceof FetchError) {
+        if (err.data.message === 'error/expired') {
+          toast.add({
+            severity: 'error',
+            summary: 'Error verifying email!',
+            detail: 'Verification link expired. Please, try again later.',
+          });
+        }
+        else if (err.data.message === 'error/not-found') {
+          toast.add({
+            severity: 'error',
+            summary: 'User not found!',
+            detail: 'Match not found. Please, try again later.',
+            life: 7000,
+          });
+        }
+        else {
+          toast.add({
+            severity: 'error',
+            summary: 'Error verifying email!',
+            detail: 'Unexpected error. Please, try again later.',
+            life: 7000,
+          });
+        }
+      }
+      else {
+        toast.add({
+          severity: 'error',
+          summary: 'Error verifying email!',
+          detail: 'Unexpected error. Please, try again later.',
+          life: 7000,
+        });
+      }
     }
     finally {
       await navigateTo('/auth');

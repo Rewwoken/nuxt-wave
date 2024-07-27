@@ -9,15 +9,22 @@
     dateStyle: 'long',
   });
 
+  const { currentUser } = useCurrentUser();
+  const isCurrentUser = useRoute().path === `/${currentUser.username}`;
+
   provide('user', props.user);
 </script>
 
 <template>
   <ProfileBack />
   <UserBanner :src="user.profile.bannerUrl" />
-  <div class="relative mt-2 flex items-end px-3">
+  <div class="mt-2 flex items-end px-3">
     <ProfileImage />
-    <ProfileActions class="ml-auto" />
+    <ProfileEdit v-if="isCurrentUser" />
+    <div v-else class="ml-auto flex items-center gap-x-2">
+      <ProfileMore />
+      <ProfileFollowing />
+    </div>
   </div>
   <div class="p-3 space-y-3">
     <div class="flex flex-col leading-3">
