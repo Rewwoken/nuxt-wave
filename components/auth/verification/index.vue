@@ -33,8 +33,8 @@
         else if (err.data.message === 'error/not-found') {
           toast.add({
             severity: 'error',
-            summary: 'User not found!',
-            detail: 'Match not found. Please, try again later.',
+            summary: 'Error verifying email!',
+            detail: 'User not found. Please, try again later.',
             life: 7000,
           });
         }

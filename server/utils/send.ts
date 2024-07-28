@@ -1,15 +1,10 @@
 import { Resend } from 'resend';
-import { createVerificationCode } from '~/server/database/verificationCode';
-import { createRecoveryCode } from '~/server/database/recoveryCode';
 
 const config = useRuntimeConfig();
 const resend = new Resend(config.resendApiKey);
 
-export async function sendVerificationEmail(userId: string, email: string) {
-  const verificationCode = await createVerificationCode(userId);
-
-  const config = useRuntimeConfig();
-  const verificationLink = `${config.public.baseUrl}/auth/verification?id=${userId}&code=${verificationCode.value}`;
+export async function sendVerificationEmail(email: string, userId: string, code: string) {
+  const verificationLink = `${config.public.baseUrl}/auth/verification?id=${userId}&code=${code}`;
 
   await resend.emails.send({
     from: 'Acme <onboarding@resend.dev>',
@@ -19,11 +14,9 @@ export async function sendVerificationEmail(userId: string, email: string) {
   });
 }
 
-export async function sendRecoveryEmail(userId: string, email: string) {
-  const recoveryCode = await createRecoveryCode(userId);
-
-  const config = useRuntimeConfig();
-  const recoveryLink = `${config.public.baseUrl}/auth/recovery?id=${userId}&code=${recoveryCode.value}`;
+// TODO: refactor
+export async function sendRecoveryEmail(email: string, userId: string, code: string) {
+  const recoveryLink = `${config.public.baseUrl}/auth/recovery?id=${userId}&code=${code}`;
 
   await resend.emails.send({
     from: 'Acme <onboarding@resend.dev>',

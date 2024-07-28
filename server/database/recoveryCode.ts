@@ -1,13 +1,33 @@
 import crypto from 'node:crypto';
-import { addMinutes } from 'date-fns';
+import { addMinutes, isAfter } from 'date-fns';
 import { prisma } from '~/server/database';
 
 // TODO: handle expiration date
 export async function createRecoveryCode(userId: string) {
+return prisma.$transaction(async (tx) => {
+  const prevRecoveryCode = await prisma.recoveryCode.findUnique({
+    where: { userId },
+  });
+  if (prevRecoveryCode) {
+    const isCodeExpired = isAfter(new Date(), prevRecoveryCode.expiresIn);
+
+    if (!isCodeExpired) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Bad Request',
+        message: 'error/not-expired',
+      });
+    }
+
+    await tx.recoveryCode.delete({
+      where: { userId },
+    });
+  }
+
   const randomCode = crypto.randomBytes(128).toString('hex');
   const expiresIn = addMinutes(new Date(), 1);
 
-  return prisma.recoveryCode.create({
+  return tx.recoveryCode.create({
     data: {
       user: {
         connect: { id: userId },
@@ -18,6 +38,13 @@ export async function createRecoveryCode(userId: string) {
     select: {
       value: true,
     },
+  });
+});
+}
+
+export async function findRecoveryCodeByUserId(userId: string) {
+  return prisma.recoveryCode.findUnique({
+    where: { userId },
   });
 }
 

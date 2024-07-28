@@ -30,7 +30,7 @@ export async function createUser(data: RegisterSchema) {
 }
 
 export async function findUserById(id: string) {
-  return prisma.user.findUniqueOrThrow({
+  return prisma.user.findUnique({
     where: { id },
     select: {
       id: true,
@@ -101,7 +101,7 @@ export async function findUserByEmailOrUsername(email: string, username: string)
     select: {
       id: true,
       email: true,
-      verified: true,
+      verifiedOn: true,
       verificationCode: true,
     },
   });

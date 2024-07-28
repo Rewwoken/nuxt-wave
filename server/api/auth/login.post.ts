@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     where: { username: body.username },
     select: {
       id: true,
-      verified: true,
+      verifiedOn: true,
       password: true,
     },
   });
@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (user.verified === null) {
+  if (user.verifiedOn === null) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
@@ -42,4 +42,6 @@ export default defineEventHandler(async (event) => {
   const { accessToken, refreshToken } = issueTokens(user.id);
   setRefreshToken(event, refreshToken);
   setAccessToken(event, accessToken);
+
+  setResponseStatus(event, 200);
 });

@@ -22,7 +22,12 @@
     });
 
     if (error.value) {
-      serverError.value = 'Error sending email!';
+      if (error.value.data.message === 'error/not-expired') {
+        serverError.value = 'Previous code has not expired!';
+      }
+      else {
+        serverError.value = 'Error sending email!';
+      }
 
       return null;
     }

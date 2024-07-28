@@ -1,26 +1,39 @@
+import type { H3Event } from 'h3';
+
 export default defineEventHandler(async (event) => {
-  const shouldNotBeInvoked = notInvoke(event.path, {
-    paths: ['/api/send/recovery'],
-    func: () => !event.path.startsWith('/api') || event.path.startsWith('/api/auth'),
-  });
-  if (shouldNotBeInvoked) {
-    return;
+  if (!event.path.startsWith('/api')
+    || event.path.startsWith('/api/auth')
+    || event.path.startsWith('/api/send')
+    || event.path === '/auth'
+  ) {
+    return void 0;
+  }
+  const cookies = parseCookies(event);
+
+  const isAccessValid = verifyToken(cookies.accessToken);
+  if (isAccessValid) {
+    return void handleVerifiedToken(event, cookies.accessToken);
   }
 
-  const cookies = parseCookies(event);
-  if (!cookies.refreshToken) {
+  const isRefreshValid = verifyToken(cookies.refreshToken);
+  if (!isRefreshValid) {
     throw createError({
       statusCode: 401,
       statusMessage: 'Unauthorized',
-      message: 'No refresh token!',
+      message: 'Invalid refresh token!',
     });
   }
 
-  const isAccessValid = verifyToken(cookies.accessToken);
-  if (!isAccessValid) {
-    await handleInvalidAccessToken(event, cookies.refreshToken);
-  }
-  else {
-    await handleValidAccessToken(event, cookies.accessToken);
-  }
+  const { id } = decodeToken(cookies.refreshToken);
+  const { accessToken, refreshToken } = issueTokens(id);
+
+  setAccessToken(event, accessToken);
+  setRefreshToken(event, refreshToken);
+
+  handleVerifiedToken(event, accessToken);
 });
+
+function handleVerifiedToken(event: H3Event, value: string) {
+  const { id } = decodeToken(value);
+  event.context.userId = id;
+}

@@ -1,13 +1,14 @@
 import { isAfter } from 'date-fns';
 import { registerSchema } from '~/schemas/register';
 import { createUser, deleteUserById, findUserByEmailOrUsername } from '~/server/database/user';
+import { createVerificationCode } from '~/server/database/verificationCode';
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, registerSchema.parse);
 
-  const user = await findUserByEmailOrUsername(body.email, body.username);
-  if (user) {
-    if (user.verified !== null) {
+  const existingUser = await findUserByEmailOrUsername(body.email, body.username);
+  if (existingUser) {
+    if (existingUser.verifiedOn) {
       throw createError({
         statusCode: 400,
         statusMessage: 'Bad Request',
@@ -15,21 +16,24 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    if (user.verificationCode) {
-      const expired = isAfter(new Date(), user.verificationCode.expiresIn);
-
-      if (!expired) {
-        throw createError({
-          statusCode: 400,
-          statusMessage: 'Bad Request',
-          message: 'error/not-expired',
-        });
-      }
+    // If code has expired, delete unverified user, otherwise throw an error
+    const isCodeExpired = isAfter(new Date(), existingUser.verificationCode!.expiresIn);
+    if (isCodeExpired) {
+      await deleteUserById(existingUser.id);
     }
-
-    await deleteUserById(user.id);
+    else {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Bad Request',
+        message: 'error/not-expired',
+      });
+    }
   }
 
   const newUser = await createUser(body);
-  await sendVerificationEmail(newUser.id, newUser.email);
+
+  const verificationCode = await createVerificationCode(newUser.id);
+  await sendVerificationEmail(newUser.email, newUser.id, verificationCode.value);
+
+  setResponseStatus(event, 201);
 });

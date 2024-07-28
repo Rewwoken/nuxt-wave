@@ -4,7 +4,7 @@ import { prisma } from '~/server/database';
 
 export async function createVerificationCode(userId: string) {
   const randomCode = crypto.randomBytes(128).toString('hex');
-  const expiresIn = addMinutes(new Date(), 1);
+  const expiresIn = addMinutes(new Date(), 15);
 
   return prisma.verificationCode.create({
     data: {
@@ -22,11 +22,10 @@ export async function createVerificationCode(userId: string) {
 
 export async function verifyUser(userId: string, verificationCode: string) {
   return prisma.$transaction(async (tx) => {
-    const now = new Date();
-
     const user = await tx.user.findUnique({
       where: {
         id: userId,
+        verifiedOn: null,
         verificationCode: { value: verificationCode },
       },
       select: {
@@ -38,8 +37,9 @@ export async function verifyUser(userId: string, verificationCode: string) {
       throw new Error('error/not-found');
     }
 
-    const isExpired = isAfter(now, user.verificationCode!.expiresIn);
-    if (isExpired) {
+    // Code can not be null, since we looked for verificationCode: { value: verificationCode }
+    const isCodeExpired = isAfter(new Date(), user.verificationCode!.expiresIn);
+    if (isCodeExpired) {
       throw new Error('error/expired');
     }
 
@@ -48,7 +48,7 @@ export async function verifyUser(userId: string, verificationCode: string) {
         id: user.id,
       },
       data: {
-        verified: now,
+        verifiedOn: new Date(),
       },
     });
 

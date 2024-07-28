@@ -8,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid()) @map("user_id")
-  username  String    @unique
-  email     String    @unique
-  password  String
-  verified  DateTime?
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  id         String    @id @default(uuid()) @map("user_id")
+  username   String    @unique
+  email      String    @unique
+  password   String
+  verifiedOn DateTime? @map("verified_on")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
 
   profile          Profile?
   posts            Post[]
