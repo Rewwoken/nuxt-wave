@@ -1,5 +1,7 @@
 <script setup lang="ts">
-  defineEmits(['onClick']);
+  defineEmits<{
+    (e: 'onClick'): void;
+  }>();
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 import type { ProfileSchema } from '~/schemas/profile';
 import { prisma } from '~/server/database';
-import { cloudinary } from '~/server/cloudinary';
+import { cloudinaryDestroy } from '~/server/cloudinary';
 
 export interface FilesData {
   imageUrl?: string;
@@ -16,11 +16,11 @@ export async function updateProfile(userId: string, data: ProfileSchema & FilesD
     });
 
     if (data.imageUrl && profile.imageProviderId) {
-      await cloudinary.uploader.destroy(profile.imageProviderId);
+      await cloudinaryDestroy(profile.imageProviderId);
     }
 
     if (data.bannerUrl && profile.bannerProviderId) {
-      await cloudinary.uploader.destroy(profile.bannerProviderId);
+      await cloudinaryDestroy(profile.bannerProviderId);
     }
   }
 

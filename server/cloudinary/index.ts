@@ -1,12 +1,17 @@
-import { v2 } from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 
 const config = useRuntimeConfig();
-
-v2.config({
+cloudinary.config({
   cloud_name: config.cloudinaryCloudName,
   api_key: config.cloudinaryApiKey,
   api_secret: config.cloudinaryApiSecret,
   secure: true,
 });
 
-export const cloudinary = v2;
+export function cloudinaryUpload(source: string) {
+  return cloudinary.uploader.upload(source);
+}
+
+export function cloudinaryDestroy(publicId: string) {
+  return cloudinary.uploader.destroy(publicId);
+}

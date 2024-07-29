@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { profileSchema } from '~/schemas/profile';
 
-  const emit = defineEmits(['closeModal']);
+  const emit = defineEmits<{
+    (e: 'closeModal'): void;
+  }>();
 
   const { handleSubmit, errors, defineField, isSubmitting } = useForm({
     validationSchema: toTypedSchema(profileSchema),
@@ -75,14 +77,14 @@
 </script>
 
 <template>
-  <ProfileEditHeader
+  <ProfileEditModalHeader
     :is-pending="isSubmitting"
     :has-errors="!!hasErrors"
     @close-modal="$emit('closeModal')"
     @on-submit="onSubmit"
   />
-  <ProfileEditBanner @on-file="onFile" />
-  <ProfileEditImage @on-file="onFile" />
+  <ProfileEditModalBanner @on-file="onFile" />
+  <ProfileEditModalImage @on-file="onFile" />
   <form
     autocomplete="off"
     class="flex flex-col gap-y-8 p-3"

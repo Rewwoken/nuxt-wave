@@ -17,4 +17,6 @@ export default defineEventHandler(async (event) => {
       message: 'error/un-follow',
     });
   }
+
+  event.node.res.statusCode = 200;
 });

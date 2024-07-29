@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import { registerSchema } from '~/schemas/register';
 
-  const emit = defineEmits(['closeModal']);
+  const emit = defineEmits<{
+    (e: 'closeModal'): void;
+  }>();
 
   const { handleSubmit, errors, defineField, isSubmitting } = useForm({
     validationSchema: toTypedSchema(registerSchema),

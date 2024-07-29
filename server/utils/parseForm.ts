@@ -1,15 +1,11 @@
+import type { IncomingMessage } from 'node:http';
 import formidable from 'formidable';
-import type { H3Event } from 'h3';
 
-interface ParseFormResult {
-  fields: formidable.Fields<string>;
-  files: formidable.Files<string>;
-}
-export async function parseForm(event: H3Event): Promise<ParseFormResult> {
+export async function parseForm(req: IncomingMessage) {
   const form = formidable();
 
   // ? Potential improvement: handle errors
-  const [fields, files] = await form.parse(event.node.req);
+  const [fields, files] = await form.parse(req);
 
   return { fields, files };
 }

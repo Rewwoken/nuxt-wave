@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import type { PrismaUser } from '~/types/user.types';
 
-  const emits = defineEmits(['toggleFollow']);
+  const emit = defineEmits<{
+    (e: 'toggleFollow'): void;
+  }>();
   const user = inject('user') as PrismaUser;
 
   const toast = useToast();
@@ -12,7 +14,7 @@
         query: { id: user.id },
       });
 
-      emits('toggleFollow');
+      emit('toggleFollow');
 
       toast.add({
         severity: 'info',

@@ -1,41 +1,83 @@
+import type formidable from 'formidable';
 import { prisma } from '~/server/database';
+import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
 
-// TODO: return less sensitive data
 export async function getPost(id: string | undefined) {
-  if (!id) {
-    return null;
-  }
-
   return prisma.post.findUnique({
     where: { id },
-    include: {
-      replyTo: true,
-      replies: true,
-      mediaFiles: true,
+    select: {
+      id: true,
+      mediaFiles: {
+        select: {
+          url: true,
+        },
+      },
+      replyTo: {
+        select: {
+          id: true,
+          user: {
+            select: {
+              id: true,
+              username: true,
+            },
+          },
+        },
+      },
     },
   });
 }
 
 export async function createPost(
-  authorId: string,
+  userId: string,
   replyToId: string | undefined,
-  postData: any,
+  fields: formidable.Fields<string>,
+  files: formidable.Files<string>,
 ) {
-  const replyToOptions = {
-    connect: {
-      id: replyToId as string,
-    },
-  };
+  return prisma.$transaction(async (tx) => {
+    const text = fields.text ? fields.text.join(' ') : '';
+    const replyTo = { connect: { id: replyToId } };
 
-  return prisma.post.create({
-    data: {
-      ...postData,
-      author: {
-        connect: {
-          id: authorId,
+    const post = await tx.post.create({
+      data: {
+        user: {
+          connect: { id: userId },
         },
+        replyTo: replyToId ? replyTo : undefined,
+        text,
       },
-      replyTo: replyToId ? replyToOptions : undefined,
-    },
+    });
+
+    const uploadResponses: Array<{ providerId: string }> = [];
+    const mediaFiles: Array<{ id: string }> = [];
+
+    for (const fileName in files) {
+      const file = files[fileName]![0];
+
+      try {
+        const uploadResponse = await cloudinaryUpload(file.filepath);
+        uploadResponses.push({ providerId: uploadResponse.public_id });
+
+        const mediaFile = await tx.mediaFile.create({
+          data: {
+            post: { connect: { id: post.id } },
+            providerId: uploadResponse.public_id,
+            url: uploadResponse.secure_url,
+          },
+        });
+        mediaFiles.push({ id: mediaFile.id });
+      }
+      catch (err) {
+        for (const upload of uploadResponses) {
+          await cloudinaryDestroy(upload.providerId);
+        }
+        for (const mediaFile of mediaFiles) {
+          await tx.mediaFile.delete({
+            where: { id: mediaFile.id },
+          });
+        }
+
+        throw err;
+      }
+    }
   });
 }

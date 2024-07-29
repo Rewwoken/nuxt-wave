@@ -1,10 +1,12 @@
 <script setup lang="ts">
   defineProps<{
-    fileType: string;
+    accept: string;
     icon: string;
   }>();
 
-  const emit = defineEmits(['onFile']);
+  const emit = defineEmits<{
+    (e: 'onFile', file: File, url: string): void;
+  }>();
 
   const hiddenInput = ref();
   function onIconClick() {
@@ -12,9 +14,12 @@
   }
 
   function onFileChange(event: Event) {
-    return handleFileChange(event, (file, url) => {
+    handleFileChange(event, (file, url) => {
       emit('onFile', file, url);
     });
+
+    // Removing value so user can upload the same image again
+    hiddenInput.value.value = null;
   }
 </script>
 
@@ -31,8 +36,7 @@
   <input
     ref="hiddenInput"
     type="file"
-    :accept="fileType"
-    multiple
+    :accept="accept"
     hidden
     @change="onFileChange"
   >

@@ -15,16 +15,16 @@
   />
   <Dialog
     v-model:visible="visible"
-    modal
     header="Edit profile"
     :dismissable-mask="true"
     :close-on-escape="true"
     :draggable="false"
     :style="{ width: '35rem' }"
     pt:root:class="!shadow-md dark:!bg-dim dark:!border-none dark:!text-white"
+    modal
   >
     <template #container="{ closeCallback }">
-      <ProfileEditForm @close-modal="closeCallback" />
+      <ProfileEditModal @close-modal="closeCallback" />
     </template>
   </Dialog>
 </template>

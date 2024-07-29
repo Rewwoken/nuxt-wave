@@ -17,4 +17,6 @@ export default defineEventHandler(async (event) => {
       message: 'error/follow',
     });
   }
+
+  event.node.res.statusCode = 200;
 });

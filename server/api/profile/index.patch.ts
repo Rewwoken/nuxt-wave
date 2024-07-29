@@ -1,10 +1,11 @@
 import { profileSchema } from '~/schemas/profile';
 import type { FilesData } from '~/server/database/profile';
 import { updateProfile } from '~/server/database/profile';
-import { uploadFile } from '~/server/cloudinary/uploadFile';
+import { cloudinaryUpload } from '~/server/cloudinary/index';
 
+// TODO: refactor
 export default defineEventHandler(async (event) => {
-  const { fields, files } = await parseForm(event);
+  const { fields, files } = await parseForm(event.node.req);
 
   const formattedFields: Record<string, string> = {};
 
@@ -30,7 +31,7 @@ export default defineEventHandler(async (event) => {
   const filesData: FilesData = {};
   if (files.image) {
     const image = files.image[0];
-    const uploadResponse = await uploadFile(image.filepath);
+    const uploadResponse = await cloudinaryUpload(image.filepath);
 
     filesData.imageUrl = uploadResponse.url;
     filesData.imageProviderId = uploadResponse.public_id;
@@ -38,7 +39,7 @@ export default defineEventHandler(async (event) => {
 
   if (files.banner) {
     const banner = files.banner[0];
-    const uploadResponse = await uploadFile(banner.filepath);
+    const uploadResponse = await cloudinaryUpload(banner.filepath);
 
     filesData.bannerUrl = uploadResponse.url;
     filesData.bannerProviderId = uploadResponse.public_id;

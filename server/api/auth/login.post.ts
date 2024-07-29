@@ -43,5 +43,5 @@ export default defineEventHandler(async (event) => {
   setRefreshToken(event, refreshToken);
   setAccessToken(event, accessToken);
 
-  setResponseStatus(event, 200);
+  event.node.res.statusCode = 200;
 });

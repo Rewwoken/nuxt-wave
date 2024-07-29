@@ -5,16 +5,14 @@
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-full dark:border dark:border-gray-800">
-    <NuxtImg
-      v-if="src"
-      :src="src"
-      alt="user image"
-      class="object-cover size-full"
-    />
-    <div
-      v-else
-      class="bg-neutral-200 size-full dark:bg-dim"
-    />
-  </div>
+  <NuxtImg
+    v-if="src"
+    :src="src"
+    alt="user image"
+    class="aspect-square rounded-full object-cover dark:border dark:border-gray-800"
+  />
+  <div
+    v-else
+    class="rounded-full bg-neutral-200 size-full dark:bg-dim dark:border dark:border-gray-800"
+  />
 </template>

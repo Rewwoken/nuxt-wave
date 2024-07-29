@@ -1,33 +1,23 @@
-// import { createPost } from '~/server/database/post';
+import { z } from 'zod';
+import { createPost } from '~/server/database/post';
 
-// TODO: refactor spaghetti code
 export default defineEventHandler(async (event) => {
-  // const query = getQuery(event);
+  const query = await getValidatedQuery(event, z.object({
+    replyToId: z.string().optional(),
+  }).parse);
 
-  // const replyToId = query.replyToId as string | undefined;
-  //
-  // // eslint-disable-next-line unused-imports/no-unused-vars
-  // const { fields, files } = await parseForm(event);
-  //
-  // const postData = { text: fields.text?.join(' ') };
-  //
-  // const userId = event.context.userId;
+  const { fields, files } = await parseForm(event.node.req);
 
-  // const post = await createPost(userId, replyToId, postData);
-
-  // const fileNames = Object.keys(files);
-  // const filePromises = fileNames.map(async (fileName) => {
-  //   const file = files[fileName]![0];
-  //
-  //   const uploadResponse = await uploadFile(file.filepath);
-  //
-  //   return createMediaFile(userId, post.id, {
-  //     url: uploadResponse.url,
-  //     providerId: uploadResponse.public_id,
-  //   });
-  // });
-
-  // await Promise.all(filePromises);
-
-  setResponseStatus(event, 201);
+  const userId = event.context.userId;
+  try {
+    event.node.res.statusCode = 201;
+    return await createPost(userId, query.replyToId, fields, files);
+  }
+  catch {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Internal Server Error',
+      message: 'error/unknown',
+    });
+  }
 });

@@ -4,7 +4,10 @@
     hasErrors: boolean;
   }>();
 
-  defineEmits(['closeModal', 'onSubmit']);
+  defineEmits<{
+    (e: 'closeModal'): void;
+    (e: 'onSubmit'): void;
+  }>();
 </script>
 
 <template>

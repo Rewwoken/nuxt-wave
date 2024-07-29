@@ -1,6 +1,6 @@
 import { verifyUser } from '~/server/database/verificationCode';
 import { codeSchema } from '~/schemas/code';
-import { deleteUserById } from '~/server/database/user/index';
+import { deleteUserById } from '~/server/database/user';
 
 export default defineEventHandler(async (event) => {
   const query = await getValidatedQuery(event, codeSchema.parse);
@@ -42,4 +42,6 @@ export default defineEventHandler(async (event) => {
       });
     }
   }
+
+  event.node.res.statusCode = 200;
 });

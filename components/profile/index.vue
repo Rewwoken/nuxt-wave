@@ -34,7 +34,7 @@
     <p class="text-gray-500">
       {{ user.profile.bio }}
     </p>
-    <div class="flex gap-x-3 text-gray-500">
+    <div class="flex flex-wrap gap-x-3 text-gray-500">
       <div v-if="user.profile.location" class="flex items-center gap-x-1">
         <i class="pi pi-map-marker" />
         <span>{{ user.profile.location }}</span>
