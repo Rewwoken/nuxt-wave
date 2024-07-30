@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   const user = await findUserByEmail(body.email);
   if (!user) {
-    return;
+    return void 0;
   }
 
   try {

@@ -30,11 +30,10 @@ export async function getPost(id: string | undefined) {
 export async function createPost(
   userId: string,
   replyToId: string | undefined,
-  fields: formidable.Fields<string>,
+  text: string,
   files: formidable.Files<string>,
 ) {
   return prisma.$transaction(async (tx) => {
-    const text = fields.text ? fields.text.join(' ') : '';
     const replyTo = { connect: { id: replyToId } };
 
     const post = await tx.post.create({
@@ -54,14 +53,14 @@ export async function createPost(
       const file = files[fileName]![0];
 
       try {
-        const uploadResponse = await cloudinaryUpload(file.filepath);
-        uploadResponses.push({ providerId: uploadResponse.public_id });
+        const { public_id, version, format } = await cloudinaryUpload(file.filepath);
+        uploadResponses.push({ providerId: public_id });
 
         const mediaFile = await tx.mediaFile.create({
           data: {
             post: { connect: { id: post.id } },
-            providerId: uploadResponse.public_id,
-            url: uploadResponse.secure_url,
+            providerId: public_id,
+            url: `v${version}/${public_id}.${format}`,
           },
         });
         mediaFiles.push({ id: mediaFile.id });

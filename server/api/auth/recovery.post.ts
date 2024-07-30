@@ -16,6 +16,4 @@ export default defineEventHandler(async (event) => {
       message: 'error/not-found',
     });
   }
-
-  event.node.res.statusCode = 200;
 });

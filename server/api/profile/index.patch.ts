@@ -1,9 +1,8 @@
 import { profileSchema } from '~/schemas/profile';
 import type { FilesData } from '~/server/database/profile';
 import { updateProfile } from '~/server/database/profile';
-import { cloudinaryUpload } from '~/server/cloudinary/index';
+import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
 
-// TODO: refactor
 export default defineEventHandler(async (event) => {
   const { fields, files } = await parseForm(event.node.req);
 
@@ -11,9 +10,7 @@ export default defineEventHandler(async (event) => {
 
   const fieldsEntries = Object.entries(fields);
   for (const [name, field] of fieldsEntries) {
-    if (field) {
-      formattedFields[name] = field.join(' ');
-    }
+    formattedFields[name] = field!.join(' ');
   }
 
   const parseResult = profileSchema.safeParse(formattedFields);
@@ -29,24 +26,40 @@ export default defineEventHandler(async (event) => {
   }
 
   const filesData: FilesData = {};
-  if (files.image) {
-    const image = files.image[0];
-    const uploadResponse = await cloudinaryUpload(image.filepath);
+  try {
+    if (files.image) {
+      const image = files.image[0];
+      const { version, public_id, format } = await cloudinaryUpload(image.filepath);
 
-    filesData.imageUrl = uploadResponse.url;
-    filesData.imageProviderId = uploadResponse.public_id;
+      filesData.imageUrl = `v${version}/${public_id}.${format}`;
+      filesData.imageProviderId = public_id;
+    }
+
+    if (files.banner) {
+      const banner = files.banner[0];
+      const { version, public_id, format } = await cloudinaryUpload(banner.filepath);
+
+      filesData.bannerUrl = `v${version}/${public_id}.${format}`;
+      filesData.bannerProviderId = public_id;
+    }
+
+    const profileData = Object.assign(parseResult.data, filesData);
+
+    const userId = event.context.userId;
+    return updateProfile(userId, profileData);
   }
+  catch {
+    if (filesData.imageProviderId) {
+      await cloudinaryDestroy(filesData.imageProviderId);
+    }
+    if (filesData.bannerProviderId) {
+      await cloudinaryDestroy(filesData.bannerProviderId);
+    }
 
-  if (files.banner) {
-    const banner = files.banner[0];
-    const uploadResponse = await cloudinaryUpload(banner.filepath);
-
-    filesData.bannerUrl = uploadResponse.url;
-    filesData.bannerProviderId = uploadResponse.public_id;
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Internal Server Error',
+      message: 'error/unknown',
+    });
   }
-
-  const profileData = Object.assign(parseResult.data, filesData);
-
-  const userId = event.context.userId;
-  return updateProfile(userId, profileData);
 });

@@ -1,18 +1,28 @@
 <script setup lang="ts">
   defineProps<{
     src: string | null;
+    px: number;
   }>();
 </script>
 
 <template>
   <NuxtImg
     v-if="src"
+    provider="cloudinary"
+    fit="fill"
     :src="src"
+    :width="px"
+    :height="px"
+    :style="{ width: `${px}px`, height: `${px}px` }"
+    :modifiers="{ roundCorner: 'max', gravity: 'faceCenter' }"
+    class="rounded-full object-cover"
     alt="user image"
-    class="aspect-square rounded-full object-cover dark:border dark:border-gray-800"
   />
-  <div
+  <NuxtImg
     v-else
-    class="rounded-full bg-neutral-200 size-full dark:bg-dim dark:border dark:border-gray-800"
+    :width="px"
+    :height="px"
+    src="/placeholders/user-image.png"
+    class="rounded-full object-cover"
   />
 </template>

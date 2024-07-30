@@ -68,7 +68,7 @@
 
 <template>
   <section class="flex gap-x-4 p-3">
-    <UserImage :src="currentUser.profile.imageUrl" class="size-12" />
+    <UserImage :src="currentUser.profile.imageUrl" :px="48" />
     <form class="flex w-full flex-col">
       <Textarea
         id="new-post-text"

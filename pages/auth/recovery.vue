@@ -2,6 +2,10 @@
   definePageMeta({
     layout: 'auth',
   });
+
+  useSeoMeta({
+    title: 'Password recovery',
+  });
 </script>
 
 <template>

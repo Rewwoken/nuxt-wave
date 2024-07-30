@@ -19,7 +19,7 @@
     class="mt-8 flex items-center gap-x-2 rounded-full xl:p-2 xl:pr-3 xl:hover:bg-gray-500/10"
     @click="toggle"
   >
-    <UserImage :src="currentUser.profile.imageUrl" class="size-11" />
+    <UserImage :src="currentUser.profile.imageUrl" :px="44" />
     <div class="hidden flex-col items-start gap-y-0.5 xl:flex">
       <span class="text-left font-bold leading-4 line-clamp-1">{{ currentUser.profile.name }}</span>
       <span class="text-sm leading-4 text-neutral-500">@{{ currentUser.username }}</span>

@@ -34,6 +34,4 @@ export default defineEventHandler(async (event) => {
 
   const verificationCode = await createVerificationCode(newUser.id);
   await sendVerificationEmail(newUser.email, newUser.id, verificationCode.value);
-
-  event.node.res.statusCode = 201;
 });

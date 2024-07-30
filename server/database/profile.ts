@@ -13,6 +13,10 @@ export async function updateProfile(userId: string, data: ProfileSchema & FilesD
   if (data.imageUrl || data.bannerUrl) {
     const profile = await prisma.profile.findUniqueOrThrow({
       where: { userId },
+      select: {
+        imageProviderId: true,
+        bannerProviderId: true,
+      },
     });
 
     if (data.imageUrl && profile.imageProviderId) {

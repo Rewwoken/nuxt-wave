@@ -2,17 +2,25 @@
   const { theme } = useTheme();
 
   useHead({
-    title: 'NuxtSocial',
-    meta: [{ name: 'description', content: 'A social media website.' }],
     bodyAttrs: {
       class: theme,
     },
+  });
+
+  useSeoMeta({
+    titleTemplate: (titleChunk) => {
+      return titleChunk ? `${titleChunk} / Wave` : 'Wave';
+    },
+    // TODO: add ogImage
+    ogTitle: 'Wave - Dive into the Next Generation of Social Media',
+    description: 'A social media app that connects people worldwide, providing new opportunities for communication and information sharing.',
+    ogDescription: 'Wave is a revolutionary social media app offering innovative features and an enhanced user experience.',
   });
 </script>
 
 <template>
   <div
-    class="min-h-screen bg-white dark:bg-dim dark:text-white"
+    class="bg-white min-h-dvh dark:bg-dim dark:text-white"
     :style="{ 'font-family': 'Inter' }"
   >
     <NuxtLayout>

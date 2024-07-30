@@ -7,11 +7,12 @@ export default defineEventHandler(async (event) => {
   }).parse);
 
   const { fields, files } = await parseForm(event.node.req);
+  const text = fields.text ? fields.text.join(' ') : '';
 
   const userId = event.context.userId;
   try {
     event.node.res.statusCode = 201;
-    return await createPost(userId, query.replyToId, fields, files);
+    return await createPost(userId, query.replyToId, text, files);
   }
   catch {
     throw createError({

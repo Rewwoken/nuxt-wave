@@ -30,6 +30,11 @@ export default defineNuxtConfig({
     '@vee-validate/nuxt',
     '@nuxt/image',
   ],
+  image: {
+    cloudinary: {
+      baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
+    },
+  },
   primevue: {
     options: {
       theme: {

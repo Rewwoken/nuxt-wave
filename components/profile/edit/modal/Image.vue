@@ -25,7 +25,8 @@
     <div class="absolute bottom-10 ml-10 flex items-center justify-center">
       <UserImage
         :src="image"
-        class="!size-32 border-white border-2"
+        :px="128"
+        class="border-2 border-white dark:border-dim"
       />
       <ProfileEditModalFileButton @on-click="onClick" />
     </div>

@@ -1,5 +1,6 @@
 import type { H3Event } from 'h3';
 
+// Potential improvement?: move middleware to onRequest in protected routes, rather than all
 export default defineEventHandler(async (event) => {
   if (!event.path.startsWith('/api')
     || event.path.startsWith('/api/auth')

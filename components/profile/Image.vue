@@ -14,7 +14,8 @@
   <div class="absolute flex select-none justify-center">
     <UserImage
       :src="user.profile.imageUrl"
-      class="cursor-pointer rounded-full border-white border-[2px] size-36 dark:border-dim"
+      :px="144"
+      class="cursor-pointer rounded-full border-white border-[2px] dark:border-dim"
       @click="showModal"
     />
   </div>
@@ -27,6 +28,6 @@
     :draggable="false"
     modal
   >
-    <UserImage :src="user.profile.imageUrl" class="size-96" />
+    <UserImage :src="user.profile.imageUrl" :px="384" />
   </Dialog>
 </template>

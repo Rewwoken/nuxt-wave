@@ -42,6 +42,4 @@ export default defineEventHandler(async (event) => {
   const { accessToken, refreshToken } = issueTokens(user.id);
   setRefreshToken(event, refreshToken);
   setAccessToken(event, accessToken);
-
-  event.node.res.statusCode = 200;
 });
