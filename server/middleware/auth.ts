@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3';
 
-// Potential improvement?: move middleware to onRequest in protected routes, rather than all
+// ? Potential improvement: move middleware to onRequest in protected routes, rather than all
 export default defineEventHandler(async (event) => {
   if (!event.path.startsWith('/api')
     || event.path.startsWith('/api/auth')
@@ -9,13 +9,16 @@ export default defineEventHandler(async (event) => {
   ) {
     return void 0;
   }
-  const cookies = parseCookies(event);
 
-  const isAccessValid = verifyToken(cookies.accessToken);
+  const authorizationHeader = getRequestHeader(event, 'authorization');
+  const accessToken = authorizationHeader?.split(' ')[1];
+
+  const isAccessValid = verifyToken(accessToken);
   if (isAccessValid) {
-    return void handleVerifiedToken(event, cookies.accessToken);
+    return void handleVerifiedToken(event, accessToken!);
   }
 
+  const cookies = parseCookies(event);
   const isRefreshValid = verifyToken(cookies.refreshToken);
   if (!isRefreshValid) {
     throw createError({
@@ -26,12 +29,10 @@ export default defineEventHandler(async (event) => {
   }
 
   const { id } = decodeToken(cookies.refreshToken);
-  const { accessToken, refreshToken } = issueTokens(id);
+  const newAccessToken = issueAccessToken(id);
 
-  setAccessToken(event, accessToken);
-  setRefreshToken(event, refreshToken);
-
-  handleVerifiedToken(event, accessToken);
+  setAccessToken(event, newAccessToken);
+  handleVerifiedToken(event, newAccessToken);
 });
 
 function handleVerifiedToken(event: H3Event, value: string) {

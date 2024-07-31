@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import type { PrismaUser } from '~/types/user.types';
+  import type { User } from '~/types/api.types';
 
-  const user = inject('user') as PrismaUser;
+  const user = inject('user') as User;
 
   const { $api } = useNuxtApp();
   const { data } = await useAsyncData('is-following', () => {

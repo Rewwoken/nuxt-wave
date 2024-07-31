@@ -1,12 +1,12 @@
-import type { PrismaUser } from '~/types/user.types';
+import type { User } from '~/types/api.types';
 
 export default () => {
-  const currentUser = useState<PrismaUser>('current-user');
+  const currentUser = useState<User>('current-user');
 
   // Called once in ~/layouts/default.vue
   async function fetchCurrentUser() {
     const { $api } = useNuxtApp();
-    currentUser.value = await $api<PrismaUser>('/api/me');
+    currentUser.value = await $api<User>('/api/me');
   }
 
   return {

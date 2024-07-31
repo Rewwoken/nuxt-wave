@@ -4,7 +4,7 @@
 
 <template>
   <NuxtLink
-    to="https://github.com/Rewwoken/nuxt-social"
+    to="https://github.com/Rewwoken/nuxt-wave"
     target="_blank"
     class="select-none text-sm text-neutral-500 hover:underline"
   >
@@ -18,7 +18,7 @@
     &copy; 2024 Rewwoken
   </NuxtLink>
   <NuxtLink
-    to="https://github.com/Rewwoken/nuxt-social/blob/main/LICENSE"
+    to="https://github.com/Rewwoken/nuxt-wave/blob/main/LICENSE"
     target="_blank"
     class="select-none text-sm text-neutral-500 hover:underline"
   >

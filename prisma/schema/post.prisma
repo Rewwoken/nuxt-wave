@@ -1,0 +1,52 @@
+model Post {
+  id        String   @id @default(uuid()) @map("post_id")
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user       User        @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade)
+  userId     String      @map("user_id")
+
+  mediaFiles MediaFile[]
+	
+  reposts    Repost[]
+
+  // Self-relation for parent-child relationship
+  parentPost   Post?   @relation("PostReplies", fields: [parentPostId], references: [id])
+  parentPostId String? @map("parent_post_id")
+  replies      Post[]  @relation("PostReplies")
+
+	// social.prisma
+  likedByUsersRelations PostLikeRelation[] @relation("LikedPost")
+
+  @@map("post")
+}
+
+model MediaFile {
+  id         String   @id @default(uuid()) @map("media_file_id")
+  url        String
+  providerId String   @map("provider_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // No cascade deletion, should be deleted manually with deleting from Cloudinary
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String @map("post_id")
+
+  @@map("media_file")
+}
+
+model Repost {
+  id        String   @id @default(uuid()) @map("repost_id")
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  @@map("repost")
+}

@@ -2,7 +2,7 @@
   const { fetchCurrentUser } = useCurrentUser();
   await callOnce(fetchCurrentUser);
 
-  const { data: count } = await useApi<number>('/api/notifications/count', {
+  const { data: count } = await useAPI('/api/notifications/count', {
     method: 'GET',
   });
   useSeoMeta({

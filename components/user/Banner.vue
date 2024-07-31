@@ -1,20 +1,27 @@
 <script setup lang="ts">
   defineProps<{
     src: string | null;
+    height: number;
+    width: number;
   }>();
 </script>
 
 <template>
-  <div class="h-48 w-full overflow-hidden border-y border-gray-200 dark:border-gray-800">
-    <NuxtImg
-      v-if="src"
-      :src="src"
-      alt="user image"
-      class="object-cover size-full"
-    />
-    <div
-      v-else
-      class="bg-neutral-200 size-full dark:bg-neutral-200/10"
-    />
-  </div>
+  <NuxtImg
+    v-if="src"
+    provider="cloudinary"
+    fit="fill"
+    :src="src"
+    :height="height"
+    :width="width"
+    :modifiers="{ gravity: 'faceCenter' }"
+    :style="{ height: `${height}px`, width: `${width}px` }"
+    class="object-cover"
+    alt="user image"
+  />
+  <div
+    v-else
+    class="bg-neutral-200 dark:bg-neutral-200/10"
+    :style="{ height: `${height}px`, width: `${width}px` }"
+  />
 </template>

@@ -1,9 +1,11 @@
 /* eslint-disable unused-imports/no-unused-vars */
 export default defineNuxtPlugin((nuxtApp) => {
-  const headers = useRequestHeaders(['cookie']);
+  const accessToken = useCookie('accessToken');
+  const headers = useRequestHeaders(['authorization', 'cookie']);
 
   const api = $fetch.create({
     onRequest: ({ request, options, error }) => {
+      headers.authorization = `Bearer ${accessToken.value}`;
       options.headers = headers;
     },
     onResponseError: async ({ response }) => {

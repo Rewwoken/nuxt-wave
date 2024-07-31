@@ -24,5 +24,6 @@
     :height="px"
     src="/placeholders/user-image.png"
     class="rounded-full object-cover"
+    :style="{ width: `${px}px`, height: `${px}px` }"
   />
 </template>

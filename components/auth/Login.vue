@@ -8,41 +8,36 @@
   const [password] = defineField('password');
   const hasErrors = computed(() => Object.keys(errors.value).length);
 
-  const serverError = ref<string | null>(null);
+  const { handleFormRequest, serverError } = useHandleForm();
 
   const toast = useToast();
+  const { $api } = useNuxtApp();
+
   const onSubmit = handleSubmit(async (values) => {
-    serverError.value = null;
-    const { error } = await useFetch('/api/auth/login', {
-      method: 'POST',
-      body: values,
-    });
+    await handleFormRequest(
+      () => $api('/api/auth/login', {
+        method: 'POST',
+        body: values,
+      }),
+      async () => {
+        await navigateTo('/home', {
+          replace: true,
+        });
 
-    if (error.value) {
-      if (error.value.data.message === 'error/credentials') {
-        serverError.value = 'Invalid credentials!';
-      }
-      else if (error.value.data.message === 'error/not-verified') {
-        serverError.value = 'Email is not verified!';
-      }
-      else if (error.value.data.message === 'error/body') {
-        serverError.value = 'Invalid data!';
-      }
-      else {
-        serverError.value = 'Unexpected error!';
-      }
-
-      return null;
-    }
-
-    toast.add({
-      severity: 'info',
-      summary: 'Successfully logged in!',
-      detail: `You logged in as @${values.username}.`,
-      life: 3000,
-    });
-
-    await navigateTo('/home');
+        toast.add({
+          severity: 'info',
+          summary: 'Successfully logged in!',
+          detail: `You logged in as @${values.username}.`,
+          life: 3000,
+        });
+      },
+      {
+        'error/credentials': 'Invalid credentials!',
+        'error/not-verified': 'Email is not verified!',
+        'error/body': 'Invalid data!',
+        'error/unknown': 'Unexpected error!',
+      },
+    );
   });
 </script>
 
@@ -58,7 +53,7 @@
       <InputText
         v-model="username"
         type="text"
-        autocomplete="new-password"
+        autocomplete="username"
         placeholder="Username"
         aria-describedby="username-help"
         :invalid="errors.username"
@@ -77,7 +72,7 @@
       <InputText
         v-model="password"
         type="password"
-        autocomplete="new-password"
+        autocomplete="current-password"
         placeholder="Password"
         aria-describedby="password-help"
         :invalid="errors.password"

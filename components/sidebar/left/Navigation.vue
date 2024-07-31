@@ -37,6 +37,7 @@
       pt:label:class="!text-lg !font-semibold !text-white"
       rounded
     />
+    <!-- TODO: add post creation modal -->
     <Button
       size="large"
       icon="pi pi-pen-to-square"

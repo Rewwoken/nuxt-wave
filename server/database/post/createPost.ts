@@ -2,46 +2,21 @@ import type formidable from 'formidable';
 import { prisma } from '~/server/database';
 import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
 
-export async function getPost(id: string | undefined) {
-  return prisma.post.findUnique({
-    where: { id },
-    select: {
-      id: true,
-      mediaFiles: {
-        select: {
-          url: true,
-        },
-      },
-      replyTo: {
-        select: {
-          id: true,
-          user: {
-            select: {
-              id: true,
-              username: true,
-            },
-          },
-        },
-      },
-    },
-  });
-}
-
 export async function createPost(
   userId: string,
-  replyToId: string | undefined,
+  parentPostId: string | undefined,
   text: string,
   files: formidable.Files<string>,
 ) {
   return prisma.$transaction(async (tx) => {
-    const replyTo = { connect: { id: replyToId } };
+		const parentPost = { connect: { id: parentPostId } }
 
     const post = await tx.post.create({
       data: {
         user: {
           connect: { id: userId },
-        },
-        replyTo: replyToId ? replyTo : undefined,
+				},
+				parentPost: parentPostId ? parentPost : undefined,
         text,
       },
     });

@@ -26,7 +26,7 @@
       <UserImage
         :src="image"
         :px="128"
-        class="border-2 border-white dark:border-dim"
+        class="border-white border-[3px] bg:white dark:bg-dim dark:border-dim"
       />
       <ProfileEditModalFileButton @on-click="onClick" />
     </div>

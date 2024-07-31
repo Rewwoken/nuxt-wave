@@ -1,6 +1,6 @@
 import { prisma } from '~/server/database';
 
-export async function createMediaFile(
+export function createMediaFile(
   userId: string,
   postId: string,
   mediaFileData: any,

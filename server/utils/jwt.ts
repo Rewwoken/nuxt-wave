@@ -1,32 +1,44 @@
 import jwt from 'jsonwebtoken';
-
 import type { H3Event } from 'h3';
-import { addDays, addMinutes } from 'date-fns';
+import { addMinutes, addMonths } from 'date-fns';
 
 interface Payload {
   id: string;
 }
 
-export function issueTokens(id: string) {
+export function issueAccessToken(id: string) {
   const config = useRuntimeConfig();
   const payload: Payload = { id };
 
-  const accessToken = jwt.sign(payload, config.jwtSecret, {
-    expiresIn: '10m',
+  return jwt.sign(payload, config.jwtSecret, {
+    expiresIn: '10m', // 10 minutes
   });
-  const refreshToken = jwt.sign(payload, config.jwtSecret, {
-    expiresIn: '30d',
-  });
-
-  return { accessToken, refreshToken };
 }
 
-export function verifyToken(value: string) {
+export function issueRefreshToken(id: string) {
   const config = useRuntimeConfig();
+  const payload: Payload = { id };
 
+  return jwt.sign(payload, config.jwtSecret, {
+    expiresIn: '184d', // 6 months
+  });
+}
+
+export function issueTokens(id: string) {
+  return {
+    accessToken: issueAccessToken(id),
+    refreshToken: issueRefreshToken(id),
+  };
+}
+
+export function verifyToken(value: string | undefined) {
+  if (!value) {
+    return false;
+  }
+
+  const config = useRuntimeConfig();
   try {
     jwt.verify(value, config.jwtSecret);
-
     return true;
   }
   catch {
@@ -38,22 +50,24 @@ export function decodeToken(value: string) {
   return jwt.decode(value) as Payload;
 }
 
-export function setRefreshToken(event: H3Event, value: string) {
-  const expires = addDays(new Date(), 30);
-
-  setCookie(event, 'refreshToken', value, {
-    httpOnly: true,
-    sameSite: 'strict',
-    expires,
-  });
-}
-
 export function setAccessToken(event: H3Event, value: string) {
   const expires = addMinutes(new Date(), 10);
 
   setCookie(event, 'accessToken', value, {
+    httpOnly: false,
+    sameSite: 'lax',
+    secure: true,
+    expires,
+  });
+}
+
+export function setRefreshToken(event: H3Event, value: string) {
+  const expires = addMonths(new Date(), 6);
+
+  setCookie(event, 'refreshToken', value, {
     httpOnly: true,
-    sameSite: 'strict',
+    sameSite: 'lax',
+    secure: true,
     expires,
   });
 }

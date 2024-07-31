@@ -1,23 +1,23 @@
 <script setup lang="ts">
-  import type { PrismaUser } from '~/types/user.types';
+  import { format } from 'date-fns';
+  import type { User } from '~/types/api.types';
 
   const props = defineProps<{
-    user: PrismaUser;
+    user: User;
   }>();
 
-  const dtf = Intl.DateTimeFormat('en', {
-    dateStyle: 'long',
-  });
+  const registrationDate = format(props.user.createdAt, 'MMMM, yyyy');
 
+  const route = useRoute();
   const { currentUser } = useCurrentUser();
-  const isCurrentUser = useRoute().path === `/${currentUser.username}`;
+  const isCurrentUser = route.path === `/${currentUser.username}`;
 
   provide('user', props.user);
 </script>
 
 <template>
   <ProfileBack />
-  <UserBanner :src="user.profile.bannerUrl" />
+  <UserBanner :src="user.profile.bannerUrl" :height="195" :width="586" />
   <div class="mt-2 flex items-end px-3">
     <ProfileImage />
     <ProfileEdit v-if="isCurrentUser" />
@@ -51,9 +51,10 @@
       </div>
       <div class="flex items-center gap-x-1">
         <i class="pi pi-calendar" />
-        <span>Registration: {{ dtf.format(new Date(user.createdAt)) }}</span>
+        <span>Registration: {{ registrationDate }}</span>
       </div>
     </div>
   </div>
-<!--  <ProfileSelection /> -->
+  <!--  <ProfileSelection /> -->
+  <!-- Posts -->
 </template>

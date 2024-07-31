@@ -4,45 +4,45 @@ import { prisma } from '~/server/database';
 
 // TODO: handle expiration date
 export async function createRecoveryCode(userId: string) {
-return prisma.$transaction(async (tx) => {
-  const prevRecoveryCode = await prisma.recoveryCode.findUnique({
-    where: { userId },
-  });
-  if (prevRecoveryCode) {
-    const isCodeExpired = isAfter(new Date(), prevRecoveryCode.expiresIn);
+  return prisma.$transaction(async (tx) => {
+    const prevRecoveryCode = await prisma.recoveryCode.findUnique({
+      where: { userId },
+    });
+    if (prevRecoveryCode) {
+      const isCodeExpired = isAfter(new Date(), prevRecoveryCode.expiresIn);
 
-    if (!isCodeExpired) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: 'Bad Request',
-        message: 'error/not-expired',
+      if (!isCodeExpired) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: 'Bad Request',
+          message: 'error/not-expired',
+        });
+      }
+
+      await tx.recoveryCode.delete({
+        where: { userId },
       });
     }
 
-    await tx.recoveryCode.delete({
-      where: { userId },
-    });
-  }
+    const randomCode = crypto.randomBytes(128).toString('hex');
+    const expiresIn = addMinutes(new Date(), 1);
 
-  const randomCode = crypto.randomBytes(128).toString('hex');
-  const expiresIn = addMinutes(new Date(), 1);
-
-  return tx.recoveryCode.create({
-    data: {
-      user: {
-        connect: { id: userId },
+    return tx.recoveryCode.create({
+      data: {
+        user: {
+          connect: { id: userId },
+        },
+        value: randomCode,
+        expiresIn,
       },
-      value: randomCode,
-      expiresIn,
-    },
-    select: {
-      value: true,
-    },
+      select: {
+        value: true,
+      },
+    });
   });
-});
 }
 
-export async function findRecoveryCodeByUserId(userId: string) {
+export function findRecoveryCodeByUserId(userId: string) {
   return prisma.recoveryCode.findUnique({
     where: { userId },
   });

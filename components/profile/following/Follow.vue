@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import type { PrismaUser } from '~/types/user.types';
+  import type { User } from '~/types/api.types';
 
   const emit = defineEmits<{
     (e: 'toggleFollow'): void;
   }>();
-  const user = inject('user') as PrismaUser;
+  const user = inject('user') as User;
 
   const toast = useToast();
   const { $api } = useNuxtApp();

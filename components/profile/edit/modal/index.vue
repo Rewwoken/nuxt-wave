@@ -14,8 +14,6 @@
   const [website] = defineField('website');
   const hasErrors = computed(() => Object.keys(errors.value).length);
 
-  const serverError = ref<string | null>(null);
-
   const files = reactive<{
     image?: File;
     banner?: File;
@@ -25,7 +23,11 @@
     files[key] = file;
   }
 
+  const { handleFormRequest } = useHandleForm();
+
   const toast = useToast();
+  const { $api } = useNuxtApp();
+
   const onSubmit = handleSubmit(async (values) => {
     const formData = new FormData();
 
@@ -33,58 +35,66 @@
     for (const [key, value] of textEntries) {
       formData.append(key, value);
     }
-
     if (files.image) {
       formData.append('image', files.image);
     }
-
     if (files.banner) {
       formData.append('banner', files.banner);
     }
 
-    const { error } = await useApi('/api/profile', {
-      method: 'PATCH',
-      body: formData,
-    });
+    await handleFormRequest(
+      () => $api('/api/profile', {
+        method: 'PATCH',
+        body: formData,
+      }),
+      () => {
+        toast.add({
+          severity: 'success',
+          summary: 'Profile has been successfully changed!',
+          detail: 'This may take some time, please update the page.',
+          life: 3000,
+        });
 
-    if (error.value) {
-      if (error.value.data.message === 'error/fields') {
-        serverError.value = 'Invalid fields.';
-      }
-      else {
-        serverError.value = 'Unexpected error, please try again later.';
-      }
-
-      toast.add({
-        severity: 'error',
-        summary: 'An error occurred during profile change!',
-        detail: serverError.value,
-        life: 3000,
-      });
-
-      return null;
-    }
-
-    toast.add({
-      severity: 'success',
-      summary: 'Profile has been successfully changed!',
-      detail: 'This may take some time, please update the page.',
-      life: 3000,
-    });
-
-    emit('closeModal');
+        emit('closeModal');
+      },
+      {
+        'error/fields': 'Invalid fields.',
+        'error/unknown': 'Unexpected error, please try again later.',
+      },
+      (message) => {
+        toast.add({
+          severity: 'error',
+          summary: 'An error occurred during profile change!',
+          detail: message,
+          life: 5000,
+        });
+      },
+    );
   });
 </script>
 
 <template>
-  <ProfileEditModalHeader
-    :is-pending="isSubmitting"
-    :has-errors="!!hasErrors"
-    @close-modal="$emit('closeModal')"
-    @on-submit="onSubmit"
-  />
+  <header class="mb-2 flex justify-between px-2 pt-3">
+    <Button
+      icon="pi pi-times"
+      severity="contrast"
+      pt:root:class="!border-0"
+      outlined
+      rounded
+      @click="$emit('closeModal')"
+    />
+    <!-- TODO: implement file deleting -->
+    <ProfileEditModalSubmit
+      :is-pending="isSubmitting"
+      :has-errors="!!hasErrors"
+      @on-submit="onSubmit"
+    />
+    <!-- @delete-banner="deleteBanner" -->
+    <!-- @delete-image="deleteImage" -->
+  </header>
   <ProfileEditModalBanner @on-file="onFile" />
   <ProfileEditModalImage @on-file="onFile" />
+  <!-- TODO: handle empty fields case -->
   <form
     autocomplete="off"
     class="flex flex-col gap-y-8 p-3"
@@ -95,7 +105,7 @@
         v-model="name"
         type="text"
         size="large"
-        autocomplete="new-password"
+        autocomplete="name"
         placeholder="Name"
         aria-describedby="name-help"
         :maxlength="50"
@@ -114,7 +124,7 @@
     <div class="relative flex flex-col">
       <Textarea
         v-model="bio"
-        autocomplete="new-password"
+        autocomplete="off"
         placeholder="Bio"
         aria-describedby="bio-help"
         :maxlength="160"
@@ -136,7 +146,7 @@
         v-model="location"
         type="text"
         size="large"
-        autocomplete="new-password"
+        autocomplete="country-name"
         placeholder="Location"
         aria-describedby="location-help"
         :maxlength="30"
@@ -157,7 +167,7 @@
         v-model="website"
         type="text"
         size="large"
-        autocomplete="new-password"
+        autocomplete="url"
         placeholder="Website"
         aria-describedby="website-help"
         :maxlength="50"

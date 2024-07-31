@@ -3,7 +3,7 @@ import { createPost } from '~/server/database/post';
 
 export default defineEventHandler(async (event) => {
   const query = await getValidatedQuery(event, z.object({
-    replyToId: z.string().optional(),
+    parentPostId: z.string().optional(),
   }).parse);
 
   const { fields, files } = await parseForm(event.node.req);
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   const userId = event.context.userId;
   try {
     event.node.res.statusCode = 201;
-    return await createPost(userId, query.replyToId, text, files);
+    return await createPost(userId, query.parentPostId, text, files);
   }
   catch {
     throw createError({

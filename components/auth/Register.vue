@@ -13,40 +13,33 @@
   const [password] = defineField('password');
   const hasErrors = computed(() => Object.keys(errors.value).length);
 
-  const serverError = ref<string | null>(null);
+  const { handleFormRequest, serverError } = useHandleForm();
 
   const toast = useToast();
+  const { $api } = useNuxtApp();
+
   const onSubmit = handleSubmit(async (values) => {
-    serverError.value = null;
-    const { error } = await useFetch('/api/auth/register', {
-      method: 'POST',
-      body: values,
-    });
+    await handleFormRequest(
+      () => $api('/api/auth/register', {
+        method: 'POST',
+        body: values,
+      }),
+      async () => {
+        toast.add({
+          severity: 'info',
+          summary: 'An email has been sent to verify your email address.',
+          detail: 'Please, check your mailbox and follow the link in the message within 15 minutes before it expires.',
+        });
 
-    if (error.value) {
-      if (error.value.data.message === 'error/user-exists') {
-        serverError.value = 'User already exists!';
-      }
-      else if (error.value.data.message === 'error/not-expired') {
-        serverError.value = 'Previous code has not expired!';
-      }
-      else if (error.value.data.message === 'error/body') {
-        serverError.value = 'Invalid data!';
-      }
-      else {
-        serverError.value = 'Unexpected error!';
-      }
-
-      return null;
-    }
-
-    toast.add({
-      severity: 'info',
-      summary: 'An email has been sent to verify your email address.',
-      detail: 'Please, check your mailbox and follow the link in the message within 15 minutes before it expires.',
-    });
-
-    emit('closeModal');
+        emit('closeModal');
+      },
+      {
+        'error/user-exists': 'User already exists!',
+        'error/not-expired': 'Previous code has not expired!',
+        'error/body': 'Invalid data!',
+        'error/unknown': 'Unexpected error!',
+      },
+    );
   });
 </script>
 
@@ -62,7 +55,7 @@
       <InputText
         v-model="email"
         type="text"
-        autocomplete="new-password"
+        autocomplete="email"
         placeholder="Email"
         aria-describedby="email-help"
         :invalid="errors.email"
@@ -78,7 +71,7 @@
       <InputText
         v-model="username"
         type="text"
-        autocomplete="new-password"
+        autocomplete="off"
         placeholder="Username"
         aria-describedby="username-help"
         :invalid="errors.username"
@@ -97,7 +90,7 @@
       <InputText
         v-model="password"
         type="password"
-        autocomplete="new-password"
+        autocomplete="off"
         placeholder="Password"
         aria-describedby="password-help"
         :invalid="errors.password"

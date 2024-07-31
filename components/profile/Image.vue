@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { PrismaUser } from '~/types/user.types';
+  import type { User } from '~/types/api.types';
 
   const visible = ref(false);
 
@@ -7,15 +7,15 @@
     visible.value = true;
   }
 
-  const user = inject('user') as PrismaUser;
+  const user = inject('user') as User;
 </script>
 
 <template>
   <div class="absolute flex select-none justify-center">
     <UserImage
       :src="user.profile.imageUrl"
-      :px="144"
-      class="cursor-pointer rounded-full border-white border-[2px] dark:border-dim"
+      :px="140"
+      class="cursor-pointer border-white border-[3px] bg:white dark:bg-dim dark:border-dim"
       @click="showModal"
     />
   </div>
