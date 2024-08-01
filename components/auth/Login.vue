@@ -6,7 +6,7 @@
   });
   const [username] = defineField('username');
   const [password] = defineField('password');
-  const hasErrors = computed(() => Object.keys(errors.value).length);
+  const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
   const { handleFormRequest, serverError } = useHandleForm();
 
@@ -56,7 +56,7 @@
         autocomplete="username"
         placeholder="Username"
         aria-describedby="username-help"
-        :invalid="errors.username"
+        :invalid="!!!!errors.username"
         autofocus
       />
     </IconField>
@@ -75,7 +75,7 @@
         autocomplete="current-password"
         placeholder="Password"
         aria-describedby="password-help"
-        :invalid="errors.password"
+        :invalid="!!!!errors.password"
       />
     </IconField>
     <small

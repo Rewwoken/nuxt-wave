@@ -8,8 +8,10 @@ cloudinary.config({
   secure: true,
 });
 
-export function cloudinaryUpload(source: string) {
-  return cloudinary.uploader.upload(source);
+export function cloudinaryUpload(path: string, type: 'image' | 'video') {
+  return cloudinary.uploader.upload(path, {
+    resource_type: type,
+  });
 }
 
 export function cloudinaryDestroy(publicId: string) {

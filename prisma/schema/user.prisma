@@ -1,4 +1,3 @@
-
 model User {
   id         String    @id @default(uuid()) @map("user_id")
   username   String    @unique
@@ -14,32 +13,32 @@ model User {
   verificationCode VerificationCode?
   recoveryCode     RecoveryCode?
 
-	// post.prisma
-  likesPostsRelations PostLikeRelation[] @relation("Initiator") // PostLikeRelation where this user is initiator
+  // post.prisma
+  likesPostsRelations PostLikeRelation[] @relation("Initiator") // PostLikeRelations where the user is initiator
 
   // social.prisma
-	followsRelations    FollowRelation[]   @relation("Initiator") // FollowRelations where this user is initiator
-  followedByRelations FollowRelation[]   @relation("Followed") // FollowRelations where this user is followed
+  followsRelations    FollowRelation[] @relation("Initiator") // FollowRelations where the user is initiator
+  followedByRelations FollowRelation[] @relation("Followed") // FollowRelations where the user is followed
 
   // social.prisma
-  blocksRelations     BlockRelation[]    @relation("Initiator") // BlockRelations where this user is initiator
-  blockedByRelations  BlockRelation[]    @relation("Blocked") // BlockRelations where this user is blocked
+  blocksRelations    BlockRelation[] @relation("Initiator") // BlockRelations where the user is initiator
+  blockedByRelations BlockRelation[] @relation("Blocked") // BlockRelations where the user is blocked
 
   @@map("user")
 }
 
 model Profile {
-  id               String   @id @default(uuid()) @map("profile_id")
-  name             String
-  bio              String?
-  location         String?
-  website          String?
-  imageUrl         String?  @map("image_url")
-  imageProviderId  String?  @map("image_provider_id")
-  bannerUrl        String?  @map("banner_url")
-  bannerProviderId String?  @map("banner_provider_id")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid()) @map("profile_id")
+  name           String
+  bio            String?
+  location       String?
+  website        String?
+  imageUrl       String?  @map("image_url")
+  imagePublicId  String?  @map("image_provider_id")
+  bannerUrl      String?  @map("banner_url")
+  bannerPublicId String?  @map("banner_provider_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique @map("user_id")

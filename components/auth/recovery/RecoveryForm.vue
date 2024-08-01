@@ -6,7 +6,7 @@
   });
   const [password] = defineField('password');
   const [confirmPassword] = defineField('confirmPassword');
-  const hasErrors = computed(() => Object.keys(errors.value).length);
+  const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
   const serverError = ref<string | null>(null);
 
@@ -59,7 +59,7 @@
         autocomplete="new-password"
         placeholder="Pasword"
         aria-describedby="password-help"
-        :invalid="errors.password"
+        :invalid="!!errors.password"
         autofocus
         fluid
       />
@@ -79,7 +79,7 @@
         autocomplete="new-password"
         placeholder="Confirm pasword"
         aria-describedby="password-help"
-        :invalid="errors.confirmPassword"
+        :invalid="!!errors.confirmPassword"
         autofocus
         fluid
       />

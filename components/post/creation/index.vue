@@ -1,75 +1,83 @@
-<!-- TODO: implement video upload -->
-<!-- TODO: handle replyToId -->
 <script setup lang="ts">
+  import { createPostSchema } from '~/schemas/createPost';
+
+  interface MediaItem {
+    file: File;
+    source: string;
+  }
+
   const { currentUser } = useCurrentUser();
+  const items = ref<MediaItem[]>([]);
 
-  const text = ref('');
-  const images = reactive<File[]>([]);
-  const imageSources = reactive<string[]>([]);
-  const isPending = ref<boolean>(false);
-
-  function resetForm() {
-    text.value = '';
-    images.splice(0);
-    imageSources.splice(0);
+  function addMedia(file: File, source: string) {
+    items.value.push({ file, source });
   }
 
-  function onImage(file: File, source: string) {
-    images.push(file);
-    imageSources.push(source);
+  function deleteMedia(index: number) {
+    items.value.splice(index, 1);
   }
 
-  function deleteImage(index: number) {
-    images.splice(index, 1);
-    imageSources.splice(index, 1);
-  }
+  const { handleSubmit, errors, defineField, isSubmitting, resetForm } = useForm({
+    validationSchema: toTypedSchema(createPostSchema),
+  });
+  const [text] = defineField('text');
+  const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
+  const { handleFormRequest } = useHandleForm();
+
+  const { $api } = useNuxtApp();
+  const route = useRoute();
   const toast = useToast();
 
-  async function onSubmit() {
-    isPending.value = true;
+  const onSubmit = handleSubmit(async (values) => {
     const formData = new FormData();
 
-    formData.append('text', text.value);
-
-    images.forEach((file, index) => {
-      formData.append(`media/${index + 1}`, file);
+    formData.append('text', values.text);
+    items.value.forEach((media, index) => {
+      formData.append(`media/${index + 1}`, media.file);
     });
 
-    const { $api } = useNuxtApp();
-    try {
-      await $api('/api/post', {
+    await handleFormRequest(
+      // @ts-expect-error | Excessive stack depth comparing types error, but actually works
+      () => $api('/api/post', {
         method: 'POST',
         body: formData,
-      });
+        params: {
+          parentPostId: route.params.parentPostId,
+        },
+      }),
+      async () => {
+        items.value = [];
+        resetForm();
 
-      resetForm();
-      toast.add({
-        severity: 'success',
-        summary: 'Successfully created new post!',
-        detail: 'Post has been created, please refresh the page.',
-        life: 5000,
-      });
-    }
-    catch {
-      // TODO: specify errors
-      toast.add({
-        severity: 'error',
-        summary: 'Error creating new post!',
-        detail: 'An error occurred during post creation. Please, try again later.',
-        life: 5000,
-      });
-    }
-    finally {
-      isPending.value = false;
-    }
-  }
+        toast.add({
+          severity: 'info',
+          summary: 'Success!',
+          detail: 'Post has been successfully created.',
+          life: 3000,
+        });
+      },
+      {
+        'error/size': 'File size is too much! Allow for a maximum of 15 MB.',
+        'error/invalid-type': 'Invalid file type!',
+        'error/unknown': 'Unexpected error!',
+      },
+      (message) => {
+        toast.add({
+          severity: 'error',
+          summary: 'Error creating new post!',
+          detail: message,
+          life: 3000,
+        });
+      },
+    );
+  });
 </script>
 
 <template>
-  <section class="flex gap-x-4 p-3">
+  <section class="flex p-3 gap-x-4">
     <UserImage :src="currentUser.profile.imageUrl" :px="48" />
-    <form class="flex w-full flex-col">
+    <form class="flex flex-col w-full">
       <Textarea
         id="new-post-text"
         v-model="text"
@@ -78,13 +86,13 @@
         pt:root:class="!border-none !shadow-none !text-xl !bg-transparent dark:!text-white !min-h-[72px]"
         :auto-resize="true"
       />
-      <PostCreationImageList :sources="imageSources" @delete-image="deleteImage" />
-      <div class="mt-2 flex justify-between border-t pt-2 dark:border-gray-800">
+      <PostCreationMediaList :items="items" @delete-media="deleteMedia" />
+      <div class="flex justify-between pt-2 mt-2 border-t dark:border-gray-800">
         <fieldset class="flex items-center gap-x-0.5">
-          <PostCreationImageUpload
-            accept="image/png, image/jpeg, image/gif"
+          <PostCreationMediaUpload
             icon="pi pi-image"
-            @on-file="onImage"
+            accept="image/png, image/jpeg, image/gif, video/mp4, video/*"
+            @add-media="addMedia"
           />
         </fieldset>
         <Button
@@ -93,7 +101,8 @@
           icon="pi pi-send"
           pt:root:class="!px-8 !py-0 !text-white"
           rounded
-          :loading="isPending"
+          :loading="isSubmitting"
+          :disabled="hasErrors"
           @click="onSubmit"
         />
       </div>

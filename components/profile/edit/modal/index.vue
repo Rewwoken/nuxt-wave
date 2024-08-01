@@ -12,7 +12,7 @@
   const [bio] = defineField('bio');
   const [location] = defineField('location');
   const [website] = defineField('website');
-  const hasErrors = computed(() => Object.keys(errors.value).length);
+  const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
   const files = reactive<{
     image?: File;
@@ -86,7 +86,7 @@
     <!-- TODO: implement file deleting -->
     <ProfileEditModalSubmit
       :is-pending="isSubmitting"
-      :has-errors="!!hasErrors"
+      :has-errors="hasErrors"
       @on-submit="onSubmit"
     />
     <!-- @delete-banner="deleteBanner" -->
@@ -109,7 +109,7 @@
         placeholder="Name"
         aria-describedby="name-help"
         :maxlength="50"
-        :invalid="errors.name"
+        :invalid="!!errors.name"
         pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ name?.length || 0 }} / 50</span>
@@ -128,7 +128,7 @@
         placeholder="Bio"
         aria-describedby="bio-help"
         :maxlength="160"
-        :invalid="errors.bio"
+        :invalid="!!errors.bio"
         :auto-resize="true"
         pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
@@ -150,7 +150,7 @@
         placeholder="Location"
         aria-describedby="location-help"
         :maxlength="30"
-        :invalid="errors.location"
+        :invalid="!!errors.location"
         pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ location?.length || 0 }} / 30</span>
@@ -171,7 +171,7 @@
         placeholder="Website"
         aria-describedby="website-help"
         :maxlength="50"
-        :invalid="errors.website"
+        :invalid="!!errors.website"
         pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
       />
       <span class="absolute top-1 right-4 text-sm text-gray-600">{{ website?.length || 0 }} / 50</span>

@@ -5,7 +5,7 @@
   }>();
 
   const emit = defineEmits<{
-    (e: 'onFile', file: File, url: string): void;
+    (e: 'addMedia', file: File, source: string): void;
   }>();
 
   const hiddenInput = ref();
@@ -14,8 +14,8 @@
   }
 
   function onFileChange(event: Event) {
-    handleFileChange(event, (file, url) => {
-      emit('onFile', file, url);
+    handleFileChange(event, (file, source) => {
+      emit('addMedia', file, source);
     });
 
     // Removing value so user can upload the same image again
@@ -25,12 +25,11 @@
 
 <template>
   <Button
+    :icon="icon"
     title="Upload image"
     size="large"
-    :icon="icon"
     class="!border-none"
-    text
-    rounded
+    text rounded
     @click="onIconClick"
   />
   <input

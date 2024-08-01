@@ -29,18 +29,18 @@ export default defineEventHandler(async (event) => {
   try {
     if (files.image) {
       const image = files.image[0];
-      const { version, public_id, format } = await cloudinaryUpload(image.filepath);
+      const { version, public_id, format } = await cloudinaryUpload(image.filepath, 'image');
 
       filesData.imageUrl = `v${version}/${public_id}.${format}`;
-      filesData.imageProviderId = public_id;
+      filesData.imagePublicId = public_id;
     }
 
     if (files.banner) {
       const banner = files.banner[0];
-      const { version, public_id, format } = await cloudinaryUpload(banner.filepath);
+      const { version, public_id, format } = await cloudinaryUpload(banner.filepath, 'image');
 
       filesData.bannerUrl = `v${version}/${public_id}.${format}`;
-      filesData.bannerProviderId = public_id;
+      filesData.bannerPublicId = public_id;
     }
 
     const profileData = Object.assign(parseResult.data, filesData);
@@ -49,11 +49,11 @@ export default defineEventHandler(async (event) => {
     return updateProfile(userId, profileData);
   }
   catch {
-    if (filesData.imageProviderId) {
-      await cloudinaryDestroy(filesData.imageProviderId);
+    if (filesData.imagePublicId) {
+      await cloudinaryDestroy(filesData.imagePublicId);
     }
-    if (filesData.bannerProviderId) {
-      await cloudinaryDestroy(filesData.bannerProviderId);
+    if (filesData.bannerPublicId) {
+      await cloudinaryDestroy(filesData.bannerPublicId);
     }
 
     throw createError({

@@ -4,9 +4,9 @@ import { cloudinaryDestroy } from '~/server/cloudinary';
 
 export interface FilesData {
   imageUrl?: string;
-  imageProviderId?: string;
+  imagePublicId?: string;
   bannerUrl?: string;
-  bannerProviderId?: string;
+  bannerPublicId?: string;
 }
 
 export async function updateProfile(userId: string, data: ProfileSchema & FilesData) {
@@ -14,17 +14,17 @@ export async function updateProfile(userId: string, data: ProfileSchema & FilesD
     const profile = await prisma.profile.findUniqueOrThrow({
       where: { userId },
       select: {
-        imageProviderId: true,
-        bannerProviderId: true,
+        imagePublicId: true,
+        bannerPublicId: true,
       },
     });
 
-    if (data.imageUrl && profile.imageProviderId) {
-      await cloudinaryDestroy(profile.imageProviderId);
+    if (data.imageUrl && profile.imagePublicId) {
+      await cloudinaryDestroy(profile.imagePublicId);
     }
 
-    if (data.bannerUrl && profile.bannerProviderId) {
-      await cloudinaryDestroy(profile.bannerProviderId);
+    if (data.bannerUrl && profile.bannerPublicId) {
+      await cloudinaryDestroy(profile.bannerPublicId);
     }
   }
 

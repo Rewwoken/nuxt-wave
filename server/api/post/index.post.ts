@@ -1,18 +1,31 @@
 import { z } from 'zod';
+import { createPostSchema } from '~/schemas/createPost';
 import { createPost } from '~/server/database/post';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<void> => {
   const query = await getValidatedQuery(event, z.object({
     parentPostId: z.string().optional(),
   }).parse);
 
-  const { fields, files } = await parseForm(event.node.req);
-  const text = fields.text ? fields.text.join(' ') : '';
+  const formParse = await parseForm(event.node.req);
+
+  const schemaParse = createPostSchema.safeParse({
+    text: formParse.fields.text?.join(''),
+  });
+  if (!schemaParse.success) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Bad Request',
+      message: 'error/text',
+    });
+  }
+
+  const validatedFiles = validateMediaFiles(formParse.files);
 
   const userId = event.context.userId;
   try {
     event.node.res.statusCode = 201;
-    return await createPost(userId, query.parentPostId, text, files);
+    await createPost(userId, query.parentPostId, schemaParse.data.text, validatedFiles);
   }
   catch {
     throw createError({

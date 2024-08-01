@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <div class="flex items-center gap-x-6 p-1">
+  <div class="flex items-center p-1 gap-x-6">
     <Button
       icon="pi pi-arrow-left"
       severity="contrast"

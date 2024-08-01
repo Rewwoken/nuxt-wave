@@ -11,7 +11,7 @@
   const [email] = defineField('email');
   const [username] = defineField('username');
   const [password] = defineField('password');
-  const hasErrors = computed(() => Object.keys(errors.value).length);
+  const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
   const { handleFormRequest, serverError } = useHandleForm();
 
@@ -46,7 +46,7 @@
 <template>
   <form
     autocomplete="off"
-    class="flex w-80 flex-col gap-y-2"
+    class="flex flex-col w-80 gap-y-2"
     novalidate
     @submit="onSubmit"
   >
@@ -58,7 +58,7 @@
         autocomplete="email"
         placeholder="Email"
         aria-describedby="email-help"
-        :invalid="errors.email"
+        :invalid="!!!!errors.email"
         autofocus
         fluid
       />
@@ -74,7 +74,7 @@
         autocomplete="off"
         placeholder="Username"
         aria-describedby="username-help"
-        :invalid="errors.username"
+        :invalid="!!errors.username"
         fluid
       />
     </IconField>
@@ -93,7 +93,7 @@
         autocomplete="off"
         placeholder="Password"
         aria-describedby="password-help"
-        :invalid="errors.password"
+        :invalid="!!errors.password"
         fluid
       />
     </IconField>

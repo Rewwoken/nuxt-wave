@@ -11,7 +11,7 @@
     ),
   });
   const [email] = defineField('email');
-  const hasErrors = computed(() => Object.keys(errors.value).length);
+  const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
   const serverError = ref<string | null>(null);
 
@@ -59,7 +59,7 @@
         autocomplete="new-password"
         placeholder="Email"
         aria-describedby="email-help"
-        :invalid="errors.email"
+        :invalid="!!errors.email"
         autofocus
         fluid
       />

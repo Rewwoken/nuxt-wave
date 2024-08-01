@@ -16,20 +16,20 @@ export default () => {
   /**
    * Handles form requests with success and error handling.
    *
-   * @param requestFunc - The request function that returns a promise; `should be like () => $api(...)`.
+   * @param requestFunc - The request function that returns a promise; should be like `() => $api(...)`.
    * @param onSuccess - The success handler function that is called with the response data.
    * @param errorMessages - An object containing error messages in `{ 'error/code': 'message' }` format.
    * @param errorFunc - An optional error handler function that is called with the error message.
    */
   const handleFormRequest = async <T>(
     requestFunc: () => Promise<T>,
-    onSuccess: (data: T) => Promise<void> | void,
+    onSuccess: (data: T) => (Promise<void> | void),
     errorMessages: ErrorMessages,
     errorFunc?: (message: string) => void,
   ) => {
     try {
       serverError.value = null;
-      const response = await requestFunc();
+      const response: T = await requestFunc();
 
       await onSuccess(response);
     }

@@ -1,3 +1,4 @@
+// Potential improvement: restrict code length to 256
 import { z } from 'zod';
 
 export const codeSchema = z

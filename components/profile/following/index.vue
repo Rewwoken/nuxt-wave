@@ -3,14 +3,11 @@
 
   const user = inject('user') as User;
 
-  const { $api } = useNuxtApp();
-  const { data } = await useAsyncData('is-following', () => {
-    return $api('/api/user/actions/check-following', {
-      method: 'GET',
-      query: {
-        id: user.id,
-      },
-    });
+  const { data } = await useAPI('/api/user/actions/check-following', {
+    method: 'GET',
+    query: {
+      id: user.id,
+    },
   });
 
   const isFollowing = ref(data.value);
