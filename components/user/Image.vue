@@ -13,17 +13,21 @@
     :src="src"
     :width="px"
     :height="px"
+    format="webp"
     :style="{ width: `${px}px`, height: `${px}px` }"
     :modifiers="{ roundCorner: 'max', gravity: 'faceCenter' }"
-    class="rounded-full object-cover"
+    class="rounded-full object-cover select-none"
     alt="user image"
+    loading="lazy"
   />
   <NuxtImg
     v-else
     :width="px"
     :height="px"
-    src="/placeholders/user-image.png"
-    class="rounded-full object-cover"
+    src="/placeholders/user-image.webp"
+    class="rounded-full object-cover select-none"
     :style="{ width: `${px}px`, height: `${px}px` }"
+    alt="user image"
+    loading="lazy"
   />
 </template>

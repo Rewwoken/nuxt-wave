@@ -33,10 +33,10 @@ model Profile {
   bio            String?
   location       String?
   website        String?
-  imageUrl       String?  @map("image_url")
-  imagePublicId  String?  @map("image_provider_id")
-  bannerUrl      String?  @map("banner_url")
-  bannerPublicId String?  @map("banner_provider_id")
+  imageUrl       String?  @unique @map("image_url")
+  imagePublicId  String?  @unique @map("image_provider_id")
+  bannerUrl      String?  @unique @map("banner_url")
+  bannerPublicId String?  @unique @map("banner_provider_id")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 

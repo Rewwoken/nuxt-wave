@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   devServer: {
     port: 8000,
-  },
+    },
   modules: [
     '@nuxtjs/tailwindcss',
     '@primevue/nuxt-module',
@@ -53,8 +53,8 @@ export default defineNuxtConfig({
       },
     },
   },
-  compatibilityDate: '2024-07-04',
-  css: ['primeicons/primeicons.css'],
+  compatibilityDate: '2024-08-02',
+  css: ['primeicons/primeicons.css', '~/assets/css/global.css'],
   runtimeConfig: {
     jwtSecret: process.env.JWT_SECRET,
     resendApiKey: process.env.RESEND_API_KEY,
@@ -67,5 +67,5 @@ export default defineNuxtConfig({
   },
   alias: {
     '@/*': './src/*',
-  },
+    },
 });

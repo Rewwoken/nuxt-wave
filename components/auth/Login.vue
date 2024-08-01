@@ -43,7 +43,6 @@
 
 <template>
   <form
-    autocomplete="off"
     class="flex flex-col gap-y-2"
     novalidate
     @submit="onSubmit"
@@ -53,7 +52,7 @@
       <InputText
         v-model="username"
         type="text"
-        autocomplete="username"
+        autocomplete="new-password"
         placeholder="Username"
         aria-describedby="username-help"
         :invalid="!!!!errors.username"
@@ -72,7 +71,7 @@
       <InputText
         v-model="password"
         type="password"
-        autocomplete="current-password"
+        autocomplete="new-password"
         placeholder="Password"
         aria-describedby="password-help"
         :invalid="!!!!errors.password"

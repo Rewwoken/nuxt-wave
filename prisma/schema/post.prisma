@@ -24,8 +24,8 @@ model Post {
 
 model MediaFile {
   id        String   @id @default(uuid()) @map("media_file_id")
-  url       String
-  publicId  String   @map("provider_id")
+  url       String   @unique
+  publicId  String   @unique @map("provider_id")
   mimetype  String   @map("mime_type")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

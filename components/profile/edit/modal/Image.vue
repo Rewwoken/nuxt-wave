@@ -33,7 +33,7 @@
   </div>
   <input
     ref="hiddenInput"
-    accept="image/png, image/jpeg"
+    accept="image/png, image/jpeg, image/webp"
     type="file"
     hidden
     @change="onFileChange"

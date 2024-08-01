@@ -1,6 +1,6 @@
 import { prisma } from '~/server/database';
 import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
-import type { ValidatedMediaFile } from '~/server/utils/validateMediaFiles';
+import type { ValidatedMediaFile } from '~/server/utils/validate/mediaFiles';
 
 export async function createPost(
   userId: string,
@@ -9,7 +9,7 @@ export async function createPost(
   files: ValidatedMediaFile[],
 ) {
   return prisma.$transaction(async (tx) => {
-    const parentPost = { connect: { id: parentPostId } };
+		const parentPost = { connect: { id: parentPostId } };
 
     const post = await tx.post.create({
       data: {
@@ -21,32 +21,31 @@ export async function createPost(
       },
     });
 
-    const uploadIds: Array<{ publicId: string }> = [];
-    const createdIds: Array<{ id: string }> = [];
+    const publicIds: string[] = [];
 
     for (const file of files) {
       try {
-        const { public_id, version, format } = await cloudinaryUpload(file.filepath, file.type);
-        uploadIds.push({ publicId: public_id });
+				const { public_id, version } = await cloudinaryUpload(file.filepath, {
+					resource_type: file.type,
+				});
+        publicIds.push(public_id);
 
-        const mediaFile = await tx.mediaFile.create({
+        await tx.mediaFile.create({
           data: {
             post: { connect: { id: post.id } },
             publicId: public_id,
-            url: `v${version}/${public_id}.${format}`,
+            url: `v${version}/${public_id}`,
             mimetype: file.mimetype,
           },
         });
-        createdIds.push({ id: mediaFile.id });
       }
       catch (err) {
-        for (const upload of uploadIds) {
-          await cloudinaryDestroy(upload.publicId);
-        }
-        for (const mediaFile of createdIds) {
-          await tx.mediaFile.delete({
-            where: { id: mediaFile.id },
-          });
+				for (const id of publicIds) {
+					await cloudinaryDestroy(id).catch(); // should delete all possible instances
+
+					await tx.mediaFile.delete({
+            where: { publicId: id },
+          }).catch(); // should delete all possible instances
         }
 
         throw err;

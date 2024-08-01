@@ -1,35 +1,56 @@
 import type { ProfileSchema } from '~/schemas/profile';
+import { cloudinaryUpload } from '~/server/cloudinary';
 import { prisma } from '~/server/database';
-import { cloudinaryDestroy } from '~/server/cloudinary';
 
-export interface FilesData {
-  imageUrl?: string;
-  imagePublicId?: string;
-  bannerUrl?: string;
-  bannerPublicId?: string;
+export async function getProfileByUserId(userId: string) {
+	return prisma.profile.findUnique({
+		where: { userId },
+	});
 }
 
-export async function updateProfile(userId: string, data: ProfileSchema & FilesData) {
-  if (data.imageUrl || data.bannerUrl) {
-    const profile = await prisma.profile.findUniqueOrThrow({
-      where: { userId },
-      select: {
-        imagePublicId: true,
-        bannerPublicId: true,
-      },
-    });
+interface UpdatedMedia {
+	image?: {
+		url: string;
+		publicId: string;
+	};
+	banner?: {
+		url: string;
+		publicId: string;
+	};
+}
 
-    if (data.imageUrl && profile.imagePublicId) {
-      await cloudinaryDestroy(profile.imagePublicId);
-    }
+async function handleMediaUpload(url: string, currentPublicId: string | undefined | null) {
+	const { public_id, version } = await cloudinaryUpload(url, {
+		public_id: currentPublicId || undefined,
+		resource_type: 'image',
+	});
 
-    if (data.bannerUrl && profile.bannerPublicId) {
-      await cloudinaryDestroy(profile.bannerPublicId);
-    }
-  }
+	return {
+		publicId: public_id,
+		url: `v${version}/${public_id}`,
+	};
+}
 
-  return prisma.profile.update({
-    where: { userId },
-    data,
-  });
+export async function updateProfile(userId: string, text?: ProfileSchema, imageUrl?: string, bannerUrl?: string) {
+	const updatedMedia: UpdatedMedia = {};
+	const profile = await getProfileByUserId(userId);
+
+	if (imageUrl) {
+		updatedMedia.image = await handleMediaUpload(imageUrl, profile?.imagePublicId);
+	}
+
+	if (bannerUrl) {
+		updatedMedia.banner = await handleMediaUpload(bannerUrl, profile?.bannerPublicId);
+	}
+
+	return prisma.profile.update({
+		where: { userId },
+		data: {
+			...text,
+			imageUrl: updatedMedia.image?.url,
+			imagePublicId: updatedMedia.image?.publicId,
+			bannerUrl: updatedMedia.banner?.url,
+			bannerPublicId: updatedMedia.banner?.publicId,
+		},
+	});
 }

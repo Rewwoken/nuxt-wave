@@ -38,7 +38,7 @@
     });
 
     await handleFormRequest(
-      // @ts-expect-error | Excessive stack depth comparing types error, but actually works
+      // @ts-expect-error | ? Excessive stack depth comparing types error
       () => $api('/api/post', {
         method: 'POST',
         body: formData,

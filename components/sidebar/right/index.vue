@@ -3,7 +3,7 @@
     <SidebarRightSearch />
     <SidebarRightWhatsHappening />
     <SidebarRightMightLike />
-    <div class="flex flex-wrap justify-between px-2 text-nowrap">
+    <div class="flex flex-wrap justify-between px-2 text-nowrap gap-y-2">
       <WebsiteInfo />
     </div>
   </div>

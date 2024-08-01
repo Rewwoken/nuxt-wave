@@ -1,3 +1,4 @@
+<!-- FIXME: SplitButton does not have :loading API -->
 <script setup lang="ts">
   defineProps<{
     isPending: boolean;

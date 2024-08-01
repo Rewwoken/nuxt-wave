@@ -16,6 +16,7 @@
   <div class="flex items-center p-1 gap-x-6">
     <Button
       icon="pi pi-arrow-left"
+      aria-label="Back"
       severity="contrast"
       pt:root:class="!border-0"
       outlined

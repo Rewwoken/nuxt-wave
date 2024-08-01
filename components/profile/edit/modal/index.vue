@@ -96,7 +96,6 @@
   <ProfileEditModalImage @on-file="onFile" />
   <!-- TODO: handle empty fields case -->
   <form
-    autocomplete="off"
     class="flex flex-col gap-y-8 p-3"
     novalidate
   >

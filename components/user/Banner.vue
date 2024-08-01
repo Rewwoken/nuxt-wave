@@ -14,6 +14,7 @@
     :src="src"
     :height="height"
     :width="width"
+    format="webp"
     :modifiers="{ gravity: 'faceCenter' }"
     :style="{ height: `${height}px`, width: `${width}px` }"
     class="object-cover"
@@ -23,5 +24,6 @@
     v-else
     class="bg-neutral-200 dark:bg-neutral-200/10"
     :style="{ height: `${height}px`, width: `${width}px` }"
+    alt="user image"
   />
 </template>

@@ -1,10 +1,21 @@
+<!-- TODO: robots.txt -->
 <script setup lang="ts">
   const { theme } = useTheme();
 
+  const config = useRuntimeConfig();
   useHead({
+    htmlAttrs: {
+      lang: 'en',
+    },
     bodyAttrs: {
       class: theme,
     },
+    link: [
+      {
+        rel: 'canonical',
+        href: `${config.public.baseUrl}/home`,
+      },
+    ],
   });
 
   useSeoMeta({

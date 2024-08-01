@@ -45,7 +45,6 @@
 
 <template>
   <form
-    autocomplete="off"
     class="flex flex-col w-80 gap-y-2"
     novalidate
     @submit="onSubmit"

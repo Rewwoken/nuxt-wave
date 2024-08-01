@@ -17,6 +17,7 @@
   <NuxtLink
     to="/home"
     class="rounded-full p-2 transition-colors size-12 hover:bg-gray-500/10"
+    aria-label="Home"
   >
     <IconNuxt />
   </NuxtLink>
