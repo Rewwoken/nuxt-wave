@@ -1,13 +1,13 @@
 <script setup lang="ts">
-  definePageMeta({
-    layout: 'auth',
-  });
+	definePageMeta({
+		layout: 'auth',
+	});
 
-  useSeoMeta({
-    title: 'Email verification',
-  });
+	useSeoMeta({
+		title: 'Email verification',
+	});
 </script>
 
 <template>
-  <AuthVerification />
+	<AuthVerification />
 </template>

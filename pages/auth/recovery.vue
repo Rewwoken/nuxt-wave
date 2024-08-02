@@ -1,13 +1,13 @@
 <script setup lang="ts">
-  definePageMeta({
-    layout: 'auth',
-  });
+	definePageMeta({
+		layout: 'auth',
+	});
 
-  useSeoMeta({
-    title: 'Password recovery',
-  });
+	useSeoMeta({
+		title: 'Password recovery',
+	});
 </script>
 
 <template>
-  <AuthRecoveryForm />
+	<AuthRecoveryForm />
 </template>

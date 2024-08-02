@@ -1,13 +1,13 @@
 <script setup lang="ts">
-  definePageMeta({
-    layout: 'auth',
-  });
+	definePageMeta({
+		layout: 'auth',
+	});
 
-  useSeoMeta({
-    title: 'Login',
-  });
+	useSeoMeta({
+		title: 'Login',
+	});
 </script>
 
 <template>
-  <Auth />
+	<Auth />
 </template>

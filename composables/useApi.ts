@@ -1,6 +1,6 @@
 export const useAPI: typeof useFetch = (url, options) => {
-  return useFetch(url, {
-    ...options,
-    $fetch: useNuxtApp().$api,
-  });
+	return useFetch(url, {
+		...options,
+		$fetch: useNuxtApp().$api,
+	});
 };

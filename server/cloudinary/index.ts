@@ -3,10 +3,10 @@ import { v2 as cloudinary } from 'cloudinary';
 
 const config = useRuntimeConfig();
 cloudinary.config({
-  cloud_name: config.cloudinaryCloudName,
-  api_key: config.cloudinaryApiKey,
-  api_secret: config.cloudinaryApiSecret,
-  secure: true,
+	cloud_name: config.cloudinaryCloudName,
+	api_key: config.cloudinaryApiKey,
+	api_secret: config.cloudinaryApiSecret,
+	secure: true,
 });
 
 interface RequiredOptions {
@@ -14,9 +14,9 @@ interface RequiredOptions {
 }
 
 export function cloudinaryUpload(path: string, options: RequiredOptions & UploadApiOptions) {
-  return cloudinary.uploader.upload(path, options);
+	return cloudinary.uploader.upload(path, options);
 }
 
 export function cloudinaryDestroy(publicId: string) {
-  return cloudinary.uploader.destroy(publicId);
+	return cloudinary.uploader.destroy(publicId);
 }

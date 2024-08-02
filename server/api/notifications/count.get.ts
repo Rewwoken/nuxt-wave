@@ -1,5 +1,8 @@
 // TODO: implement countNotifications function
-export default defineEventHandler(() => {
-  // return countNotifications(event.context.userId);
-  return 2;
+export default defineEventHandler({
+	onRequest: [auth],
+	handler: () => {
+		// return countNotifications(event.context.user.id);
+		return 2;
+	},
 });

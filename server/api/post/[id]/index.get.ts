@@ -1,15 +1,20 @@
-import { prisma } from '~/server/database';
+import { z } from 'zod';
+import { findPostById } from '~/server/database/post';
 
 // TODO: specify select
 export default defineEventHandler(async (event) => {
-  const params = getRouterParams(event);
+	const query = await getValidatedQuery(event, z.object({
+		id: z.string(),
+	}).parse);
 
-  return prisma.post.findUnique({
-    where: { id: params.id },
-    // select: {
-    //   mediaFiles: true,
-    //   replies: true,
-    //   parentPost: true,
-    // },
-  });
+	const post = await findPostById(query.id);
+	if (!post) {
+		throw createError({
+			statusCode: 400,
+			statusMessage: 'Bad Request',
+			message: 'error/not-found',
+		});
+	}
+
+	return post;
 });

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  useSeoMeta({
-    title: 'Home',
-  });
+	useSeoMeta({
+		title: 'Home',
+	});
 </script>
 
 <template>
-  <PostCreation />
+	<PostCreation />
 </template>

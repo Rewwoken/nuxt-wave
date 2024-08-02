@@ -1,42 +1,42 @@
 <script setup lang="ts">
-  defineProps<{
-    accept: string;
-    icon: string;
-  }>();
+	defineProps<{
+		accept: string;
+		icon: string;
+	}>();
 
-  const emit = defineEmits<{
-    (e: 'addMedia', file: File, source: string): void;
-  }>();
+	const emit = defineEmits<{
+		(e: 'addMedia', file: File, source: string): void;
+	}>();
 
-  const hiddenInput = ref();
-  function onIconClick() {
-    hiddenInput.value.click();
-  }
+	const hiddenInput = ref();
+	function onIconClick() {
+		hiddenInput.value.click();
+	}
 
-  function onFileChange(event: Event) {
-    handleFileChange(event, (file, source) => {
-      emit('addMedia', file, source);
-    });
+	function onFileChange(event: Event) {
+		handleFileChange(event, (file, source) => {
+			emit('addMedia', file, source);
+		});
 
-    // Removing value so user can upload the same image again
-    hiddenInput.value.value = null;
-  }
+		// Removing value so user can upload the same image again
+		hiddenInput.value.value = null;
+	}
 </script>
 
 <template>
-  <Button
-    :icon="icon"
-    title="Upload image"
-    size="large"
-    class="!border-none"
-    text rounded
-    @click="onIconClick"
-  />
-  <input
-    ref="hiddenInput"
-    type="file"
-    :accept="accept"
-    hidden
-    @change="onFileChange"
-  >
+	<Button
+		:icon="icon"
+		title="Upload image"
+		size="large"
+		class="!border-none"
+		text rounded
+		@click="onIconClick"
+	/>
+	<input
+		ref="hiddenInput"
+		type="file"
+		:accept="accept"
+		hidden
+		@change="onFileChange"
+	>
 </template>

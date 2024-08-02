@@ -1,41 +1,41 @@
 <script setup lang="ts">
-  const emit = defineEmits<{
-    (e: 'onFile', key: 'image', file: File): void;
-  }>();
+	const emit = defineEmits<{
+		(e: 'onFile', key: 'image', file: File): void;
+	}>();
 
-  const { currentUser } = useCurrentUser();
-  const image = ref(currentUser.profile.imageUrl);
-  const hiddenInput = ref();
+	const { currentUser } = useCurrentUser();
+	const image = ref(currentUser.profile.imageUrl);
+	const hiddenInput = ref();
 
-  function onClick() {
-    hiddenInput.value.click();
-  }
+	function onClick() {
+		hiddenInput.value.click();
+	}
 
-  function onFileChange(event: Event) {
-    return handleFileChange(event, (file, url) => {
-      emit('onFile', 'image', file);
+	function onFileChange(event: Event) {
+		return handleFileChange(event, (file, url) => {
+			emit('onFile', 'image', file);
 
-      image.value = url;
-    });
-  }
+			image.value = url;
+		});
+	}
 </script>
 
 <template>
-  <div class="relative h-20 w-full">
-    <div class="absolute bottom-10 ml-10 flex items-center justify-center">
-      <UserImage
-        :src="image"
-        :px="128"
-        class="border-white border-[3px] bg:white dark:bg-dim dark:border-dim"
-      />
-      <ProfileEditModalFileButton @on-click="onClick" />
-    </div>
-  </div>
-  <input
-    ref="hiddenInput"
-    accept="image/png, image/jpeg, image/webp"
-    type="file"
-    hidden
-    @change="onFileChange"
-  >
+	<div class="relative h-20 w-full">
+		<div class="absolute bottom-10 ml-10 flex items-center justify-center">
+			<UserImage
+				:src="image"
+				:px="128"
+				class="border-white border-[3px] bg:white dark:bg-dim dark:border-dim"
+			/>
+			<ProfileEditModalFileButton @on-click="onClick" />
+		</div>
+	</div>
+	<input
+		ref="hiddenInput"
+		accept="image/png, image/jpeg, image/webp"
+		type="file"
+		hidden
+		@change="onFileChange"
+	>
 </template>

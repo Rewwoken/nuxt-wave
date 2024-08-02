@@ -1,29 +1,38 @@
 <script setup lang="ts">
-  const { fetchCurrentUser } = useCurrentUser();
-  await callOnce(fetchCurrentUser);
+	const { fetchCurrentUser } = useCurrentUser();
+	await callOnce(fetchCurrentUser);
 
-  const { data: count } = await useAPI('/api/notifications/count', {
-    method: 'GET',
-  });
-  useSeoMeta({
-    titleTemplate: (titleChunk) => {
-      return `(${count.value}) ${titleChunk} / Wave`;
-    },
-  });
+	const { $api } = useNuxtApp();
+	const { data: count } = useAsyncData('notifications-count', () => {
+		return $api('/api/notifications/count');
+	});
+
+	useSeoMeta({
+		titleTemplate: (titleChunk) => {
+			return `(${count.value}) ${titleChunk} / Wave`;
+		},
+	});
 </script>
 
 <!-- TODO: add bottom navigation on mobile -->
 <template>
-  <NuxtLoadingIndicator />
-  <div class="mx-auto grid grid-cols-10 gap-x-4 px-1 max-w-[1200px]">
-    <aside class="col-span-1 hidden select-none md:flex xl:col-span-2">
-      <SidebarLeft />
-    </aside>
-    <main class="col-span-10 border-x border-gray-200 dark:border-gray-800 md:col-span-9 lg:col-span-6 xl:col-span-5">
-      <slot />
-    </main>
-    <aside class="col-span-3 hidden lg:block">
-      <SidebarRight />
-    </aside>
-  </div>
+	<NuxtLoadingIndicator />
+	<div class="flex justify-center">
+		<aside class="hidden md:flex flex-col gap-y-3 pr-4 items-end xl:items-stretch xl:w-[320px]">
+			<LayoutsDefaultLeftNavigation />
+			<LayoutsDefaultLeftPost />
+			<LayoutsDefaultLeftAccount />
+		</aside>
+		<main class="md:w-[586px] border-x mr-4 overflow-hidden">
+			<slot />
+		</main>
+		<aside class="hidden lg:flex flex-col gap-y-2 w-[350px]">
+			<LayoutsDefaultRightSearch />
+			<LayoutsDefaultRightWhatsHappening />
+			<LayoutsDefaultRightMightLike />
+			<div class="flex flex-wrap justify-between px-2 text-nowrap gap-x-4 gap-y-2">
+				<WebsiteInfo />
+			</div>
+		</aside>
+	</div>
 </template>

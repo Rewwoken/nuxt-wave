@@ -1,47 +1,47 @@
 <script setup lang="ts">
-  import type { User } from '~/types/api.types';
+	import type { User } from '~/types/api.types';
 
-  const emit = defineEmits<{
-    (e: 'toggleFollow'): void;
-  }>();
-  const user = inject('user') as User;
+	const emit = defineEmits<{
+		(e: 'toggleFollow'): void;
+	}>();
+	const user = inject('user') as User;
 
-  const toast = useToast();
-  const { $api } = useNuxtApp();
-  async function onFollow() {
-    try {
-      await $api('/api/user/actions/follow', {
-        query: { id: user.id },
-      });
+	const toast = useToast();
+	const { $api } = useNuxtApp();
+	async function onFollow() {
+		try {
+			await $api('/api/user/actions/follow', {
+				query: { id: user.id },
+			});
 
-      emit('toggleFollow');
+			emit('toggleFollow');
 
-      toast.add({
-        severity: 'info',
-        summary: 'Following process successful.',
-        detail: `You are now following @${user.username}.`,
-        life: 3000,
-      });
-    }
-    catch {
-      toast.add({
-        severity: 'error',
-        summary: 'Error following user!',
-        detail: 'Please, try again later.',
-        life: 3000,
-      });
-    }
-  }
+			toast.add({
+				severity: 'info',
+				summary: 'Following process successful.',
+				detail: `You are now following @${user.username}.`,
+				life: 3000,
+			});
+		}
+		catch {
+			toast.add({
+				severity: 'error',
+				summary: 'Error following user!',
+				detail: 'Please, try again later.',
+				life: 3000,
+			});
+		}
+	}
 </script>
 
 <template>
-  <Button
-    label="Follow"
-    severity="contrast"
-    size="small"
-    pt:root:class="!px-6"
-    pt:label:class="!font-bold"
-    rounded
-    @click="onFollow"
-  />
+	<Button
+		label="Follow"
+		severity="contrast"
+		size="small"
+		pt:root:class="!px-6"
+		pt:label:class="!font-bold"
+		rounded
+		@click="onFollow"
+	/>
 </template>
