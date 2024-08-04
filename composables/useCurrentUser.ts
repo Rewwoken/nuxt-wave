@@ -9,8 +9,17 @@ export default () => {
 		currentUser.value = await $api<User>('/api/me');
 	}
 
+	async function logout() {
+		await $fetch('/api/auth/logout', {
+			method: 'POST',
+		});
+
+		navigateTo('/auth');
+	}
+
 	return {
 		currentUser: currentUser.value,
 		fetchCurrentUser,
+		logout,
 	};
 };

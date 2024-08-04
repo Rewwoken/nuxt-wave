@@ -14,7 +14,6 @@
 	await callOnce(fetchCurrentUser);
 </script>
 
-<!-- TODO: add bottom navigation on mobile -->
 <template>
 	<NuxtLoadingIndicator />
 	<div class="flex justify-center min-h-screen">
@@ -25,6 +24,9 @@
 		</aside>
 		<main class="w-[586px] border-x lg:mr-4 overflow-hidden border-x-gray-500/20">
 			<slot />
+			<div class="fixed bottom-0 max-w-[586px] w-full md:hidden">
+				<LayoutsDefaultMobileNav />
+			</div>
 		</main>
 		<aside class="hidden lg:flex flex-col gap-y-2 w-[350px] pt-2">
 			<LayoutsDefaultRightSearch />

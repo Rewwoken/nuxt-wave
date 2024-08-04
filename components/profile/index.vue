@@ -16,12 +16,12 @@
 </script>
 
 <template>
-	<ProfileBack />
+	<ProfileHeader />
 	<UserBanner :src="user.profile.bannerUrl" :height="195" :width="586" />
-	<div class="mt-2 flex items-end px-3">
+	<div class="flex items-end px-3 mt-2">
 		<ProfileImage />
 		<ProfileEdit v-if="isCurrentUser" />
-		<div v-else class="ml-auto flex items-center gap-x-2">
+		<div v-else class="flex items-center ml-auto gap-x-2">
 			<ProfileMore />
 			<ProfileFollowing />
 		</div>
@@ -34,7 +34,7 @@
 		<p class="text-gray-500">
 			{{ user.profile.bio }}
 		</p>
-		<div class="flex flex-wrap gap-x-3 text-gray-500">
+		<div class="flex flex-wrap text-gray-500 gap-x-3">
 			<div v-if="user.profile.location" class="flex items-center gap-x-1">
 				<i class="pi pi-map-marker" />
 				<span>{{ user.profile.location }}</span>

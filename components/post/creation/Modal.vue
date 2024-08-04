@@ -18,8 +18,7 @@
 	/>
 	<!-- TABLET, MOBILE -->
 	<Button
-		size="large"
-		icon="pi pi-pen-to-square"
+		icon="pi pi-plus"
 		aria-label="Post"
 		pt:root:class="xl:!hidden !size-12"
 		pt:icon:class="!text-white"
@@ -29,13 +28,14 @@
 	<Dialog
 		v-model:visible="visible"
 		header="New post creation"
-		pt:root:class="w-[500px] mx-2"
+		pt:root:class="w-full max-w-[586px] mx-4 dark:!bg-dim !border-gray-500/20"
+		pt:header:class="dark:!text-white !pt-4"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
 		:modal="true"
 	>
-		<div class="flex gap-x-1">
+		<div class="flex gap-x-1 modal">
 			<PostCreation />
 		</div>
 	</Dialog>

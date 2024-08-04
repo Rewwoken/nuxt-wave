@@ -12,11 +12,11 @@
 		aria-label="Navigate to notifications"
 		active-class="font-bold"
 	>
-		<i class="pi pi-bell !relative" style="font-size: 1.6rem">
+		<i class="pi pi-bell !relative !text-3xl">
 			<Badge
 				v-if="count"
 				:value="count"
-				pt:root:class="!absolute !-top-2 !-right-3 !text-white"
+				pt:root:class="!absolute !-top-1 !-right-2 !text-white"
 				:pt:root:style="{ 'font-family': 'Inter' }"
 				size="small"
 			/>
