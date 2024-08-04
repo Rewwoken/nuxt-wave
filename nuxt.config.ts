@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	devServer: {
 		port: 8000,
-		},
+	},
 	modules: [
 		'@nuxtjs/tailwindcss',
 		'@primevue/nuxt-module',
@@ -67,5 +67,5 @@ export default defineNuxtConfig({
 	},
 	alias: {
 		'@/*': './src/*',
-		},
+	},
 });

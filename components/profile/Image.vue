@@ -11,11 +11,11 @@
 </script>
 
 <template>
-	<div class="absolute flex select-none justify-center">
+	<div class="absolute flex justify-center select-none">
 		<UserImage
 			:src="user.profile.imageUrl"
 			:px="140"
-			class="cursor-pointer border-white border-[3px] bg:white dark:bg-dim dark:border-dim"
+			class="cursor-pointer border-white border-[3px] bg-white dark:bg-dim dark:border-dim"
 			@click="showModal"
 		/>
 	</div>
@@ -26,7 +26,7 @@
 		:close-on-escape="true"
 		:show-header="false"
 		:draggable="false"
-		modal
+		:modal="true"
 	>
 		<UserImage :src="user.profile.imageUrl" :px="384" />
 	</Dialog>

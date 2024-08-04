@@ -31,7 +31,7 @@
 
 <template>
 	<div
-		class="bg-white min-h-dvh dark:bg-dim dark:text-white w-full"
+		class="w-full bg-white min-h-dvh dark:bg-dim dark:text-white"
 		:style="{ 'font-family': 'Inter' }"
 	>
 		<NuxtLayout>

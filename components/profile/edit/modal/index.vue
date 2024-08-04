@@ -14,13 +14,13 @@
 	const [website] = defineField('website');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const files = reactive<{
+	const files = ref<{
 		image?: File;
 		banner?: File;
 	}>({});
 
 	function onFile(key: 'image' | 'banner', file: File) {
-		files[key] = file;
+		files.value[key] = file;
 	}
 
 	const { handleFormRequest } = useHandleForm();
@@ -35,11 +35,11 @@
 		for (const [key, value] of textEntries) {
 			formData.append(key, value);
 		}
-		if (files.image) {
-			formData.append('image', files.image);
+		if (files.value.image) {
+			formData.append('image', files.value.image);
 		}
-		if (files.banner) {
-			formData.append('banner', files.banner);
+		if (files.value.banner) {
+			formData.append('banner', files.value.banner);
 		}
 
 		await handleFormRequest(
@@ -74,7 +74,7 @@
 </script>
 
 <template>
-	<header class="mb-2 flex justify-between px-2 pt-3">
+	<header class="flex justify-between px-2 pt-3 mb-2">
 		<Button
 			icon="pi pi-times"
 			severity="contrast"
@@ -96,22 +96,23 @@
 	<ProfileEditModalImage @on-file="onFile" />
 	<!-- TODO: handle empty fields case -->
 	<form
-		class="flex flex-col gap-y-8 p-3"
+		class="flex flex-col p-3 gap-y-8"
 		novalidate
 	>
 		<div class="relative flex flex-col">
 			<InputText
 				v-model="name"
 				type="text"
+				name="name"
 				size="large"
 				autocomplete="name"
 				placeholder="Name"
 				aria-describedby="name-help"
 				:maxlength="50"
 				:invalid="!!errors.name"
-				pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
 			/>
-			<span class="absolute top-1 right-4 text-sm text-gray-600">{{ name?.length || 0 }} / 50</span>
+			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ name?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.name"
 				id="name-help"
@@ -123,15 +124,16 @@
 		<div class="relative flex flex-col">
 			<Textarea
 				v-model="bio"
+				name="bio"
 				autocomplete="off"
 				placeholder="Bio"
 				aria-describedby="bio-help"
 				:maxlength="160"
 				:invalid="!!errors.bio"
 				:auto-resize="true"
-				pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
 			/>
-			<span class="absolute top-1 right-4 text-sm text-gray-600">{{ bio?.length || 0 }} / 160</span>
+			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ bio?.length || 0 }} / 160</span>
 			<small
 				v-if="errors.bio"
 				id="bio-help"
@@ -144,19 +146,20 @@
 			<InputText
 				v-model="location"
 				type="text"
+				name="location"
 				size="large"
 				autocomplete="country-name"
 				placeholder="Location"
 				aria-describedby="location-help"
 				:maxlength="30"
 				:invalid="!!errors.location"
-				pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
 			/>
-			<span class="absolute top-1 right-4 text-sm text-gray-600">{{ location?.length || 0 }} / 30</span>
+			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ location?.length || 0 }} / 30</span>
 			<small
 				v-if="errors.location"
 				id="location-help"
-				class="absolute -bottom-5 ml-2 text-xs text-red-500"
+				class="absolute ml-2 text-xs text-red-500 -bottom-5"
 			>
 				{{ errors.location }}
 			</small>
@@ -165,15 +168,16 @@
 			<InputText
 				v-model="website"
 				type="text"
+				name="website"
 				size="large"
 				autocomplete="url"
 				placeholder="Website"
 				aria-describedby="website-help"
 				:maxlength="50"
 				:invalid="!!errors.website"
-				pt:root:class="dark:!border-gray-700 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
 			/>
-			<span class="absolute top-1 right-4 text-sm text-gray-600">{{ website?.length || 0 }} / 50</span>
+			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ website?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.website"
 				id="website-help"

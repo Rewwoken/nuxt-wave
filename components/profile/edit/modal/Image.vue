@@ -21,12 +21,12 @@
 </script>
 
 <template>
-	<div class="relative h-20 w-full">
-		<div class="absolute bottom-10 ml-10 flex items-center justify-center">
+	<div class="relative w-full h-20">
+		<div class="absolute flex items-center justify-center ml-10 bottom-10">
 			<UserImage
 				:src="image"
 				:px="128"
-				class="border-white border-[3px] bg:white dark:bg-dim dark:border-dim"
+				class="border-white border-[3px] bg-white dark:bg-dim dark:border-dim"
 			/>
 			<ProfileEditModalFileButton @on-click="onClick" />
 		</div>

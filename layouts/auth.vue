@@ -1,5 +1,5 @@
 <template>
-	<main class="absolute top-1/2 bottom-1/2 flex w-full items-center justify-center gap-x-64">
+	<main class="absolute flex items-center justify-center w-full top-1/2 bottom-1/2 gap-x-64">
 		<IconNuxt class="hidden size-96 xl:block" />
 		<div class="flex flex-col items-center xl:items-start">
 			<h1 class="mb-3 text-5xl font-bold md:mb-10 md:text-6xl">
@@ -11,7 +11,7 @@
 			<slot />
 		</div>
 	</main>
-	<footer class="absolute bottom-0 w-full py-4 text-center space-x-4">
+	<footer class="fixed bottom-0 w-full px-2 py-4 space-x-4 text-center">
 		<WebsiteInfo />
 	</footer>
 </template>

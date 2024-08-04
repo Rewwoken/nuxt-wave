@@ -25,7 +25,8 @@ export default defineEventHandler({
 
 		const userId = event.context.user.id;
 		try {
-			await updateProfile(userId, schemaParse.data, image, banner);
+			setResponseStatus(event, 200);
+			return await updateProfile(userId, schemaParse.data, image, banner);
 		}
 		catch {
 			throw createError({

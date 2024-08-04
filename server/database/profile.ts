@@ -2,7 +2,7 @@ import type { ProfileSchema } from '~/schemas/profile';
 import { cloudinaryUpload } from '~/server/cloudinary';
 import { prisma } from '~/server/database';
 
-export async function getProfileByUserId(userId: string) {
+export async function findProfileByUserId(userId: string) {
 	return prisma.profile.findUnique({
 		where: { userId },
 	});
@@ -33,7 +33,7 @@ async function handleMediaUpload(url: string, currentPublicId: string | undefine
 
 export async function updateProfile(userId: string, text?: ProfileSchema, imageUrl?: string, bannerUrl?: string) {
 	const updatedMedia: UpdatedMedia = {};
-	const profile = await getProfileByUserId(userId);
+	const profile = await findProfileByUserId(userId);
 
 	if (imageUrl) {
 		updatedMedia.image = await handleMediaUpload(imageUrl, profile?.imagePublicId);

@@ -25,11 +25,11 @@
 	/>
 	<Dialog
 		v-model:visible="visible"
-		modal
 		header="Create an account"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
+		:modal="true"
 	>
 		<AuthRegister @close-modal="closeModal" />
 	</Dialog>

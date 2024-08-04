@@ -7,7 +7,7 @@
 
 <template>
 	<article
-		class="rounded-2xl border border-gray-200 px-4 py-3 dark:border-gray-800"
+		class="px-4 py-3 border rounded-2xl border-gray-500/20"
 	>
 		<h2 class="mb-4 text-xl font-bold">
 			{{ title }}
@@ -15,7 +15,7 @@
 		<slot />
 		<NuxtLink
 			:to="footerLink"
-			class="mt-4 inline-block w-full text-sm font-semibold text-sky-500 hover:underline"
+			class="inline-block w-full mt-4 text-sm font-semibold text-sky-500 hover:underline"
 		>
 			Show more
 		</NuxtLink>

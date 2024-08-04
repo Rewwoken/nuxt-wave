@@ -11,13 +11,28 @@ export async function createPost(
 	return prisma.$transaction(async (tx) => {
 		const parentPost = { connect: { id: parentPostId } };
 
-		const post = await tx.post.create({
+		const newPost = await tx.post.create({
 			data: {
 				user: {
 					connect: { id: userId },
 				},
 				parentPost: parentPostId ? parentPost : undefined,
 				text,
+			},
+			select: {
+				id: true,
+				text: true,
+				parentPost: {
+					select: {
+						id: true,
+						user: {
+							select: {
+								id: true,
+								username: true,
+							},
+						},
+					},
+				},
 			},
 		});
 
@@ -32,7 +47,7 @@ export async function createPost(
 
 				await tx.mediaFile.create({
 					data: {
-						post: { connect: { id: post.id } },
+						post: { connect: { id: newPost.id } },
 						publicId: public_id,
 						url: `v${version}/${public_id}`,
 						mimetype: file.mimetype,
@@ -51,5 +66,7 @@ export async function createPost(
 				throw err;
 			}
 		}
+
+		return newPost;
 	});
 }

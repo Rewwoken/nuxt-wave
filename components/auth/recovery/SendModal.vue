@@ -27,10 +27,8 @@
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
-		modal
+		:modal="true"
 	>
-		<AuthRecoverySendForm
-			@close-modal="closeModal"
-		/>
+		<AuthRecoverySendForm @on-submit="closeModal" />
 	</Dialog>
 </template>

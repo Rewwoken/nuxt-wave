@@ -1,6 +1,11 @@
 <script setup lang="ts">
 	import { recoverySchema } from '~/schemas/recovery';
 
+	const route = useRoute();
+	if (!route.query.id || route.query.code?.length !== 36) {
+		await navigateTo('/auth');
+	}
+
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
 		validationSchema: toTypedSchema(recoverySchema),
 	});
@@ -8,39 +13,36 @@
 	const [confirmPassword] = defineField('confirmPassword');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const serverError = ref<string | null>(null);
+	const { handleFormRequest, serverError } = useHandleForm();
 
-	const route = useRoute();
-	if (!route.query.id || !route.query.code) {
-		await navigateTo('/auth');
-	}
-
+	const { $api } = useNuxtApp();
 	const toast = useToast();
+
 	const onSubmit = handleSubmit(async (values) => {
-		serverError.value = null;
-		const { error } = await useFetch('/api/auth/recovery', {
-			method: 'POST',
-			query: {
-				id: route.query.id,
-				code: route.query.code,
+		await handleFormRequest(
+			() => $api('/api/auth/recovery', {
+				method: 'POST',
+				query: {
+					id: route.query.id,
+					code: route.query.code,
+				},
+				body: values,
+			}),
+			async () => {
+				toast.add({
+					severity: 'success',
+					summary: 'Password has been successfully changed.',
+					detail: 'You can now log in with a new password.',
+					life: 5000,
+				});
+
+				await navigateTo('/auth');
 			},
-			body: { password: values.password },
-		});
-
-		if (error.value) {
-			serverError.value = 'Error changing the password!';
-
-			return null;
-		}
-
-		toast.add({
-			severity: 'success',
-			summary: 'Password has been successfully changed.',
-			detail: 'You can now log in with a new password.',
-			life: 5000,
-		});
-
-		await navigateTo('/auth');
+			{
+				'error/expried': 'Recovery code expired!',
+				'error/unknown': 'Error recovering the password!',
+			},
+		);
 	});
 </script>
 
@@ -56,8 +58,9 @@
 			<InputText
 				v-model="password"
 				type="password"
+				name="password"
 				autocomplete="new-password"
-				placeholder="Pasword"
+				placeholder="New pasword"
 				aria-describedby="password-help"
 				:invalid="!!errors.password"
 				autofocus
@@ -76,9 +79,10 @@
 			<InputText
 				v-model="confirmPassword"
 				type="password"
+				name="confirmPassword"
 				autocomplete="new-password"
-				placeholder="Confirm pasword"
-				aria-describedby="password-help"
+				placeholder="Confirm new password"
+				aria-describedby="confirm-password-help"
 				:invalid="!!errors.confirmPassword"
 				autofocus
 				fluid

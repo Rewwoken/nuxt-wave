@@ -1,44 +1,21 @@
-import crypto from 'node:crypto';
 import { addMinutes, isAfter } from 'date-fns';
 import { prisma } from '~/server/database';
 
-// TODO: handle expiration date
 export async function createRecoveryCode(userId: string) {
-	return prisma.$transaction(async (tx) => {
-		const prevRecoveryCode = await prisma.recoveryCode.findUnique({
-			where: { userId },
-		});
-		if (prevRecoveryCode) {
-			const isCodeExpired = isAfter(new Date(), prevRecoveryCode.expiresIn);
+	const code = crypto.randomUUID();
+	const expiresIn = addMinutes(new Date(), 10);
 
-			if (!isCodeExpired) {
-				throw createError({
-					statusCode: 400,
-					statusMessage: 'Bad Request',
-					message: 'error/not-expired',
-				});
-			}
-
-			await tx.recoveryCode.delete({
-				where: { userId },
-			});
-		}
-
-		const randomCode = crypto.randomBytes(128).toString('hex');
-		const expiresIn = addMinutes(new Date(), 1);
-
-		return tx.recoveryCode.create({
-			data: {
-				user: {
-					connect: { id: userId },
-				},
-				value: randomCode,
-				expiresIn,
+	return prisma.recoveryCode.create({
+		data: {
+			user: {
+				connect: { id: userId },
 			},
-			select: {
-				value: true,
-			},
-		});
+			value: code,
+			expiresIn,
+		},
+		select: {
+			value: true,
+		},
 	});
 }
 
@@ -48,25 +25,50 @@ export function findRecoveryCodeByUserId(userId: string) {
 	});
 }
 
+export function deleteRecoveryCodeByUserId(userId: string) {
+	return prisma.recoveryCode.delete({
+		where: { userId },
+	});
+}
+
 export async function recoverUserPassword(userId: string, newPassword: string, recoveryCode: string) {
-	return prisma.$transaction([
-		prisma.user.findUniqueOrThrow({
+	return prisma.$transaction(async (tx) => {
+		const user = await tx.user.findUnique({
 			where: {
 				id: userId,
 				recoveryCode: { value: recoveryCode },
 			},
-		}),
-		prisma.user.update({
-			where: { id: userId },
+			select: {
+				id: true,
+				recoveryCode: {
+					select: {
+						id: true,
+						expiresIn: true,
+					},
+				},
+			},
+		});
+		if (!user) {
+			throw new Error('error/not-found');
+		}
+
+		// Code can not be null, since we looked for recoveryCode: { value: recoveryCode }
+		const isCodeExpired = isAfter(new Date(), user.recoveryCode!.expiresIn);
+		if (isCodeExpired) {
+			throw new Error('error/expired');
+		}
+
+		await tx.user.update({
+			where: { id: user.id },
 			data: {
 				password: await hash(newPassword),
 			},
-		}),
-		prisma.recoveryCode.delete({
-			where: {
-				userId,
-				value: recoveryCode,
-			},
-		}),
-	]);
+		});
+
+		await tx.recoveryCode.delete({
+			where: { id: user.recoveryCode!.id },
+		});
+
+		return user;
+	});
 }

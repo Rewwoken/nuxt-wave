@@ -9,11 +9,11 @@ cloudinary.config({
 	secure: true,
 });
 
-interface RequiredOptions {
+interface RequiredApiOptions {
 	resource_type: 'image' | 'video';
 }
 
-export function cloudinaryUpload(path: string, options: RequiredOptions & UploadApiOptions) {
+export function cloudinaryUpload(path: string, options: RequiredApiOptions & UploadApiOptions) {
 	return cloudinary.uploader.upload(path, options);
 }
 

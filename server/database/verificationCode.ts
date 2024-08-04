@@ -1,17 +1,18 @@
-import crypto from 'node:crypto';
 import { addMinutes, isAfter } from 'date-fns';
 import { prisma } from '~/server/database';
 
 export async function createVerificationCode(userId: string) {
-	const randomCode = crypto.randomBytes(128).toString('hex');
+	const code = crypto.randomUUID();
 	const expiresIn = addMinutes(new Date(), 15);
+
+	// The previous code is handled in register.post.ts, so there's no need to check it
 
 	return prisma.verificationCode.create({
 		data: {
 			user: {
 				connect: { id: userId },
 			},
-			value: randomCode,
+			value: code,
 			expiresIn,
 		},
 		select: {

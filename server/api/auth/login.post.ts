@@ -42,4 +42,7 @@ export default defineEventHandler(async (event) => {
 	const { accessToken, refreshToken } = issueTokens(user.id);
 	setRefreshToken(event, refreshToken);
 	setAccessToken(event, accessToken);
+
+	setResponseStatus(event, 200);
+	return { id: user.id };
 });

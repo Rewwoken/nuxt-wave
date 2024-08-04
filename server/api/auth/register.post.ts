@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
 	const existingUser = await findUserByEmailOrUsername(body.email, body.username);
 	if (existingUser) {
-		if (existingUser.verifiedOn) {
+		if (existingUser.verifiedOn !== null) {
 			throw createError({
 				statusCode: 400,
 				statusMessage: 'Bad Request',
@@ -34,4 +34,7 @@ export default defineEventHandler(async (event) => {
 
 	const verificationCode = await createVerificationCode(newUser.id);
 	await sendVerificationEmail(newUser.email, newUser.id, verificationCode.value);
+
+	setResponseStatus(event, 201);
+	return newUser;
 });

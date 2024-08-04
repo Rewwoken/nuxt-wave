@@ -75,37 +75,41 @@
 </script>
 
 <template>
-	<section class="flex p-3 gap-x-4">
-		<UserImage :src="currentUser.profile.imageUrl" :px="48" />
-		<form class="flex flex-col w-full">
-			<Textarea
-				id="new-post-text"
-				v-model="text"
-				name="postText"
-				placeholder="What is happening?!"
-				pt:root:class="!border-none !shadow-none !text-xl !bg-transparent dark:!text-white !min-h-[72px]"
-				:auto-resize="true"
-			/>
-			<PostCreationMediaList :items="items" @delete-media="deleteMedia" />
-			<div class="flex justify-between pt-2 mt-2 border-t dark:border-gray-800">
-				<fieldset class="flex items-center gap-x-0.5">
-					<PostCreationMediaUpload
-						icon="pi pi-image"
-						accept="image/png, image/jpeg, image/gif, video/mp4, video/*"
-						@add-media="addMedia"
-					/>
-				</fieldset>
-				<Button
-					type="button"
-					label="Create post"
-					icon="pi pi-send"
-					pt:root:class="!px-8 !py-0 !text-white"
-					rounded
-					:loading="isSubmitting"
-					:disabled="hasErrors"
-					@click="onSubmit"
+	<UserImage
+		:src="currentUser.profile.imageUrl"
+		:px="48"
+	/>
+	<form class="flex flex-col w-full">
+		<Textarea
+			id="new-post-text"
+			v-model="text"
+			name="postText"
+			placeholder="What is happening?!"
+			pt:root:class="!border-none !shadow-none !text-xl !bg-transparent dark:!text-white !min-h-[72px]"
+			:auto-resize="true"
+		/>
+		<PostCreationMediaList
+			:items="items"
+			@delete-media="deleteMedia"
+		/>
+		<div class="flex justify-between pt-2 mt-2 border-t border-t-gray-500/20">
+			<fieldset class="flex items-center gap-x-0.5">
+				<PostCreationMediaUpload
+					icon="pi pi-image"
+					accept="image/png, image/jpeg, image/gif, video/mp4, video/*"
+					@add-media="addMedia"
 				/>
-			</div>
-		</form>
-	</section>
+			</fieldset>
+			<Button
+				type="button"
+				label="Create post"
+				icon="pi pi-send"
+				pt:root:class="!px-8 !py-0 !text-white"
+				rounded
+				:loading="isSubmitting"
+				:disabled="hasErrors"
+				@click="onSubmit"
+			/>
+		</div>
+	</form>
 </template>

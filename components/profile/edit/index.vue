@@ -20,8 +20,8 @@
 		:close-on-escape="true"
 		:draggable="false"
 		:style="{ width: '35rem' }"
+		:modal="true"
 		pt:root:class="!shadow-md dark:!bg-dim dark:!border-none dark:!text-white"
-		modal
 	>
 		<template #container="{ closeCallback }">
 			<ProfileEditModal @close-modal="closeCallback" />

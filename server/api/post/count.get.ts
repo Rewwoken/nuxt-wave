@@ -6,5 +6,6 @@ export default defineEventHandler(async (event) => {
 		userId: z.string(),
 	}).parse);
 
+	setResponseStatus(event, 200);
 	return countPostsByUserId(query.userId);
 });

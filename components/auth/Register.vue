@@ -54,6 +54,7 @@
 			<InputText
 				v-model="email"
 				type="text"
+				name="email"
 				autocomplete="email"
 				placeholder="Email"
 				aria-describedby="email-help"
@@ -70,6 +71,7 @@
 			<InputText
 				v-model="username"
 				type="text"
+				name="username"
 				autocomplete="off"
 				placeholder="Username"
 				aria-describedby="username-help"
@@ -89,6 +91,7 @@
 			<InputText
 				v-model="password"
 				type="password"
+				name="password"
 				autocomplete="off"
 				placeholder="Password"
 				aria-describedby="password-help"
@@ -103,6 +106,7 @@
 		>
 			{{ errors.password }}
 		</small>
+		<!-- TODO: add password-confirm -->
 		<Message v-if="serverError" severity="error" closable>
 			{{ serverError }}
 		</Message>

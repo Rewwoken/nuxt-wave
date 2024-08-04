@@ -1,54 +1,51 @@
 <script setup lang="ts">
-	import { registerSchema } from '~/schemas/register';
+	import { sendRecoverySchema } from '~/schemas/sendRecovery';
 
 	const emit = defineEmits<{
-		(e: 'closeModal'): void;
+		(e: 'onSubmit'): void;
 	}>();
 
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
 		validationSchema: toTypedSchema(
-			registerSchema.pick({ email: true }),
+			sendRecoverySchema,
 		),
 	});
 	const [email] = defineField('email');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const serverError = ref<string | null>(null);
+	const { handleFormRequest, serverError } = useHandleForm();
 
+	const { $api } = useNuxtApp();
 	const toast = useToast();
+
 	const onSubmit = handleSubmit(async (values) => {
-		serverError.value = null;
-		const { error } = await useFetch('/api/send/recovery', {
-			method: 'POST',
-			body: { email: values.email },
-		});
+		await handleFormRequest(
+			() => $api('/api/send/recovery', {
+				method: 'POST',
+				body: { email: values.email },
+			}),
+			() => {
+				toast.add({
+					severity: 'info',
+					summary: 'A password recovery email has been sent to your email.',
+					detail: 'If the user exists, you will receive an email. Please, check your mailbox and follow the link in the message within 10 minutes before it expires.',
+				});
 
-		if (error.value) {
-			if (error.value.data.message === 'error/not-expired') {
-				serverError.value = 'Previous code has not expired!';
-			}
-			else {
-				serverError.value = 'Error sending email!';
-			}
-
-			return null;
-		}
-
-		toast.add({
-			severity: 'info',
-			summary: 'A password recovery email has been sent to your email.',
-			detail: 'If the user is registered, you will receive an email.',
-		});
-
-		emit('closeModal');
+				emit('onSubmit');
+			},
+			{
+				'error/not-expired': 'Previous code has not expired!',
+				'error/unknown': 'Error sending email!',
+			},
+		);
 	});
 </script>
 
 <template>
 	<form
 		autocomplete="off"
-		novalidate
 		class="flex flex-col gap-y-2"
+		novalidate
 		@submit="onSubmit"
 	>
 		<IconField class="w-full">
@@ -56,6 +53,7 @@
 			<InputText
 				v-model="email"
 				type="text"
+				name="email"
 				autocomplete="new-password"
 				placeholder="Email"
 				aria-describedby="email-help"

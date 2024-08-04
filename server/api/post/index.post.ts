@@ -26,8 +26,8 @@ export default defineEventHandler({
 
 		const userId = event.context.user.id;
 		try {
-			event.node.res.statusCode = 201;
-			await createPost(userId, query.parentPostId, schemaParse.data.text, validatedFiles);
+			setResponseStatus(event, 201);
+			return await createPost(userId, query.parentPostId, schemaParse.data.text, validatedFiles);
 		}
 		catch {
 			throw createError({

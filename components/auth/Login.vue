@@ -52,6 +52,7 @@
 			<InputText
 				v-model="username"
 				type="text"
+				name="username"
 				autocomplete="new-password"
 				placeholder="Username"
 				aria-describedby="username-help"
@@ -71,6 +72,7 @@
 			<InputText
 				v-model="password"
 				type="password"
+				name="password"
 				autocomplete="new-password"
 				placeholder="Password"
 				aria-describedby="password-help"

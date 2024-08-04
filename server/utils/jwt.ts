@@ -56,7 +56,7 @@ export function setAccessToken(event: H3Event, value: string) {
 	setCookie(event, 'accessToken', value, {
 		httpOnly: false,
 		sameSite: 'lax',
-		secure: true,
+		secure: process.env.NODE_ENV === 'production', // https://nuxt.com/docs/api/commands/preview
 		expires,
 	});
 }
@@ -67,7 +67,7 @@ export function setRefreshToken(event: H3Event, value: string) {
 	setCookie(event, 'refreshToken', value, {
 		httpOnly: true,
 		sameSite: 'lax',
-		secure: true,
+		secure: process.env.NODE_ENV === 'production', // https://nuxt.com/docs/api/commands/preview
 		expires,
 	});
 }

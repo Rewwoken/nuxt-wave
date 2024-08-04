@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 export default defineEventHandler({
-	handler: async (event) => {
-		if (event.path.startsWith('/api')) {
-			console.log(`REQUEST  [${event.node.req.method}]  ${event.path}`);
-		}
+	handler: () => {
+		return void 0;
 	},
 	onBeforeResponse: (event) => {
-		if (event.path.startsWith('/api') && event.node.res.statusCode >= 400) {
-			console.log(`RESPONSE [${event.node.res.statusCode}]  ${event.path}`);
+		if (event.path.startsWith('/api')) {
+			const info = `[NITRO] ${event.node.res.statusCode} RESPONSE ${event.method}`;
+
+			console.log(`${info.padEnd(26, ' ')} ${event.path}`);
 		}
 	},
 });

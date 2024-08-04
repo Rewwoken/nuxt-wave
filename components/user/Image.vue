@@ -16,7 +16,7 @@
 		format="webp"
 		:style="{ width: `${px}px`, height: `${px}px` }"
 		:modifiers="{ roundCorner: 'max', gravity: 'faceCenter' }"
-		class="rounded-full object-cover select-none"
+		class="object-cover rounded-full select-none"
 		alt="user image"
 		loading="lazy"
 	/>
@@ -25,7 +25,7 @@
 		:width="px"
 		:height="px"
 		src="/placeholders/user-image.webp"
-		class="rounded-full object-cover select-none"
+		class="object-cover rounded-full select-none"
 		:style="{ width: `${px}px`, height: `${px}px` }"
 		alt="user image"
 		loading="lazy"

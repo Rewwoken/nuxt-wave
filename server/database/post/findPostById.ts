@@ -5,6 +5,9 @@ export function findPostById(id: string) {
 		where: { id },
 		select: {
 			id: true,
+			text: true,
+			createdAt: true,
+			updatedAt: true,
 			mediaFiles: {
 				select: {
 					url: true,
