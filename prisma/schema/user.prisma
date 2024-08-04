@@ -1,71 +1,71 @@
 model User {
-	id				 String		@id @default(uuid()) @map("user_id")
-	username	 String		@unique
-	email			String		@unique
-	password	 String
-	verifiedOn DateTime? @map("verified_on")
-	createdAt	DateTime	@default(now()) @map("created_at")
-	updatedAt	DateTime	@updatedAt @map("updated_at")
+  id         String    @id @default(uuid()) @map("user_id")
+  username   String    @unique
+  email      String    @unique
+  password   String
+  verifiedOn DateTime? @map("verified_on")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
 
-	profile					Profile?
-	posts						Post[]						@relation("UserPosts")
-	reposts					Repost[]
-	verificationCode VerificationCode?
-	recoveryCode		 RecoveryCode?
+  profile          Profile?
+  posts            Post[]            @relation("UserPosts")
+  reposts          Repost[]
+  verificationCode VerificationCode?
+  recoveryCode     RecoveryCode?
 
-	// post.prisma
-	likesPostsRelations PostLikeRelation[] @relation("Initiator") // PostLikeRelations where the user is initiator
+  // post.prisma
+  likesPostsRelations PostLikeRelation[] @relation("Initiator") // PostLikeRelations where the user is initiator
 
-	// social.prisma
-	followsRelations		FollowRelation[] @relation("Initiator") // FollowRelations where the user is initiator
-	followedByRelations FollowRelation[] @relation("Followed") // FollowRelations where the user is followed
+  // social.prisma
+  followsRelations    FollowRelation[] @relation("Initiator") // FollowRelations where the user is initiator
+  followedByRelations FollowRelation[] @relation("Followed") // FollowRelations where the user is followed
 
-	// social.prisma
-	blocksRelations		BlockRelation[] @relation("Initiator") // BlockRelations where the user is initiator
-	blockedByRelations BlockRelation[] @relation("Blocked") // BlockRelations where the user is blocked
+  // social.prisma
+  blocksRelations    BlockRelation[] @relation("Initiator") // BlockRelations where the user is initiator
+  blockedByRelations BlockRelation[] @relation("Blocked") // BlockRelations where the user is blocked
 
-	@@map("user")
+  @@map("user")
 }
 
 model Profile {
-	id						 String	 @id @default(uuid()) @map("profile_id")
-	name					 String
-	bio						String?
-	location			 String?
-	website				String?
-	imageUrl			 String?	@unique @map("image_url")
-	imagePublicId	String?	@unique @map("image_provider_id")
-	bannerUrl			String?	@unique @map("banner_url")
-	bannerPublicId String?	@unique @map("banner_provider_id")
-	createdAt			DateTime @default(now()) @map("created_at")
-	updatedAt			DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid()) @map("profile_id")
+  name           String
+  bio            String?
+  location       String?
+  website        String?
+  imageUrl       String?  @unique @map("image_url")
+  imagePublicId  String?  @unique @map("image_provider_id")
+  bannerUrl      String?  @unique @map("banner_url")
+  bannerPublicId String?  @unique @map("banner_provider_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
-	user	 User	 @relation(fields: [userId], references: [id], onDelete: Cascade)
-	userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id")
 
-	@@map("profile")
+  @@map("profile")
 }
 
 model VerificationCode {
-	id				String	 @id @default(uuid()) @map("verification_code_id")
-	value		 String
-	expiresIn DateTime @map("expires_in")
-	createdAt DateTime @default(now()) @map("created_at")
+  id        String   @id @default(uuid()) @map("verification_code_id")
+  value     String
+  expiresIn DateTime @map("expires_in")
+  createdAt DateTime @default(now()) @map("created_at")
 
-	user	 User	 @relation(fields: [userId], references: [id], onDelete: Cascade)
-	userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id")
 
-	@@map("verification_code")
+  @@map("verification_code")
 }
 
 model RecoveryCode {
-	id				String	 @id @default(uuid()) @map("verification_code_id")
-	value		 String
-	expiresIn DateTime @map("expires_in")
-	createdAt DateTime @default(now()) @map("created_at")
+  id        String   @id @default(uuid()) @map("verification_code_id")
+  value     String
+  expiresIn DateTime @map("expires_in")
+  createdAt DateTime @default(now()) @map("created_at")
 
-	user	 User	 @relation(fields: [userId], references: [id], onDelete: Cascade)
-	userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @map("user_id")
 
-	@@map("recovery_code")
+  @@map("recovery_code")
 }

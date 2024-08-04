@@ -1,53 +1,53 @@
 model Post {
-	id				String	 @id @default(uuid()) @map("post_id")
-	text			String
-	createdAt DateTime @default(now()) @map("created_at")
-	updatedAt DateTime @updatedAt @map("updated_at")
+  id        String   @id @default(uuid()) @map("post_id")
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-	user	 User	 @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade)
-	userId String @map("user_id")
+  user   User   @relation("UserPosts", fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
 
-	mediaFiles MediaFile[]
+  mediaFiles MediaFile[]
 
-	reposts Repost[]
+  reposts Repost[]
 
-	// Self-relation for parent-child relationship
-	parentPost	 Post?	 @relation("PostReplies", fields: [parentPostId], references: [id])
-	parentPostId String? @map("parent_post_id")
-	replies			Post[]	@relation("PostReplies")
+  // Self-relation for parent-child relationship
+  parentPost   Post?   @relation("PostReplies", fields: [parentPostId], references: [id])
+  parentPostId String? @map("parent_post_id")
+  replies      Post[]  @relation("PostReplies")
 
-	// social.prisma
-	likedByUsersRelations PostLikeRelation[] @relation("LikedPost") // PostLikeRelations where the post is liked
+  // social.prisma
+  likedByUsersRelations PostLikeRelation[] @relation("LikedPost") // PostLikeRelations where the post is liked
 
-	@@map("post")
+  @@map("post")
 }
 
 model MediaFile {
-	id				String	 @id @default(uuid()) @map("media_file_id")
-	url			 String	 @unique
-	publicId	String	 @unique @map("provider_id")
-	mimetype	String	 @map("mime_type")
-	createdAt DateTime @default(now()) @map("created_at")
-	updatedAt DateTime @updatedAt @map("updated_at")
+  id        String   @id @default(uuid()) @map("media_file_id")
+  url       String   @unique
+  publicId  String   @unique @map("provider_id")
+  mimetype  String   @map("mime_type")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-	// No cascade deletion, should be deleted manually with deleting from Cloudinary
-	post	 Post	 @relation(fields: [postId], references: [id])
-	postId String @map("post_id")
+  // No cascade deletion, should be deleted manually with deleting from Cloudinary
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String @map("post_id")
 
-	@@map("media_file")
+  @@map("media_file")
 }
 
 model Repost {
-	id				String	 @id @default(uuid()) @map("repost_id")
-	text			String
-	createdAt DateTime @default(now()) @map("created_at")
-	updatedAt DateTime @updatedAt @map("updated_at")
+  id        String   @id @default(uuid()) @map("repost_id")
+  text      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-	user	 User	 @relation(fields: [userId], references: [id], onDelete: Cascade)
-	userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
 
-	post	 Post	 @relation(fields: [postId], references: [id])
-	postId String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
 
-	@@map("repost")
+  @@map("repost")
 }

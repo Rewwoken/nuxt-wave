@@ -3,6 +3,7 @@
 	const { theme, toggleTheme } = useTheme();
 </script>
 
+<!-- ? TODO: add notifications -->
 <template>
 	<nav class="flex items-center justify-between px-4 py-1 bg-white border-t dark:bg-dim border-gray-500/20">
 		<LayoutsDefaultMobileNavLink to="/home" icon="pi-home" />
