@@ -1,47 +1,43 @@
 <script setup lang="ts">
-	const { data: count } = useAPI('/api/notifications/count', {
-		method: 'GET',
-		dedupe: 'defer',
-	});
+	const { $api } = useNuxtApp();
+	const data = useCurrentUser();
 
-	useSeoMeta({
-		titleTemplate: (titleChunk) => {
-			return `(${count.value}) ${titleChunk} / Wave`;
-		},
-	});
+	await callOnce(async () => {
+		const response = await $api('/api/me', {
+			method: 'GET',
+		});
 
-	const { fetchCurrentUser } = useCurrentUser();
-	await callOnce(fetchCurrentUser);
+		data.value = response;
+	});
 </script>
 
 <template>
-	<NuxtLoadingIndicator />
 	<div class="flex justify-center min-h-screen">
-		<aside class="hidden md:flex flex-col gap-y-3 pr-4 items-end xl:items-stretch xl:w-[300px]">
-			<LayoutsDefaultLeftNavigation />
+		<aside class="hidden md:flex flex-col gap-y-3 pr-4 items-end xl:items-stretch xl:w-[300px] select-none">
+			<LayoutAsideNavigation />
 			<PostCreationModal />
-			<LayoutsDefaultLeftAccount />
+			<LayoutAsideAccount />
 		</aside>
 		<main class="w-[586px] border-x lg:mr-4 overflow-hidden border-x-gray-500/20">
 			<slot />
 			<div class="fixed bottom-0 max-w-[586px] w-full md:hidden">
-				<LayoutsDefaultMobileNav />
+				<LayoutMobileNav />
 			</div>
 		</main>
 		<aside class="hidden lg:flex flex-col gap-y-2 w-[350px] pt-2">
-			<LayoutsDefaultRightSearch />
-			<LayoutsDefaultRightWrapper
+			<LayoutAsideSearch />
+			<LayoutAsideBox
 				title="What's happening"
 				footer-link="/"
 			>
-				<LayoutsDefaultRightTags />
-			</LayoutsDefaultRightWrapper>
-			<LayoutsDefaultRightWrapper
+				<LayoutAsideTags />
+			</LayoutAsideBox>
+			<LayoutAsideBox
 				title="You might like"
 				footer-link="/"
 			>
-				<LayoutsDefaultRightUsers />
-			</LayoutsDefaultRightWrapper>
+				<LayoutAsideUsers />
+			</LayoutAsideBox>
 			<div class="flex flex-wrap justify-between px-2 text-nowrap gap-x-4 gap-y-2">
 				<WebsiteInfo />
 			</div>

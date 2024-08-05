@@ -1,13 +1,10 @@
 import 'h3';
-import type { findUserById } from '~/server/database/user';
+import type { findUniqueUser } from '~/server/database/user';
 
-type User = NonNullable<Awaited<ReturnType<typeof findUserById>>>;
+type User = NonNullable<Awaited<ReturnType<typeof findUniqueUser>>>;
 
 declare module 'h3' {
 	interface H3EventContext {
-		// ~/server/middleware/auth.ts
-		user: User & {
-			profile: NonNullable<Pick<User, 'profile'>>;
-		};
+		user: User; // Set in ~/server/utils/auth.ts
 	}
 }

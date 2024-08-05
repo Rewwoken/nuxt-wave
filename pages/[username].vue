@@ -4,25 +4,27 @@
 	const route = useRoute();
 	const username = route.params.username as string;
 
+	const currentUser = useCurrentUser();
+
 	async function getUser(username: string) {
-		const { currentUser } = useCurrentUser();
-		if (username === currentUser.username) {
+		if (username === currentUser.value!.username) {
 			return { user: currentUser, error: null };
 		}
 
 		const { data: user, error } = await useAPI<User>(`/api/user/${username}`, {
 			method: 'GET',
 		});
-		return { user: user.value, error };
+		return { user, error };
 	}
 
 	const { user, error } = await getUser(username);
 	useSeoMeta({
-		title: user ? `${user.profile?.name} (@${user.username})` : 'Not Found',
+		title: user ? `${user.value!.profile.name} (@${user.value!.username})` : 'Not Found',
 	});
 </script>
 
 <template>
+	<!-- @vue-expect-error -->
 	<Profile v-if="user" :user="user" />
 	<div v-else-if="error && error.data.message === 'error/invalid'">
 		INVALID

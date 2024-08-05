@@ -11,7 +11,7 @@ model Post {
 
   reposts Repost[]
 
-  // Self-relation for parent-child relationship
+  // Parent-child self-relation relationship
   parentPost   Post?   @relation("PostReplies", fields: [parentPostId], references: [id])
   parentPostId String? @map("parent_post_id")
   replies      Post[]  @relation("PostReplies")
@@ -30,7 +30,7 @@ model MediaFile {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  // No cascade deletion, should be deleted manually with deleting from Cloudinary
+  // No cascade deletion should be performed, instead it should be deleted manually alongside deletion from Cloudinary.
   post   Post   @relation(fields: [postId], references: [id])
   postId String @map("post_id")
 

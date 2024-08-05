@@ -15,7 +15,7 @@
 		<slot />
 		<NuxtLink
 			:to="footerLink"
-			class="inline-block w-full mt-4 text-sm font-semibold text-sky-500 hover:underline"
+			class="inline-block w-full mt-4 text-sm font-semibold text-primary-500 hover:underline"
 		>
 			Show more
 		</NuxtLink>

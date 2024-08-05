@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3';
-import { findUserById } from '~/server/database/user';
+import { findUniqueUser } from '~/server/database/user';
 
 export default defineEventHandler(async (event) => {
 	const authorizationHeader = getRequestHeader(event, 'authorization');
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
 async function handleVerifiedToken(event: H3Event, value: string) {
 	const { id } = decodeToken(value);
 
-	const user = await findUserById(id);
+	const user = await findUniqueUser({ id });
 	if (!user) {
 		throw createError({
 			statusCode: 401,
@@ -41,6 +41,5 @@ async function handleVerifiedToken(event: H3Event, value: string) {
 		});
 	}
 
-	// @ts-expect-error | ...
 	event.context.user = user;
 }

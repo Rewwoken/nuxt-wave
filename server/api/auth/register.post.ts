@@ -1,12 +1,14 @@
 import { isAfter } from 'date-fns';
 import { registerSchema } from '~/schemas/register';
-import { createUser, deleteUserById, findUserByEmailOrUsername } from '~/server/database/user';
+import { createUser, deleteUserById, findFirstUser } from '~/server/database/user';
 import { createVerificationCode } from '~/server/database/verificationCode';
 
 export default defineEventHandler(async (event) => {
 	const body = await readValidatedBody(event, registerSchema.parse);
 
-	const existingUser = await findUserByEmailOrUsername(body.email, body.username);
+	const existingUser = await findFirstUser({
+		OR: [{ email: body.email }, { username: body.username }],
+	});
 	if (existingUser) {
 		if (existingUser.verifiedOn !== null) {
 			throw createError({

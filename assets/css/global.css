@@ -2,6 +2,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
+	/* Removing user-agent autofill styles by delaying them  */
 	-webkit-transition: color 999999s ease-out, background-color 999999s ease-out !important;
 	-webkit-transition-delay: 999999s !important;
 }

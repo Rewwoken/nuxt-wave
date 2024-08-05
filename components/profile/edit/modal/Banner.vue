@@ -3,8 +3,8 @@
 		(e: 'onFile', key: 'banner', file: File): void;
 	}>();
 
-	const { currentUser } = useCurrentUser();
-	const banner = ref(currentUser.profile.bannerUrl);
+	const currentUser = useCurrentUser();
+	const banner = ref(currentUser.value!.profile.bannerUrl);
 	const hiddenInput = ref();
 
 	function onClick() {

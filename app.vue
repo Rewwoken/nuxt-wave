@@ -30,10 +30,8 @@
 </script>
 
 <template>
-	<div
-		class="w-full bg-white min-h-dvh dark:bg-dim dark:text-white"
-		:style="{ 'font-family': 'Inter' }"
-	>
+	<div class="w-full bg-white min-h-dvh dark:bg-dim dark:text-white font-sans">
+		<NuxtLoadingIndicator />
 		<NuxtLayout>
 			<NuxtPage />
 		</NuxtLayout>

@@ -3,20 +3,21 @@
 	import type { User } from '~/types/api.types';
 
 	const props = defineProps<{
-		user: User;
+		user: NonNullable<User>;
 	}>();
 
 	const registrationDate = format(props.user.createdAt, 'MMMM, yyyy');
 
 	const route = useRoute();
-	const { currentUser } = useCurrentUser();
-	const isCurrentUser = route.path === `/${currentUser.username}`;
+	const currentUser = useCurrentUser();
+	const isCurrentUser = route.path === `/${currentUser.value!.username}`;
 
 	provide('user', props.user);
 </script>
 
 <template>
 	<ProfileHeader />
+	<!-- Potential improvement: reduce UserBanner size on mobile -->
 	<UserBanner :src="user.profile.bannerUrl" :height="195" :width="586" />
 	<div class="flex items-end px-3 mt-2">
 		<ProfileImage />
@@ -44,7 +45,7 @@
 				<NuxtLink
 					:href="user.profile.website"
 					target="_blank"
-					class="text-sky-500 hover:underline"
+					class="text-primary-500 hover:underline"
 				>
 					{{ user.profile.website.split('//')[1] }}
 				</NuxtLink>

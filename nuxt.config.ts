@@ -29,6 +29,7 @@ export default defineNuxtConfig({
 		'@primevue/nuxt-module',
 		'@vee-validate/nuxt',
 		'@nuxt/image',
+		'@nuxtjs/robots',
 	],
 	image: {
 		cloudinary: {
@@ -45,14 +46,6 @@ export default defineNuxtConfig({
 			},
 		},
 	},
-	routeRules: {
-		'/': {
-			redirect: {
-				to: '/home',
-				statusCode: 301,
-			},
-		},
-	},
 	compatibilityDate: '2024-08-02',
 	css: ['primeicons/primeicons.css', '~/assets/css/global.css'],
 	runtimeConfig: {
@@ -63,6 +56,14 @@ export default defineNuxtConfig({
 		cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
 		public: {
 			baseUrl: process.env.BASE_URL,
+		},
+	},
+	routeRules: {
+		'/': {
+			redirect: {
+				to: '/home',
+				statusCode: 301,
+			},
 		},
 	},
 	alias: {

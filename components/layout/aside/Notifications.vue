@@ -1,7 +1,15 @@
 <script setup lang="ts">
-	const { data: count } = useAPI('/api/notifications/count', {
+	const { data: count } = await useAPI('/api/notifications/count', {
 		method: 'GET',
 		dedupe: 'defer',
+	});
+
+	useSeoMeta({
+		titleTemplate: (titleChunk) => {
+			const title = count.value ? `(${count.value}) ${titleChunk}` : titleChunk;
+
+			return `${title} / Wave`;
+		},
 	});
 </script>
 
@@ -16,8 +24,7 @@
 			<Badge
 				v-if="count"
 				:value="count"
-				pt:root:class="!absolute !-top-1 !-right-2 !text-white"
-				:pt:root:style="{ 'font-family': 'Inter' }"
+				pt:root:class="!absolute !-top-1 !-right-2 !text-white !font-sans"
 				size="small"
 			/>
 		</i>

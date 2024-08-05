@@ -11,11 +11,7 @@
 
 	async function onNavigate() {
 		if (props.error.statusCode === 401) {
-			await $fetch('/api/auth/logout', {
-				method: 'POST',
-			});
-
-			return navigateTo('/auth');
+			return void await logout();
 		}
 
 		await navigateTo('/home');

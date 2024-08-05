@@ -43,6 +43,7 @@
 		}
 
 		await handleFormRequest(
+			// @ts-expect-error | ? Excessive stack depth comparing types
 			() => $api('/api/profile', {
 				method: 'PATCH',
 				body: formData,
@@ -74,23 +75,28 @@
 </script>
 
 <template>
-	<header class="flex justify-between px-2 pt-3 mb-2">
+	<header class="flex items-center px-2 pt-3 mb-2">
 		<Button
 			icon="pi pi-times"
 			severity="contrast"
-			pt:root:class="!border-0"
+			pt:root:class="!border-none"
 			outlined
 			rounded
 			@click="$emit('closeModal')"
 		/>
-		<!-- TODO: implement file deleting -->
-		<ProfileEditModalSubmit
-			:is-pending="isSubmitting"
-			:has-errors="hasErrors"
-			@on-submit="onSubmit"
+		<h2 class="ml-2 text-xl">
+			Edit profile
+		</h2>
+		<Button
+			label="Send"
+			severity="contrast"
+			size="small"
+			pt:root:class="!px-8 !ml-auto"
+			:loading="isSubmitting"
+			:disabled="hasErrors"
+			rounded
+			@click="onSubmit"
 		/>
-		<!-- @delete-banner="deleteBanner" -->
-		<!-- @delete-image="deleteImage" -->
 	</header>
 	<ProfileEditModalBanner @on-file="onFile" />
 	<ProfileEditModalImage @on-file="onFile" />
@@ -110,7 +116,7 @@
 				aria-describedby="name-help"
 				:maxlength="50"
 				:invalid="!!errors.name"
-				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
 			/>
 			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ name?.length || 0 }} / 50</span>
 			<small
@@ -131,7 +137,7 @@
 				:maxlength="160"
 				:invalid="!!errors.bio"
 				:auto-resize="true"
-				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
 			/>
 			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ bio?.length || 0 }} / 160</span>
 			<small
@@ -153,7 +159,7 @@
 				aria-describedby="location-help"
 				:maxlength="30"
 				:invalid="!!errors.location"
-				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
 			/>
 			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ location?.length || 0 }} / 30</span>
 			<small
@@ -175,7 +181,7 @@
 				aria-describedby="website-help"
 				:maxlength="50"
 				:invalid="!!errors.website"
-				pt:root:class="!border-gray-500/20 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
 			/>
 			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ website?.length || 0 }} / 50</span>
 			<small

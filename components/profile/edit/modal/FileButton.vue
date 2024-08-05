@@ -8,9 +8,8 @@
 	<Button
 		icon="pi pi-file-plus"
 		severity="contrast"
-		pt:root:class="!absolute !border-0 !overflow-visible !size-10 !bg-white/40 dark:!bg-black/40"
-		pt:icon:class="!text-black dark:!text-white"
-		pt:icon:style="font-size: 1.4rem"
+		pt:root:class="!absolute !border-none !overflow-visible !size-10 !bg-white/40 dark:!bg-black/40"
+		pt:icon:class="!text-black dark:!text-white !text-2xl"
 		outlined
 		rounded
 		@click="$emit('onClick')"

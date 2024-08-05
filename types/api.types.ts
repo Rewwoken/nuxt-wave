@@ -1,8 +1,4 @@
-import type {
-	Profile as PrismaProfile,
-	User as PrismaUser,
-} from '@prisma/client';
+import type { FetchResult } from '#app';
 
-export type User = Pick<PrismaUser, 'id' | 'username' | 'createdAt'> & {
-	profile: Pick<PrismaProfile, 'name' | 'bio' | 'location' | 'website' | 'imageUrl' | 'bannerUrl'>;
-};
+// Bruh, I spent hours to find this type 💀!!
+export type User = FetchResult<'/api/user/:username', 'GET'>;

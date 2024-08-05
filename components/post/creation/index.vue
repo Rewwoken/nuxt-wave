@@ -6,7 +6,7 @@
 		source: string;
 	}
 
-	const { currentUser } = useCurrentUser();
+	const currentUser = useCurrentUser();
 	const items = ref<MediaItem[]>([]);
 
 	function addMedia(file: File, source: string) {

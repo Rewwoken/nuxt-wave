@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { isUsername } from '~/schemas/register';
-import { findUserByUsername } from '~/server/database/user';
+import { findUniqueUser } from '~/server/database/user';
 
 export default defineEventHandler(async (event) => {
 	const query = await getValidatedRouterParams(event, z.object({
 		username: z.string().regex(isUsername),
 	}).parse);
 
-	const findUser = await findUserByUsername(query.username);
+	const findUser = await findUniqueUser({ username: query.username });
 	if (!findUser) {
 		throw createError({
 			statusCode: 400,

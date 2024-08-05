@@ -7,21 +7,20 @@ export async function createUser(data: RegisterSchema) {
 
 	return prisma.$transaction(async (tx) => {
 		const user = await tx.user.create({
-				data,
-				select: {
-					id: true,
-					email: true,
-					username: true,
-				},
+			data,
+			select: {
+				id: true,
+				email: true,
+				username: true,
 			},
-		);
+		});
 
 		await tx.profile.create({
 			data: {
 				user: {
 					connect: { id: user.id },
 				},
-				name: `User${(Math.random() * 10000).toFixed(0)}`,
+				name: `User${(Math.random() * 10000).toFixed(0)}`, // Random name like User1234
 			},
 		});
 
@@ -29,9 +28,9 @@ export async function createUser(data: RegisterSchema) {
 	});
 }
 
-export async function findUserById(id: string) {
-	return prisma.user.findUnique({
-		where: { id },
+export async function findUniqueUser(where: Prisma.UserWhereUniqueInput) {
+	const user = await prisma.user.findUnique({
+		where,
 		select: {
 			id: true,
 			username: true,
@@ -48,56 +47,19 @@ export async function findUserById(id: string) {
 			},
 		},
 	});
-}
 
-export async function findUserByUsername(username: string) {
-	return prisma.user.findUnique({
-		where: { username },
-		select: {
-			id: true,
-			username: true,
-			createdAt: true,
-			profile: {
-				select: {
-					name: true,
-					bio: true,
-					location: true,
-					website: true,
-					imageUrl: true,
-					bannerUrl: true,
-				},
-			},
-		},
-	});
-}
+	if (!user || !user.profile) {
+		return null;
+	}
 
-export async function findUserByEmail(email: string) {
-	return prisma.user.findUnique({
-		where: { email },
-		select: {
-			id: true,
-			username: true,
-			createdAt: true,
-			profile: {
-				select: {
-					name: true,
-					bio: true,
-					location: true,
-					website: true,
-					imageUrl: true,
-					bannerUrl: true,
-				},
-			},
-		},
-	});
+	// Forcing profile to be NonNullable because the profile is created in prisma.$transaction alongside user creation
+	return { ...user, profile: user.profile };
 }
 
 // Used in /api/auth/register.post.ts
-export async function findUserByEmailOrUsername(email: string, username: string) {
+export async function findFirstUser(where: Prisma.UserWhereInput) {
 	return prisma.user.findFirst({
-		where: {
-			OR: [{ email }, { username }],
-		},
+		where,
 		select: {
 			id: true,
 			email: true,

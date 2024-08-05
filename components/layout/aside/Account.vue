@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	const { currentUser, logout } = useCurrentUser();
+	const currentUser = useCurrentUser();
 
 	const op = ref();
 
