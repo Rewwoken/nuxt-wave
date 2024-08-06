@@ -44,11 +44,11 @@
 <template>
 	<form
 		autocomplete="off"
-		class="flex flex-col gap-y-2"
+		class="flex flex-col gap-y-3"
 		novalidate
 		@submit="onSubmit"
 	>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-envelope" />
 			<InputText
 				v-model="email"
@@ -71,11 +71,9 @@
 		<Button
 			label="Send"
 			icon="pi pi-send"
-			pt:root:class="!mt-4 !text-white"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
 			type="submit"
-			fluid
 			rounded
 		/>
 	</form>

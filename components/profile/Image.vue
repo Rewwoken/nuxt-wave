@@ -15,7 +15,7 @@
 		<UserImage
 			:src="user.profile.imageUrl"
 			:px="140"
-			class="cursor-pointer border-white border-[3px] bg-white dark:bg-dim dark:border-dim"
+			class="cursor-pointer border-white border-[3px] bg-white dark:bg-surface-950 dark:border-surface-950"
 			@click="showModal"
 		/>
 	</div>

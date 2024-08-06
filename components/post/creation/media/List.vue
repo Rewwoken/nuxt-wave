@@ -25,6 +25,8 @@
 		/>
 	</div>
 	<!--	FIXME: slight move on transition from div to Carousel -->
+	<!--	FIXME: Carousel component is broken in primevue-tailwind -->
+	<!--	TODO: :num-visible="1" on mobile -->
 	<Carousel
 		v-else-if="items.length > 2"
 		:value="items"
@@ -32,11 +34,11 @@
 		:num-scroll="1"
 		:show-indicators="false"
 		container-class="!relative"
-		:prev-button-props="{ class: '!absolute !z-[1] !left-2 !bg-black !text-white !border-none', rounded: true }"
-		:next-button-props="{ class: '!absolute !z-[1] !right-2 !bg-black !text-white !border-none', rounded: true }"
+		:prev-button-props="{ class: '!absolute z-[1] left-2', rounded: true, severity: 'contrast' }"
+		:next-button-props="{ class: '!absolute z-[1] right-2', rounded: true, severity: 'contrast' }"
 	>
 		<template #item="item">
-			<div class="relative size-full px-0.5">
+			<div class="size-full px-0.5">
 				<PostCreationMediaItem
 					:source="item.data.source"
 					@on-delete="$emit('deleteMedia', item.index)"

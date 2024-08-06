@@ -18,8 +18,8 @@
 	<Button
 		label="Haven't registered yet?"
 		size="small"
-		pt:root:class="!bg-transparent !p-0 !mt-1"
-		pt:label:class="hover:!underline"
+		pt:root:class="!p-0 mt-1"
+		pt:label:class="hover:underline"
 		text
 		@click="showModal"
 	/>

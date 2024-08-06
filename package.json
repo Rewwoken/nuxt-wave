@@ -25,15 +25,16 @@
 		"jsonwebtoken": "^9.0.2",
 		"nuxt": "^3.12.4",
 		"primeicons": "^7.0.0",
-		"primevue": "^4.0.3",
+		"primevue": "^4.0.4",
 		"resend": "^3.5.0",
+		"tailwindcss-primeui": "^0.3.4",
 		"vue": "latest",
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
 		"@antfu/eslint-config": "^2.24.1",
 		"@nuxtjs/tailwindcss": "^6.12.1",
-		"@primevue/nuxt-module": "^4.0.3",
+		"@primevue/nuxt-module": "^4.0.4",
 		"@types/formidable": "^3.4.5",
 		"@types/jsonwebtoken": "^9.0.6",
 		"eslint": "^9.8.0",

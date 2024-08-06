@@ -20,11 +20,11 @@
 		aria-label="Navigate to notifications"
 		active-class="font-bold"
 	>
-		<i class="pi pi-bell !relative !text-3xl">
+		<i class="relative !text-3xl pi pi-bell">
 			<Badge
 				v-if="count"
 				:value="count"
-				pt:root:class="!absolute !-top-1 !-right-2 !text-white !font-sans"
+				pt:root:class="absolute font-sans -top-2 -right-2"
 				size="small"
 			/>
 		</i>

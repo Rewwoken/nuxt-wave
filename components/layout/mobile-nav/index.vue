@@ -15,7 +15,7 @@
 </script>
 
 <template>
-	<nav class="flex items-center justify-between px-4 py-1 bg-white border-t dark:bg-dim border-gray-500/20">
+	<nav class="flex items-center mr-0.5 justify-between px-4 py-1 bg-white border-t dark:bg-surface-950 border-t-surface-300 dark:border-t-surface-800">
 		<LayoutMobileNavLink to="/home" icon="pi-home" />
 		<LayoutMobileNavLink to="/explore" icon="pi-hashtag" />
 		<LayoutMobileNavLink to="/bookmarks" icon="pi-bookmark" />
@@ -25,11 +25,11 @@
 			aria-label="Navigate to notifications"
 			active-class="font-bold"
 		>
-			<i class="pi pi-bell !relative !text-2xl">
+			<i class="relative !text-2xl pi pi-bell">
 				<Badge
 					v-if="count"
 					:value="count"
-					pt:root:class="!absolute !-top-1 !-right-2 !text-white !font-sans"
+					pt:root:class="absolute font-sans text-white -top-2 -right-2"
 					size="small"
 				/>
 			</i>

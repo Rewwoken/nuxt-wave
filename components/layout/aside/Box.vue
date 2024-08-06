@@ -7,7 +7,7 @@
 
 <template>
 	<article
-		class="px-4 py-3 border rounded-2xl border-gray-500/20"
+		class="px-4 py-3 border rounded-2xl border-surface-300 dark:border-surface-800"
 	>
 		<h2 class="mb-4 text-xl font-bold">
 			{{ title }}

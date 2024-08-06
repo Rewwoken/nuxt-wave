@@ -85,14 +85,14 @@
 			v-model="text"
 			name="postText"
 			placeholder="What is happening?!"
-			pt:root:class="!border-none !shadow-none !text-xl !bg-transparent dark:!text-white !min-h-[72px]"
+			pt:root:class="text-xl border-none resize-none"
 			:auto-resize="true"
 		/>
 		<PostCreationMediaList
 			:items="items"
 			@delete-media="deleteMedia"
 		/>
-		<div class="flex justify-between pt-2 mt-2 border-t border-t-gray-500/20">
+		<div class="flex justify-between pt-2 mt-2 border-t border-t-surface-300 dark:border-t-surface-800">
 			<fieldset class="flex items-center gap-x-0.5">
 				<PostCreationMediaUpload
 					icon="pi pi-image"
@@ -104,10 +104,10 @@
 				type="button"
 				label="Create post"
 				icon="pi pi-send"
-				pt:root:class="!px-8 !py-0 !text-white"
-				rounded
+				pt:root:class="px-8"
 				:loading="isSubmitting"
 				:disabled="hasErrors"
+				rounded
 				@click="onSubmit"
 			/>
 		</div>

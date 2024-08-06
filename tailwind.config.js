@@ -1,19 +1,12 @@
 /** @type {import('tailwindcss').Config} */
-import colors from 'tailwindcss/colors';
 
 export default {
-	darkMode: 'class',
-	content: [],
+	content: ['./presets/**/*.{js,vue,ts}'],
 	theme: {
 		fontFamily: {
-			sans: ['Inter', 'sans-serif'], // maybe not main?
-		},
-		extend: {
-			colors: {
-				dim: '#020420',
-				primary: colors.sky,
-			},
+			sans: ['Inter', 'sans-serif'],
 		},
 	},
-	plugins: [],
+	darkMode: 'class',
+	plugins: [require('tailwindcss-primeui')],
 };

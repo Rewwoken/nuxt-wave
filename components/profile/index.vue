@@ -10,7 +10,7 @@
 
 	const route = useRoute();
 	const currentUser = useCurrentUser();
-	const isCurrentUser = route.path === `/${currentUser.value!.username}`;
+	const isCurrentUser = route.path === `/${currentUser.value.username}`;
 
 	provide('user', props.user);
 </script>

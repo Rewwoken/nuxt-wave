@@ -15,7 +15,7 @@
 			icon="pi pi-trash"
 			severity="contrast"
 			size="small"
-			pt:root:class="!absolute !m-2 !px-5 !bg-opacity-40 !bg-black/70 !backdrop-blur-sm hover:!bg-black/80 !border-none !text-white !z-10"
+			pt:root:class="!absolute m-2"
 			rounded
 			@click="$emit('onDelete')"
 		/>

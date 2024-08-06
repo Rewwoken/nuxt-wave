@@ -1,24 +1,3 @@
-import { definePreset } from '@primevue/themes';
-import Aura from '@primevue/themes/aura';
-
-const SkyAura = definePreset(Aura, {
-	semantic: {
-		primary: {
-			50: '{sky.50}',
-			100: '{sky.100}',
-			200: '{sky.200}',
-			300: '{sky.300}',
-			400: '{sky.400}',
-			500: '{sky.500}',
-			600: '{sky.600}',
-			700: '{sky.700}',
-			800: '{sky.800}',
-			900: '{sky.900}',
-			950: '{sky.950}',
-		},
-	},
-});
-
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	devServer: {
@@ -37,17 +16,16 @@ export default defineNuxtConfig({
 		},
 	},
 	primevue: {
+		importPT: { as: 'Wave', from: '~/presets/Wave' },
 		options: {
-			theme: {
-				preset: SkyAura,
-				options: {
-					darkModeSelector: '.dark',
-				},
+			unstyled: true,
+			ptOptions: {
+				mergeProps: true,
 			},
 		},
 	},
 	compatibilityDate: '2024-08-02',
-	css: ['primeicons/primeicons.css', '~/assets/css/global.css'],
+	css: ['~/assets/css/global.css', '~/assets/css/primevue.css', 'primeicons/primeicons.css'],
 	runtimeConfig: {
 		jwtSecret: process.env.JWT_SECRET,
 		resendApiKey: process.env.RESEND_API_KEY,
@@ -64,6 +42,15 @@ export default defineNuxtConfig({
 				to: '/home',
 				statusCode: 301,
 			},
+		},
+		'/auth': {
+			ssr: false,
+		},
+		'/auth/recovery': {
+			ssr: false,
+		},
+		'/auth/verification': {
+			ssr: false,
 		},
 	},
 	alias: {

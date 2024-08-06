@@ -34,8 +34,8 @@
 				label="Follow"
 				size="small"
 				severity="contrast"
-				pt:root:class="!ml-auto !px-4"
-				pt:label:class="!font-semibold"
+				pt:root:class="px-4 ml-auto"
+				pt:label:class="font-semibold"
 				rounded
 			/>
 		</li>

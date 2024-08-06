@@ -13,12 +13,12 @@
 
 <template>
 	<div class="flex justify-center min-h-screen">
-		<aside class="hidden md:flex flex-col gap-y-3 pr-4 items-end xl:items-stretch xl:w-[300px] select-none">
+		<aside class="hidden md:flex flex-col gap-y-3 pr-4 items-center xl:items-stretch xl:w-[300px] select-none">
 			<LayoutAsideNavigation />
 			<PostCreationModal />
 			<LayoutAsideAccount />
 		</aside>
-		<main class="w-[586px] border-x lg:mr-4 overflow-hidden border-x-gray-500/20">
+		<main class="w-[586px] border-x lg:mr-4 overflow-hidden border-x-surface-300 dark:border-x-surface-800">
 			<slot />
 			<div class="fixed bottom-0 max-w-[586px] w-full md:hidden">
 				<LayoutMobileNav />

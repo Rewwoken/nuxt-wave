@@ -53,7 +53,7 @@
 		class="flex flex-col gap-y-2"
 		@submit="onSubmit"
 	>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-lock" />
 			<InputText
 				v-model="password"
@@ -74,7 +74,7 @@
 		>
 			{{ errors.password }}
 		</small>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-unlock" />
 			<InputText
 				v-model="confirmPassword"
@@ -100,7 +100,7 @@
 		</Message>
 		<Button
 			label="Change password"
-			pt:root:class="!mt-2 !text-white"
+			pt:root:class="mt-2"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
 			type="submit"

@@ -45,11 +45,11 @@
 
 <template>
 	<form
-		class="flex flex-col w-80 gap-y-2"
+		class="flex flex-col py-0.5 w-80 gap-y-2"
 		novalidate
 		@submit="onSubmit"
 	>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-envelope" />
 			<InputText
 				v-model="email"
@@ -66,7 +66,7 @@
 		<small v-if="errors.email" id="email-help" class="ml-2 text-xs text-red-500">
 			{{ errors.email }}
 		</small>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-at" />
 			<InputText
 				v-model="username"
@@ -86,7 +86,7 @@
 		>
 			{{ errors.username }}
 		</small>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-lock" />
 			<InputText
 				v-model="password"
@@ -111,15 +111,15 @@
 			{{ serverError }}
 		</Message>
 		<div class="flex items-end justify-between">
-			<IconNuxt class="size-10 !fill-dim" />
+			<IconNuxt class="size-10 !fill-surface-950 dark:!fill-white" />
 			<Button
 				type="submit"
 				label="Submit"
 				size="small"
-				pt:root:class="!text-white !mt-1 !self-end !px-6"
 				:loading="isSubmitting"
 				:disabled="hasErrors"
 			/>
 		</div>
 	</form>
 </template>
+<!--  -->

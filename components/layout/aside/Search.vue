@@ -9,10 +9,8 @@
 			v-model="term"
 			name="Search"
 			placeholder="Search"
-			pt:root:class="!rounded-full !bg-neutral-400/20 !border-none dark:!text-white"
+			pt:root:class="border-none !rounded-full !bg-neutral-400/20"
 			fluid
-			rounded
-			filled
 		/>
 	</IconField>
 </template>

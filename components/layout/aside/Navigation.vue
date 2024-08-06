@@ -5,7 +5,7 @@
 <template>
 	<NuxtLink
 		to="/home"
-		class="p-2 transition-colors rounded-full size-12 hover:bg-gray-500/10"
+		class="p-2 transition-colors rounded-full size-12 hover:bg-gray-400/20"
 		aria-label="Home"
 	>
 		<IconNuxt />

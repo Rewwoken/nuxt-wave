@@ -31,8 +31,8 @@
 			icon="pi pi-sign-out"
 			aria-label="Back"
 			severity="contrast"
-			pt:root:class="!border-none md:!hidden !ml-auto"
-			pt:icon:class="!text-xl"
+			pt:root:class="ml-auto border-none md:hidden"
+			pt:icon:class="text-xl"
 			outlined
 			rounded
 			@click="logout"

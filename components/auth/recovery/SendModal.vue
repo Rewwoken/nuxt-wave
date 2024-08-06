@@ -23,7 +23,7 @@
 	<Dialog
 		v-model:visible="visible"
 		header="Send password recovery email"
-		pt:header-actions:class="!ml-4"
+		pt:header-actions:class="ml-4"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"

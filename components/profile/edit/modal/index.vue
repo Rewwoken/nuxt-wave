@@ -88,10 +88,9 @@
 			Edit profile
 		</h2>
 		<Button
-			label="Send"
+			label="Save"
 			severity="contrast"
-			size="small"
-			pt:root:class="!px-8 !ml-auto"
+			pt:root:class="px-8 ml-auto"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
 			rounded
@@ -114,11 +113,11 @@
 				autocomplete="name"
 				placeholder="Name"
 				aria-describedby="name-help"
+				pt:root:class="py-4"
 				:maxlength="50"
 				:invalid="!!errors.name"
-				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
 			/>
-			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ name?.length || 0 }} / 50</span>
+			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ name?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.name"
 				id="name-help"
@@ -137,9 +136,9 @@
 				:maxlength="160"
 				:invalid="!!errors.bio"
 				:auto-resize="true"
-				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
+				pt:root:class="py-4 resize-none"
 			/>
-			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ bio?.length || 0 }} / 160</span>
+			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ bio?.length || 0 }} / 160</span>
 			<small
 				v-if="errors.bio"
 				id="bio-help"
@@ -157,11 +156,11 @@
 				autocomplete="country-name"
 				placeholder="Location"
 				aria-describedby="location-help"
+				pt:root:class="py-4"
 				:maxlength="30"
 				:invalid="!!errors.location"
-				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
 			/>
-			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ location?.length || 0 }} / 30</span>
+			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ location?.length || 0 }} / 30</span>
 			<small
 				v-if="errors.location"
 				id="location-help"
@@ -179,11 +178,11 @@
 				autocomplete="url"
 				placeholder="Website"
 				aria-describedby="website-help"
+				pt:root:class="py-4"
 				:maxlength="50"
 				:invalid="!!errors.website"
-				pt:root:class="!border-gray-500/20 focus:!border-primary-500 !py-4 dark:!bg-dim dark:!text-white"
 			/>
-			<span class="absolute text-sm text-gray-600 top-1 right-4">{{ website?.length || 0 }} / 50</span>
+			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ website?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.website"
 				id="website-help"

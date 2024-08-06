@@ -47,7 +47,7 @@
 		novalidate
 		@submit="onSubmit"
 	>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-at" />
 			<InputText
 				v-model="username"
@@ -67,7 +67,7 @@
 		>
 			{{ errors.username }}
 		</small>
-		<IconField class="w-full">
+		<IconField>
 			<InputIcon class="pi pi-lock" />
 			<InputText
 				v-model="password"
@@ -90,12 +90,11 @@
 			{{ serverError }}
 		</Message>
 		<Button
+			type="submit"
 			label="Submit"
 			icon="pi pi-user"
-			pt:root:class="!text-white"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
-			type="submit"
 			rounded
 		/>
 	</form>

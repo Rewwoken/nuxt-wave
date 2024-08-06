@@ -19,7 +19,7 @@ export function validateMediaFiles(files: formidable.Files<string>) {
 				message: 'error/invalid-type',
 			});
 		}
-		const type = mimetype!.split('/')[0] as 'image' | 'video';
+		const type = mimetype.split('/')[0] as 'image' | 'video';
 
 		if (size > 15_728_640) { // 15mb
 			throw createError({

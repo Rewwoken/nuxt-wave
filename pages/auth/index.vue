@@ -1,3 +1,4 @@
+<!-- ! `ssr: false` in nuxt.config.ts -->
 <script setup lang="ts">
 	definePageMeta({
 		layout: 'auth',
