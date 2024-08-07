@@ -9,7 +9,7 @@
 <template>
 	<NuxtLink
 		:to="to"
-		class="flex items-center p-3 transition-colors rounded-full gap-x-5 hover:bg-surface-400/20"
+		class="flex items-center p-3 transition-colors rounded-full gap-x-5 hover:bg-gray-500/10"
 		:aria-label="`Navigate to ${to}`"
 		active-class="font-bold"
 	>

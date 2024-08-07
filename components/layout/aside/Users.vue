@@ -26,9 +26,9 @@
 			class="flex items-center gap-x-2"
 		>
 			<UserImage :src="item.image" :px="44" />
-			<div class="flex flex-col gap-y-0.5">
-				<span class="font-bold leading-4">{{ item.name }}</span>
-				<span class="text-sm leading-4 text-neutral-500">{{ item.handle }}</span>
+			<div class="flex flex-col">
+				<span class="font-bold">{{ item.name }}</span>
+				<span class="text-sm text-neutral-500 relative bottom-1">{{ item.handle }}</span>
 			</div>
 			<Button
 				label="Follow"

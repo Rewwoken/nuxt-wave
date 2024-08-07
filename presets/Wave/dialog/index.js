@@ -43,7 +43,7 @@ export default {
             'rounded-tr-lg',
 
             // Colors
-            'text-surface-700 dark:text-surface-0',
+            'text-surface-950 dark:text-surface-0',
         ],
     },
     title: {

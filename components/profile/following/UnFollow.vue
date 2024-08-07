@@ -1,17 +1,19 @@
 <script setup lang="ts">
-	import type { User } from '~/types/api.types';
+	const props = defineProps<{
+		userId: string;
+		username: string;
+	}>();
 
 	const emit = defineEmits<{
 		(e: 'toggleFollow'): void;
 	}>();
-	const user = inject('user') as User;
 
 	const toast = useToast();
 	const { $api } = useNuxtApp();
 	async function onUnFollow() {
 		try {
 			await $api('/api/user/actions/unfollow', {
-				query: { id: user.id },
+				query: { id: props.userId },
 			});
 
 			emit('toggleFollow');
@@ -19,7 +21,7 @@
 			toast.add({
 				severity: 'info',
 				summary: 'Unfollowing process successful.',
-				detail: `You stopped following @${user.username}.`,
+				detail: `You stopped following @${props.username}.`,
 				life: 3000,
 			});
 		}

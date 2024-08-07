@@ -4,7 +4,7 @@
 	}>();
 
 	const currentUser = useCurrentUser();
-	const image = ref(currentUser.value.profile.imageUrl);
+	const image = ref(currentUser.value.profile!.imageUrl);
 	const hiddenInput = ref();
 
 	function onClick() {
@@ -26,7 +26,7 @@
 			<UserImage
 				:src="image"
 				:px="128"
-				class="border-white border-[3px] bg-white dark:bg-surface-950 dark:border-surface-950"
+				class="cursor-point border-bg-color border-[3px] bg-color"
 			/>
 			<ProfileEditModalFileButton @on-click="onClick" />
 		</div>

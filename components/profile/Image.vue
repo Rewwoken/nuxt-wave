@@ -1,21 +1,21 @@
 <script setup lang="ts">
-	import type { User } from '~/types/api.types';
+	defineProps<{
+		source: string | null;
+	}>();
 
 	const visible = ref(false);
 
 	function showModal() {
 		visible.value = true;
 	}
-
-	const user = inject('user') as User;
 </script>
 
 <template>
 	<div class="absolute flex justify-center select-none">
 		<UserImage
-			:src="user.profile.imageUrl"
+			:src="source"
 			:px="140"
-			class="cursor-pointer border-white border-[3px] bg-white dark:bg-surface-950 dark:border-surface-950"
+			class="cursor-pointer border-bg-color border-[3px] bg-color"
 			@click="showModal"
 		/>
 	</div>
@@ -28,6 +28,6 @@
 		:draggable="false"
 		:modal="true"
 	>
-		<UserImage :src="user.profile.imageUrl" :px="384" />
+		<UserImage :src="source" :px="384" />
 	</Dialog>
 </template>

@@ -15,7 +15,7 @@
 	/>
 	<Dialog
 		v-model:visible="visible"
-		pt:root:class="w-[35rem]"
+		pt:root:class="w-[35rem] mx-2"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"

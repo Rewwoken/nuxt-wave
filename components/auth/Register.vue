@@ -13,13 +13,13 @@
 	const [password] = defineField('password');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const { handleFormRequest, serverError } = useHandleForm();
+	const { handleRequest, serverError } = useHandleRequest();
 
 	const toast = useToast();
 	const { $api } = useNuxtApp();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleFormRequest(
+		await handleRequest(
 			() => $api('/api/auth/register', {
 				method: 'POST',
 				body: values,
@@ -111,7 +111,7 @@
 			{{ serverError }}
 		</Message>
 		<div class="flex items-end justify-between">
-			<IconNuxt class="size-10 !fill-surface-950 dark:!fill-white" />
+			<IconNuxt class="size-10 !fill-bg-contrast-color" />
 			<Button
 				type="submit"
 				label="Submit"
@@ -122,4 +122,3 @@
 		</div>
 	</form>
 </template>
-<!--  -->

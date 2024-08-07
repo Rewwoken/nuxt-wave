@@ -3,6 +3,7 @@ export default {
         class: [
             // Shape
             'rounded-md shadow-lg',
+            'dark:shadow-surface-400/50',
 
             // Position
             'absolute left-0 top-0 mt-2',
@@ -10,7 +11,7 @@ export default {
 
             // Color
             'bg-surface-0 dark:bg-surface-900',
-            'text-surface-700 dark:text-surface-0/80',
+            'text-surface-950 dark:text-surface-0',
 
             // Before: Arrow
             'before:absolute before:w-0 before:-top-3 before:h-0 before:border-transparent before:border-solid before:ml-[10px] before:border-x-[10px] before:border-b-[11px] before:border-t-0 before:border-b-surface-200 dark:before:border-b-surface-700',

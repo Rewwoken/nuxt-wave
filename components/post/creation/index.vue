@@ -23,7 +23,7 @@
 	const [text] = defineField('text');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const { handleFormRequest } = useHandleForm();
+	const { handleRequest } = useHandleRequest();
 
 	const { $api } = useNuxtApp();
 	const route = useRoute();
@@ -37,7 +37,7 @@
 			formData.append(`media/${index + 1}`, media.file);
 		});
 
-		await handleFormRequest(
+		await handleRequest(
 			// @ts-expect-error | ? Excessive stack depth comparing types error
 			() => $api('/api/post', {
 				method: 'POST',
@@ -76,7 +76,7 @@
 
 <template>
 	<UserImage
-		:src="currentUser.profile.imageUrl"
+		:src="currentUser.profile!.imageUrl"
 		:px="48"
 	/>
 	<form class="flex flex-col w-full">
@@ -92,7 +92,7 @@
 			:items="items"
 			@delete-media="deleteMedia"
 		/>
-		<div class="flex justify-between pt-2 mt-2 border-t border-t-surface-300 dark:border-t-surface-800">
+		<div class="flex justify-between pt-2 mt-2 border-t border-surface">
 			<fieldset class="flex items-center gap-x-0.5">
 				<PostCreationMediaUpload
 					icon="pi pi-image"

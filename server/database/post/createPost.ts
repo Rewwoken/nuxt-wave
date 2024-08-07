@@ -1,6 +1,7 @@
 import { prisma } from '~/server/database';
 import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
 import type { ValidatedMediaFile } from '~/server/utils/validate/mediaFiles';
+import { PostSelect } from '~/server/database/post';
 
 export async function createPost(
 	userId: string,
@@ -9,62 +10,54 @@ export async function createPost(
 	files: ValidatedMediaFile[],
 ) {
 	return prisma.$transaction(async (tx) => {
-		const parentPost = { connect: { id: parentPostId } };
-
 		const newPost = await tx.post.create({
 			data: {
-				user: {
-					connect: { id: userId },
-				},
-				parentPost: parentPostId ? parentPost : undefined,
+				user: { connect: { id: userId } },
+				parentPost: parentPostId ? { connect: { id: parentPostId } } : undefined,
 				text,
 			},
-			select: {
-				id: true,
-				text: true,
-				parentPost: {
-					select: {
-						id: true,
-						user: {
-							select: {
-								id: true,
-								username: true,
-							},
-						},
-					},
-				},
-			},
+			select: PostSelect,
 		});
 
+		// Safely upload all files to Cloudinary and create mediaFile records in the database
 		const publicIds: string[] = [];
 
-		for (const file of files) {
-			try {
-				const { public_id, version } = await cloudinaryUpload(file.filepath, {
-					resource_type: file.type,
-				});
-				publicIds.push(public_id);
+		try {
+			const uploadPromises = files.map(
+				async (file) => {
+					const { public_id, version } = await cloudinaryUpload(file.filepath, {
+						resource_type: file.type,
+					});
+					publicIds.push(public_id);
 
-				await tx.mediaFile.create({
-					data: {
-						post: { connect: { id: newPost.id } },
-						publicId: public_id,
-						url: `v${version}/${public_id}`,
-						mimetype: file.mimetype,
-					},
-				});
-			}
-			catch (err) {
-				for (const id of publicIds) {
-					await cloudinaryDestroy(id).catch(); // should delete all possible instances
+					await tx.mediaFile.create({
+						data: {
+							post: { connect: { id: newPost.id } },
+							publicId: public_id,
+							url: `v${version}/${public_id}`,
+							mimetype: file.mimetype,
+						},
+					});
+				},
+			);
+
+			await Promise.all(uploadPromises);
+		}
+		catch (err) {
+			// If there is an error, attempt to roll back by deleting uploaded files from Cloudinary and database records
+			const rollbackPromises = publicIds.map(
+				async (id) => {
+					// Use .catch() to ensure the deletion attempt is made in the database even if Cloudinary deletion fails
+					await cloudinaryDestroy(id).catch();
 
 					await tx.mediaFile.delete({
 						where: { publicId: id },
-					}).catch(); // should delete all possible instances
-				}
+					}).catch(); // You can add error logger during develompent
+				},
+			);
 
-				throw err;
-			}
+			await Promise.allSettled(rollbackPromises);
+			throw err;
 		}
 
 		return newPost;

@@ -23,7 +23,7 @@
 		files.value[key] = file;
 	}
 
-	const { handleFormRequest } = useHandleForm();
+	const { handleRequest } = useHandleRequest();
 
 	const toast = useToast();
 	const { $api } = useNuxtApp();
@@ -42,7 +42,7 @@
 			formData.append('banner', files.value.banner);
 		}
 
-		await handleFormRequest(
+		await handleRequest(
 			// @ts-expect-error | ? Excessive stack depth comparing types
 			() => $api('/api/profile', {
 				method: 'PATCH',
@@ -84,7 +84,7 @@
 			rounded
 			@click="$emit('closeModal')"
 		/>
-		<h2 class="ml-2 text-xl">
+		<h2 class="ml-2 text-xl text-surface-950 dark:text-surface-0 font-semibold">
 			Edit profile
 		</h2>
 		<Button
@@ -113,11 +113,11 @@
 				autocomplete="name"
 				placeholder="Name"
 				aria-describedby="name-help"
-				pt:root:class="py-4"
+				pt:root:class="py-4 group"
 				:maxlength="50"
 				:invalid="!!errors.name"
 			/>
-			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ name?.length || 0 }} / 50</span>
+			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ name?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.name"
 				id="name-help"
@@ -138,7 +138,7 @@
 				:auto-resize="true"
 				pt:root:class="py-4 resize-none"
 			/>
-			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ bio?.length || 0 }} / 160</span>
+			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ bio?.length || 0 }} / 160</span>
 			<small
 				v-if="errors.bio"
 				id="bio-help"
@@ -160,7 +160,7 @@
 				:maxlength="30"
 				:invalid="!!errors.location"
 			/>
-			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ location?.length || 0 }} / 30</span>
+			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ location?.length || 0 }} / 30</span>
 			<small
 				v-if="errors.location"
 				id="location-help"
@@ -182,7 +182,7 @@
 				:maxlength="50"
 				:invalid="!!errors.website"
 			/>
-			<span class="absolute z-10 text-sm text-surface-500 top-1 right-4">{{ website?.length || 0 }} / 50</span>
+			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ website?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.website"
 				id="website-help"

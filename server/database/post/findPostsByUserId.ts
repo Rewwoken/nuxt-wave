@@ -1,48 +1,19 @@
 import { prisma } from '~/server/database';
+import type { PaginationOptions } from '~/server/database/post';
+import { PostSelect } from '~/server/database/post';
 
-interface Options {
-	skip: number;
-	take: number;
-}
-export function findPostsByUserId(userId: string, options: Options) {
+/**
+ * @description Finds user posts.
+ *
+ * @param userId - The ID of the user whose posts are being fetched.
+ * @param options - The pagination options.
+ * @returns A promise that resolves to an array of posts.
+ */
+export async function findPostsByUserId(userId: string, options: PaginationOptions) {
 	return prisma.post.findMany({
-		where: {
-			user: { id: userId },
-		},
-		skip: options.skip,
-		take: options.take,
-		select: {
-			id: true,
-			user: {
-				select: {
-					id: true,
-					username: true,
-				},
-			},
-			parentPost: {
-				select: {
-					id: true,
-					text: true,
-					user: {
-						select: {
-							id: true,
-							username: true,
-						},
-					},
-				},
-			},
-			mediaFiles: {
-				select: {
-					id: true,
-					url: true,
-				},
-			},
-			_count: {
-				select: {
-					replies: true,
-					mediaFiles: true,
-				},
-			},
-		},
-	});
+    where: { user: { id: userId } },
+    skip: options.skip,
+    take: options.take,
+    select: PostSelect,
+  });
 }

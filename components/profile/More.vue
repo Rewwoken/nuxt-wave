@@ -1,7 +1,8 @@
 <script setup lang="ts">
-	import type { User } from '~/types/api.types';
-
-	const user = inject('user') as User;
+	const props = defineProps<{
+		userId: string;
+		username: string;
+	}>();
 
 	const menu = ref();
 	function toggle(event: Event) {
@@ -27,7 +28,7 @@
 			},
 		},
 		{
-			label: `Block @${user.username}`,
+			label: `Block @${props.username}`,
 			icon: 'pi pi-ban',
 			command: async () => {
 				const { $api } = useNuxtApp();
@@ -35,7 +36,7 @@
 				try {
 					await $api('/api/user/actions/block', {
 						method: 'GET',
-						query: { id: user.id },
+						query: { id: props.userId },
 					});
 				}
 				catch {

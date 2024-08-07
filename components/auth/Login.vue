@@ -8,13 +8,13 @@
 	const [password] = defineField('password');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const { handleFormRequest, serverError } = useHandleForm();
+	const { handleRequest, serverError } = useHandleRequest();
 
 	const toast = useToast();
 	const { $api } = useNuxtApp();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleFormRequest(
+		await handleRequest(
 			() => $api('/api/auth/login', {
 				method: 'POST',
 				body: values,

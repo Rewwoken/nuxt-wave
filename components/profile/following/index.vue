@@ -1,12 +1,13 @@
 <script setup lang="ts">
-	import type { User } from '~/types/api.types';
-
-	const user = inject('user') as User;
+	const props = defineProps<{
+		userId: string;
+		username: string;
+	}>();
 
 	const { data } = await useAPI('/api/user/actions/check-following', {
 		method: 'GET',
 		query: {
-			id: user.id,
+			id: props.userId,
 		},
 	});
 
@@ -17,6 +18,16 @@
 </script>
 
 <template>
-	<ProfileFollowingUnFollow v-if="isFollowing" @toggle-follow="toggleFollow" />
-	<ProfileFollowingFollow v-else @toggle-follow="toggleFollow" />
+	<ProfileFollowingUnFollow
+		v-if="isFollowing"
+		:user-id="userId"
+		:username="username"
+		@toggle-follow="toggleFollow"
+	/>
+	<ProfileFollowingFollow
+		v-else
+		:user-id="userId"
+		:username="username"
+		@toggle-follow="toggleFollow"
+	/>
 </template>

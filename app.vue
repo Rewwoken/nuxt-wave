@@ -30,7 +30,7 @@
 </script>
 
 <template>
-	<div class="w-full font-sans bg-white min-h-dvh dark:bg-surface-950 dark:text-white">
+	<div class="w-full font-sans min-h-dvh text-color bg-color">
 		<NuxtLoadingIndicator />
 		<NuxtLayout>
 			<NuxtPage />

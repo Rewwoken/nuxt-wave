@@ -1,15 +1,18 @@
 <script setup lang="ts">
 	import type { User } from '~/types/api.types';
 
-	const router = useRouter();
+	const props = defineProps<{
+		user: User;
+	}>();
 
-	const user = inject('user') as User;
 	const { data: count } = await useAPI('/api/post/count', {
 		method: 'GET',
 		query: {
-			userId: user.id,
+			userId: props.user.id,
 		},
 	});
+
+	const router = useRouter();
 </script>
 
 <template>
@@ -24,7 +27,7 @@
 			@click="router.back"
 		/>
 		<div class="flex flex-col leading-4">
-			<span class="text-xl font-bold">{{ user.profile.name }}</span>
+			<span class="text-xl font-bold">{{ user.profile!.name }}</span>
 			<span class="text-xs text-gray-500">{{ count }} posts</span>
 		</div>
 		<Button

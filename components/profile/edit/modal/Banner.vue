@@ -4,7 +4,7 @@
 	}>();
 
 	const currentUser = useCurrentUser();
-	const banner = ref(currentUser.value!.profile.bannerUrl);
+	const banner = ref(currentUser.value!.profile!.bannerUrl);
 	const hiddenInput = ref();
 
 	function onClick() {

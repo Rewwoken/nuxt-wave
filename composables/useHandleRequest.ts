@@ -6,9 +6,9 @@ interface ErrorMessages {
 }
 
 /**
- * Custom composable for handling form requests.
+ * Custom composable for handling API requests.
  *
- * @returns - An object containing the `handleFormRequest` function and `serverError` ref.
+ * @returns - An object containing the `handleRequest` function and `serverError` ref.
  */
 export default () => {
 	const serverError = ref<string | null>(null);
@@ -22,7 +22,7 @@ export default () => {
 	 * @param errorFunc - An optional error handler function that is called with the error message.
 	 * @param finallyFunc - An optional function that is always called after the request and success/error func.
 	 */
-	const handleFormRequest = async <T>(
+	const handleRequest = async <T>(
 		requestFunc: () => Promise<T>,
 		onSuccess: (data: T) => Promise<void> | void,
 		errorMessages: ErrorMessages,
@@ -55,5 +55,5 @@ export default () => {
 		}
 	};
 
-	return { handleFormRequest, serverError };
+	return { handleRequest, serverError };
 };

@@ -32,7 +32,7 @@
 </script>
 
 <template>
-	<main class="flex flex-col items-center justify-center h-dvh dark:bg-surface-950 dark:text-white">
+	<main class="flex flex-col items-center justify-center h-dvh bg-color text-color">
 		<h1 class="mb-6 text-4xl">
 			{{ error.statusCode }} - {{ error.statusMessage }}
 		</h1>

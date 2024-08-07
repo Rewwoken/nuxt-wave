@@ -1,17 +1,19 @@
 <script setup lang="ts">
-	import type { User } from '~/types/api.types';
+	const props = defineProps<{
+		userId: string;
+		username: string;
+	}>();
 
 	const emit = defineEmits<{
 		(e: 'toggleFollow'): void;
 	}>();
-	const user = inject('user') as User;
 
 	const toast = useToast();
 	const { $api } = useNuxtApp();
 	async function onFollow() {
 		try {
 			await $api('/api/user/actions/follow', {
-				query: { id: user.id },
+				query: { id: props.userId },
 			});
 
 			emit('toggleFollow');
@@ -19,7 +21,7 @@
 			toast.add({
 				severity: 'info',
 				summary: 'Following process successful.',
-				detail: `You are now following @${user.username}.`,
+				detail: `You are now following @${props.username}.`,
 				life: 3000,
 			});
 		}

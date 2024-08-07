@@ -1,7 +1,4 @@
 <script setup lang="ts">
-	const route = useRoute();
-	const username = route.params.username as string;
-
 	const currentUser = useCurrentUser();
 
 	async function getUser(username: string) {
@@ -11,12 +8,17 @@
 
 		return useAPI(`/api/user/${username}`, {
 			method: 'GET',
+			deep: false, // ! Change it, if you need reactivity
 		});
 	}
 
+	const route = useRoute();
+	const username = route.params.username as string;
 	const { data: user, error } = await getUser(username);
+
+	const title = `${user.value!.profile!.name} (@${user.value?.username})`;
 	useSeoMeta({
-		title: user.value ? `${user.value.profile.name} (@${user.value.username})` : 'Not Found',
+		title: user.value ? title : 'Not Found',
 	});
 </script>
 

@@ -1,3 +1,5 @@
+/* https://www.npmjs.com/package/tailwindcss-primeui */
+
 /* Primary and Surface Palettes */
 :root {
 	--p-primary-50: #f0f9ff;
@@ -11,31 +13,32 @@
 	--p-primary-800: #075985;
 	--p-primary-900: #0c4a6e;
 	--p-primary-950: #082f49;
-
-	--p-surface-0: #ffffff; /* Text color */
-	--p-surface-50: #f8fafc;
-	--p-surface-100: #f1f5f9;
-	--p-surface-200: #e2e8f0;
-	--p-surface-300: #cbd5e1;
-	--p-surface-400: #94a3b8;
-	--p-surface-500: #64748b; /* Placeholder color */
-	--p-surface-600: #475569;
-	--p-surface-700: #324051; /* Border color */
-	--p-surface-800: #1e293b; 
-	--p-surface-900: #000000; /* Dialog background color */
-	--p-surface-950: #000000; /* Inputs background color */
-
+	
+	--p-surface-0: #ffffff;
+	--p-surface-100: #e4e4e4;
+	--p-surface-200: #c9c9c9;
+	--p-surface-300: #aeaeae;
+	--p-surface-400: #939393;
+	--p-surface-500: #787878;
+	--p-surface-600: #5d5d5d;
+	--p-surface-700: #424242;
+	--p-surface-800: #272727;
+	--p-surface-900: #0c0c0c;
+	--p-surface-950: #050505;
+	
 	--p-content-border-radius: 6px;
 }
 
 /* Light Mode */
-:root {
+body {
 	--p-primary-color: var(--p-primary-500);
 	--p-primary-contrast-color: var(--p-surface-0);
 	--p-primary-hover-color: var(--p-primary-600);
 	--p-primary-active-color: var(--p-primary-700);
 
-	--p-content-border-color: var(--p-surface-200);
+	--p-bg-color: var(--p-surface-0);
+
+	--p-content-border-color: var(--p-surface-100);
 	--p-content-hover-background: var(--p-surface-100);
 	--p-content-hover-color: var(--p-surface-800);
 	
@@ -50,17 +53,16 @@
 	--p-text-hover-muted-color: var(--p-surface-600);
 }
 
-/* 
-* Dark Mode
-* Change the ".dark" to match the darkMode in tailwind.config.
-*/
-:root.dark {
+/* Dark Mode */
+body.dark {
 	--p-primary-color: var(--p-primary-400);
-	--p-primary-contrast-color: var(--p-surface-900);
+	--p-primary-contrast-color: var(--p-surface-0);
 	--p-primary-hover-color: var(--p-primary-300);
 	--p-primary-active-color: var(--p-primary-200);
+	
+	--p-bg-color: var(--p-surface-950);
 
-	--p-content-border-color: var(--p-surface-700);
+	--p-content-border-color: var(--p-surface-800);
 	--p-content-hover-background: var(--p-surface-800);
 	--p-content-hover-color: var(--p-surface-0);
 	

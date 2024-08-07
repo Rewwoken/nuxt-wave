@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { findPostsByUserId } from '~/server/database/post/findPostsByUserId';
+import { findPostsByUserId } from '~/server/database/post';
 
 export default defineEventHandler(async (event) => {
 	const query = await getValidatedQuery(event, z.object({
 		userId: z.string(),
-		skip: z.number().min(0),
-		take: z.number().min(1).max(10),
+		skip: z.coerce.number().min(0).default(0),
+		take: z.coerce.number().min(1).max(20).default(20),
 	}).parse);
 
 	setResponseStatus(event, 200);

@@ -13,13 +13,13 @@
 	const [email] = defineField('email');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const { handleFormRequest, serverError } = useHandleForm();
+	const { handleRequest, serverError } = useHandleRequest();
 
 	const { $api } = useNuxtApp();
 	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleFormRequest(
+		await handleRequest(
 			() => $api('/api/send/recovery', {
 				method: 'POST',
 				body: { email: values.email },

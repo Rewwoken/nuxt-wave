@@ -13,13 +13,13 @@
 	const [confirmPassword] = defineField('confirmPassword');
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
-	const { handleFormRequest, serverError } = useHandleForm();
+	const { handleRequest, serverError } = useHandleRequest();
 
 	const { $api } = useNuxtApp();
 	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleFormRequest(
+		await handleRequest(
 			() => $api('/api/auth/recovery', {
 				method: 'POST',
 				query: {

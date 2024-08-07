@@ -1,10 +1,10 @@
 <script setup lang="ts">
-	const { handleFormRequest } = useHandleForm();
+	const { handleRequest } = useHandleRequest();
 	const route = useRoute();
 	const toast = useToast();
 
 	onMounted(async () => {
-		await handleFormRequest(
+		await handleRequest(
 			() => $fetch('/api/auth/verification', {
 				method: 'GET',
 				query: {

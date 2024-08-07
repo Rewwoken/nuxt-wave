@@ -2,7 +2,6 @@ import global from './global.js';
 import inputtext from './inputtext';
 import badge from './badge';
 import button from './button';
-import carousel from './carousel';
 import dialog from './dialog';
 import iconfield from './iconfield';
 import message from './message';
@@ -17,7 +16,6 @@ export default {
     inputtext,
     badge,
     button,
-    carousel,
     dialog,
     iconfield,
     message,

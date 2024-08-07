@@ -25,8 +25,9 @@
 		/>
 	</div>
 	<!--	FIXME: slight move on transition from div to Carousel -->
-	<!--	FIXME: Carousel component is broken in primevue-tailwind -->
-	<!--	TODO: :num-visible="1" on mobile -->
+	<!--	FIXME: Carousel component is broken in primevue-tailwind: -->
+	<!--	https://github.com/primefaces/primevue-tailwind/issues/177 -->
+	<!--	https://github.com/primefaces/primevue-tailwind/issues/256 -->
 	<Carousel
 		v-else-if="items.length > 2"
 		:value="items"
@@ -34,8 +35,9 @@
 		:num-scroll="1"
 		:show-indicators="false"
 		container-class="!relative"
-		:prev-button-props="{ class: '!absolute z-[1] left-2', rounded: true, severity: 'contrast' }"
-		:next-button-props="{ class: '!absolute z-[1] right-2', rounded: true, severity: 'contrast' }"
+		:prev-button-props="{ class: '!absolute z-[1] left-2 !size-9', rounded: true, severity: 'contrast' }"
+		:next-button-props="{ class: '!absolute z-[1] right-2 !size-9', rounded: true, severity: 'contrast' }"
+		:unstyled="false"
 	>
 		<template #item="item">
 			<div class="size-full px-0.5">

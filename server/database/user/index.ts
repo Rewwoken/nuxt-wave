@@ -15,7 +15,7 @@ export async function createUser(data: RegisterSchema) {
 			},
 		});
 
-		await tx.profile.create({
+		await tx.profile!.create({
 			data: {
 				user: {
 					connect: { id: user.id },
@@ -29,7 +29,7 @@ export async function createUser(data: RegisterSchema) {
 }
 
 export async function findUniqueUser(where: Prisma.UserWhereUniqueInput) {
-	const user = await prisma.user.findUnique({
+	return prisma.user.findUnique({
 		where,
 		select: {
 			id: true,
@@ -47,13 +47,6 @@ export async function findUniqueUser(where: Prisma.UserWhereUniqueInput) {
 			},
 		},
 	});
-
-	if (!user || !user.profile) {
-		return null;
-	}
-
-	// Forcing profile to be NonNullable because the profile is created in prisma.$transaction alongside user creation
-	return { ...user, profile: user.profile };
 }
 
 // Used in /api/auth/register.post.ts

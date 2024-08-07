@@ -18,7 +18,7 @@
 			<PostCreationModal />
 			<LayoutAsideAccount />
 		</aside>
-		<main class="w-[586px] border-x lg:mr-4 overflow-hidden border-x-surface-300 dark:border-x-surface-800">
+		<main class="w-[586px] border-x lg:mr-4 overflow-hidden border-surface">
 			<slot />
 			<div class="fixed bottom-0 max-w-[586px] w-full md:hidden">
 				<LayoutMobileNav />
@@ -38,7 +38,7 @@
 			>
 				<LayoutAsideUsers />
 			</LayoutAsideBox>
-			<div class="flex flex-wrap justify-between px-2 text-nowrap gap-x-4 gap-y-2">
+			<div class="flex flex-wrap justify-between px-2 text-nowrap gap-x-4 gap-y-1">
 				<WebsiteInfo />
 			</div>
 		</aside>

@@ -15,7 +15,7 @@
 </script>
 
 <template>
-	<nav class="flex items-center mr-0.5 justify-between px-4 py-1 bg-white border-t dark:bg-surface-950 border-t-surface-300 dark:border-t-surface-800">
+	<nav class="flex items-center mr-0.5 justify-between px-4 py-1 bg-color border-t border-surface">
 		<LayoutMobileNavLink to="/home" icon="pi-home" />
 		<LayoutMobileNavLink to="/explore" icon="pi-hashtag" />
 		<LayoutMobileNavLink to="/bookmarks" icon="pi-bookmark" />

@@ -28,8 +28,9 @@
 		:icon="icon"
 		title="Upload image"
 		size="large"
-		class="!border-none"
-		text rounded
+		pt:root:class="!ring-0"
+		text
+		rounded
 		@click="onIconClick"
 	/>
 	<input

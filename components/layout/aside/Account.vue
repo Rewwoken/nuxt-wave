@@ -15,15 +15,15 @@
 		aria-label="Open logout popover"
 		@click="toggle"
 	>
-		<UserImage :src="currentUser.profile.imageUrl" :px="44" />
-		<div class="hidden flex-col items-start gap-y-0.5 xl:flex">
-			<span class="font-bold leading-4 text-left line-clamp-1">{{ currentUser.profile.name }}</span>
-			<span class="text-sm leading-4 text-neutral-500">@{{ currentUser.username }}</span>
+		<UserImage :src="currentUser.profile!.imageUrl" :px="44" />
+		<div class="hidden flex-col items-start xl:flex justify-center">
+			<span class="font-bold line-clamp-1">{{ currentUser.profile!.name }}</span>
+			<span class="text-muted-color relative bottom-1">@{{ currentUser.username }}</span>
 		</div>
 		<i class="!hidden ml-auto pi pi-ellipsis-h xl:!inline" />
 	</button>
 	<Popover ref="op">
-		<button class="w-40 p-1 font-bold text-left dark:text-white" @click="logout">
+		<button class="w-48 font-bold text-left" @click="logout">
 			Log out @{{ currentUser.username }}
 		</button>
 	</Popover>
