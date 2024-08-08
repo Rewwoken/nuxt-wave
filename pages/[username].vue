@@ -23,7 +23,10 @@
 </script>
 
 <template>
-	<Profile v-if="user" :user="user" />
+	<Profile
+		v-if="user"
+		:user="user"
+	/>
 	<div v-else-if="error && error.data.message === 'error/invalid'">
 		INVALID
 	</div>

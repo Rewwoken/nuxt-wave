@@ -28,6 +28,9 @@
 		:draggable="false"
 		:modal="true"
 	>
-		<UserImage :src="source" :px="384" />
+		<UserImage
+			:src="source"
+			:px="384"
+		/>
 	</Dialog>
 </template>

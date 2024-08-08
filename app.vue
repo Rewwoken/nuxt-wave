@@ -1,4 +1,3 @@
-<!-- TODO: robots.txt -->
 <script setup lang="ts">
 	const { theme } = useTheme();
 

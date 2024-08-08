@@ -38,7 +38,6 @@
 		});
 
 		await handleRequest(
-			// @ts-expect-error | ? Excessive stack depth comparing types error
 			() => $api('/api/post', {
 				method: 'POST',
 				body: formData,

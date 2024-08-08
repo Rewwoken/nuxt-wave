@@ -45,3 +45,19 @@ model PostLikeRelation {
   @@index([likedPostId])
   @@map("post_like_relation")
 }
+
+model PostBookmarkRelation {
+  createdAt DateTime @default(now()) @map("created_at")
+
+  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id])
+  initiatorUserId String
+
+  bookmarkedPost   Post   @relation("BookmarkedPost", fields: [bookmarkedPostId], references: [id])
+  bookmarkedPostId String
+
+  @@id([initiatorUserId, bookmarkedPostId])
+  @@unique([initiatorUserId, bookmarkedPostId])
+  @@index([initiatorUserId])
+  @@index([bookmarkedPostId])
+  @@map("post_bookmark_relation")
+}

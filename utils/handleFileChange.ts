@@ -1,6 +1,6 @@
 type FileChangeCallback = (file: File, url: string) => void;
 
-export function handleFileChange(event: Event, cb: FileChangeCallback) {
+export default (event: Event, cb: FileChangeCallback) => {
 	const target = event.target as HTMLInputElement;
 	const file = target.files![0];
 
@@ -13,4 +13,4 @@ export function handleFileChange(event: Event, cb: FileChangeCallback) {
 	};
 
 	fileReader.readAsDataURL(file);
-}
+};

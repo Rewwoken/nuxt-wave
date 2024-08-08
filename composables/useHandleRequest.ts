@@ -16,7 +16,7 @@ export default () => {
 	/**
 	 * Handles form requests with success and error handling.
 	 *
-	 * @param requestFunc - The request function that returns a promise; should be like `() => $api(...)`.
+	 * @param requestFunc - The request function that returns a promise. TS may sometimes display "Excessive stack depth comparing types" error.
 	 * @param onSuccess - The success handler function that is called with the response data.
 	 * @param errorMessages - An object containing error messages in `{ 'error/code': 'message' }` format.
 	 * @param errorFunc - An optional error handler function that is called with the error message.

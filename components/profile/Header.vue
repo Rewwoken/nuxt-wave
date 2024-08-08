@@ -13,6 +13,10 @@
 	});
 
 	const router = useRouter();
+
+	async function onLogout() {
+		await logout();
+	}
 </script>
 
 <template>
@@ -26,7 +30,7 @@
 			rounded
 			@click="router.back"
 		/>
-		<div class="flex flex-col leading-4">
+		<div class="flex flex-col leading-4 overflow-hidden">
 			<span class="text-xl font-bold">{{ user.profile!.name }}</span>
 			<span class="text-xs text-gray-500">{{ count }} posts</span>
 		</div>
@@ -38,7 +42,7 @@
 			pt:icon:class="text-xl"
 			outlined
 			rounded
-			@click="logout"
+			@click="onLogout"
 		/>
 	</div>
 </template>

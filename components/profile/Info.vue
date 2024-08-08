@@ -19,11 +19,17 @@
 			{{ user.profile!.bio }}
 		</p>
 		<div class="flex flex-wrap text-muted-color gap-x-3">
-			<div v-if="user.profile!.location" class="flex items-center gap-x-1">
+			<div
+				v-if="user.profile!.location"
+				class="flex items-center gap-x-1"
+			>
 				<i class="pi pi-map-marker" />
 				<span>{{ user.profile!.location }}</span>
 			</div>
-			<div v-if="user.profile!.website" class="flex items-center gap-x-1">
+			<div
+				v-if="user.profile!.website"
+				class="flex items-center gap-x-1"
+			>
 				<i class="pi pi-link" />
 				<NuxtLink
 					:href="user.profile!.website"

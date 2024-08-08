@@ -14,7 +14,8 @@ model User {
   recoveryCode     RecoveryCode?
 
   // post.prisma
-  likesPostsRelations PostLikeRelation[] @relation("Initiator") // PostLikeRelations where the user is initiator
+  likesPostsRelations     PostLikeRelation[]     @relation("Initiator") // PostLikeRelations where the user is initiator
+  bookmarksPostsRelations PostBookmarkRelation[] @relation("Initiator") // PostBookmarkRelations where the user is initiator
 
   // social.prisma
   followsRelations    FollowRelation[] @relation("Initiator") // FollowRelations where the user is initiator

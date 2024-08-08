@@ -17,7 +17,8 @@ model Post {
   replies      Post[]  @relation("PostReplies")
 
   // social.prisma
-  likedByUsersRelations PostLikeRelation[] @relation("LikedPost") // PostLikeRelations where the post is liked
+  likedByUsersRelations      PostLikeRelation[]     @relation("LikedPost") // PostLikeRelations where the post is liked
+  bookmarkedByUsersRelations PostBookmarkRelation[] @relation("BookmarkedPost") // PostLikeRelations where the post is bookmarked
 
   @@map("post")
 }
@@ -30,8 +31,7 @@ model MediaFile {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  // No cascade deletion should be performed, instead it should be deleted manually alongside deletion from Cloudinary.
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String @map("post_id")
 
   @@map("media_file")

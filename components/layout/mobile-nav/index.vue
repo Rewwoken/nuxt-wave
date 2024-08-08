@@ -16,9 +16,18 @@
 
 <template>
 	<nav class="flex items-center mr-0.5 justify-between px-4 py-1 bg-color border-t border-surface">
-		<LayoutMobileNavLink to="/home" icon="pi-home" />
-		<LayoutMobileNavLink to="/explore" icon="pi-hashtag" />
-		<LayoutMobileNavLink to="/bookmarks" icon="pi-bookmark" />
+		<LayoutMobileNavLink
+			to="/home"
+			icon="pi-home"
+		/>
+		<LayoutMobileNavLink
+			to="/explore"
+			icon="pi-hashtag"
+		/>
+		<LayoutMobileNavLink
+			to="/bookmarks"
+			icon="pi-bookmark"
+		/>
 		<NuxtLink
 			to="/notifications"
 			class="flex items-center p-3 rounded-full gap-x-5 hover:bg-gray-500/10"
@@ -34,7 +43,13 @@
 				/>
 			</i>
 		</NuxtLink>
-		<LayoutMobileNavLink to="/messages" icon="pi-envelope" />
-		<LayoutMobileNavLink :to="`/${currentUser.username}`" icon="pi-user" />
+		<LayoutMobileNavLink
+			to="/messages"
+			icon="pi-envelope"
+		/>
+		<LayoutMobileNavLink
+			:to="`/${currentUser.username}`"
+			icon="pi-user"
+		/>
 	</nav>
 </template>

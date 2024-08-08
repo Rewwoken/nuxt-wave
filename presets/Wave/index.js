@@ -12,16 +12,16 @@ import textarea from './textarea';
 import toast from './toast';
 
 export default {
-    global,
-    inputtext,
-    badge,
-    button,
-    dialog,
-    iconfield,
-    message,
-    popover,
-    skeleton,
-    tag,
-    textarea,
-    toast,
+	global,
+	inputtext,
+	badge,
+	button,
+	dialog,
+	iconfield,
+	message,
+	popover,
+	skeleton,
+	tag,
+	textarea,
+	toast,
 };

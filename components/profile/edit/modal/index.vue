@@ -33,17 +33,16 @@
 
 		const textEntries = Object.entries(values);
 		for (const [key, value] of textEntries) {
-			formData.append(key, value);
+			formData.set(key, value);
 		}
 		if (files.value.image) {
-			formData.append('image', files.value.image);
+			formData.set('image', files.value.image);
 		}
 		if (files.value.banner) {
-			formData.append('banner', files.value.banner);
+			formData.set('banner', files.value.banner);
 		}
 
 		await handleRequest(
-			// @ts-expect-error | ? Excessive stack depth comparing types
 			() => $api('/api/profile', {
 				method: 'PATCH',
 				body: formData,
@@ -57,6 +56,8 @@
 				});
 
 				emit('closeModal');
+
+			// ? TODO: add loader toast
 			},
 			{
 				'error/fields': 'Invalid fields.',

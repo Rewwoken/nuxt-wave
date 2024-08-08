@@ -14,7 +14,10 @@
 		:source="items[0].source"
 		@on-delete="$emit('deleteMedia', 0)"
 	/>
-	<div v-else-if="items.length === 2" class="grid w-full grid-cols-2 gap-x-1">
+	<div
+		v-else-if="items.length === 2"
+		class="grid w-full grid-cols-2 gap-x-1"
+	>
 		<PostCreationMediaItem
 			:source="items[0].source"
 			@on-delete="$emit('deleteMedia', 0)"

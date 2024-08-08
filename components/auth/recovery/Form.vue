@@ -95,7 +95,11 @@
 		>
 			{{ errors.confirmPassword }}
 		</small>
-		<Message v-if="serverError" severity="error" closable>
+		<Message
+			v-if="serverError"
+			severity="error"
+			closable
+		>
 			{{ serverError }}
 		</Message>
 		<Button

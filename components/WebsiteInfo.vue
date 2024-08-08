@@ -24,7 +24,10 @@
 	>
 		MIT License
 	</NuxtLink>
-	<button class="text-sm text-muted-color hover:underline" @click="toggleTheme">
+	<button
+		class="text-sm text-muted-color hover:underline"
+		@click="toggleTheme"
+	>
 		<span v-if="theme === 'dark'">Light theme</span>
 		<span v-else>Dark theme</span>
 	</button>

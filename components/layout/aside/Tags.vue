@@ -17,7 +17,10 @@
 
 <template>
 	<ul class="flex flex-col gap-y-6">
-		<li v-for="item in items" :key="item.title">
+		<li
+			v-for="item in items"
+			:key="item.title"
+		>
 			<span class="font-bold">{{ item.title }}</span>
 			<p class="text-sm text-neutral-500">
 				{{ item.count }} Tweets

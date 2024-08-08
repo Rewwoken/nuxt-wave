@@ -3,7 +3,7 @@
 		userId: string;
 	}>();
 
-	const { data: posts, status } = await useAPI('/api/post/with-like', {
+	const { data: posts, status } = await useAPI('/api/post', {
 		method: 'GET',
 		query: {
 			userId: props.userId,

@@ -35,7 +35,8 @@
 		</video>
 		<Tag
 			v-if="source.startsWith('data:image/gif')"
-			value="GIF" severity="contrast"
+			value="GIF"
+			severity="contrast"
 			pt:root:class="!absolute !bottom-2 !left-2"
 		/>
 	</div>

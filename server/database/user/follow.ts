@@ -1,10 +1,10 @@
 import { prisma } from '~/server/database';
 
-export function followUser(userId: string, userIdToFollow: string) {
+export function followUser(initiatorUserId: string, userIdToFollow: string) {
 	return prisma.followRelation.create({
 		data: {
 			initiatorUser: {
-				connect: { id: userId },
+				connect: { id: initiatorUserId },
 			},
 			followedUser: {
 				connect: { id: userIdToFollow },
@@ -18,11 +18,11 @@ export function followUser(userId: string, userIdToFollow: string) {
 	});
 }
 
-export function unFollowUser(userId: string, userIdToUnFollow: string) {
+export function unFollowUser(initiatorUserId: string, userIdToUnFollow: string) {
 	return prisma.followRelation.delete({
 		where: {
 			initiatorUserId_followedUserId: {
-				initiatorUserId: userId,
+				initiatorUserId,
 				followedUserId: userIdToUnFollow,
 			},
 		},
@@ -34,11 +34,11 @@ export function unFollowUser(userId: string, userIdToUnFollow: string) {
 	});
 }
 
-export async function checkFollowing(userId: string, userIdToCheck: string) {
+export async function checkFollowing(initiatorUserId: string, userIdToCheck: string) {
 	const relation = await prisma.followRelation.findUnique({
 		where: {
 			initiatorUserId_followedUserId: {
-				initiatorUserId: userId,
+				initiatorUserId,
 				followedUserId: userIdToCheck,
 			},
 		},

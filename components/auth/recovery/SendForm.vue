@@ -62,10 +62,18 @@
 				fluid
 			/>
 		</IconField>
-		<small v-if="errors.email" id="email-help" class="ml-2 text-xs text-red-500">
+		<small
+			v-if="errors.email"
+			id="email-help"
+			class="ml-2 text-xs text-red-500"
+		>
 			{{ errors.email }}
 		</small>
-		<Message v-if="serverError" severity="error" closable>
+		<Message
+			v-if="serverError"
+			severity="error"
+			closable
+		>
 			{{ serverError }}
 		</Message>
 		<Button
