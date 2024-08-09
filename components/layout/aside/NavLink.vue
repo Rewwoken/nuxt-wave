@@ -8,10 +8,10 @@
 
 <template>
 	<NuxtLink
-		:to="to"
-		class="flex items-center p-3 transition-colors rounded-full gap-x-5 hover:bg-gray-500/10"
-		:aria-label="`Navigate to ${to}`"
+		class="flex items-center gap-x-5 rounded-full p-3 transition-colors hover:bg-emphasis"
 		active-class="font-bold"
+		:to="to"
+		:aria-label="`Navigate to ${to}`"
 	>
 		<i :class="`pi ${icon} !text-3xl`" />
 		<span class="hidden text-xl xl:inline">{{ text }}</span>

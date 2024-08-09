@@ -3,15 +3,23 @@
 
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
 		validationSchema: toTypedSchema(loginSchema),
+		validateOnMount: false,
 	});
-	const [username] = defineField('username');
-	const [password] = defineField('password');
+
+	const [username, usernameAttrs] = defineField('username', state => ({
+		validateOnModelUpdate: state.errors.length > 0,
+		validateOnBlur: false,
+	}));
+	const [password, passwordAttrs] = defineField('password', state => ({
+		validateOnModelUpdate: state.errors.length > 0,
+		validateOnBlur: false,
+	}));
+
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
 	const { handleRequest, serverError } = useHandleRequest();
-
-	const toast = useToast();
 	const { $api } = useNuxtApp();
+	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
 		await handleRequest(
@@ -20,10 +28,7 @@
 				body: values,
 			}),
 			async () => {
-				await navigateTo('/home', {
-					replace: true,
-				});
-
+				await navigateTo('/home', { replace: true });
 				toast.add({
 					severity: 'info',
 					summary: 'Successfully logged in!',
@@ -51,41 +56,40 @@
 			<InputIcon class="pi pi-at" />
 			<InputText
 				v-model="username"
+				v-bind="usernameAttrs"
 				type="text"
 				name="username"
-				autocomplete="new-password"
+				autocomplete="off"
 				placeholder="Username"
 				aria-describedby="username-help"
 				:invalid="!!errors.username"
-				autofocus
+				fluid
 			/>
 		</IconField>
-		<small
-			v-if="errors.username"
+		<ErrorMessage
 			id="username-help"
+			name="username"
 			class="ml-2 text-xs text-red-500"
-		>
-			{{ errors.username }}
-		</small>
+		/>
 		<IconField>
 			<InputIcon class="pi pi-lock" />
 			<InputText
 				v-model="password"
+				v-bind="passwordAttrs"
 				type="password"
 				name="password"
-				autocomplete="new-password"
+				autocomplete="off"
 				placeholder="Password"
 				aria-describedby="password-help"
 				:invalid="!!errors.password"
+				fluid
 			/>
 		</IconField>
-		<small
-			v-if="errors.password"
+		<ErrorMessage
 			id="password-help"
+			name="password"
 			class="ml-2 text-xs text-red-500"
-		>
-			{{ errors.password }}
-		</small>
+		/>
 		<Message
 			v-if="serverError"
 			severity="error"

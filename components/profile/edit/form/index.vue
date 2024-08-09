@@ -76,7 +76,7 @@
 </script>
 
 <template>
-	<header class="flex items-center px-2 pt-3 mb-2">
+	<header class="mb-2 flex items-center px-2 pt-3">
 		<Button
 			icon="pi pi-times"
 			severity="contrast"
@@ -85,24 +85,24 @@
 			rounded
 			@click="$emit('closeModal')"
 		/>
-		<h2 class="ml-2 text-xl text-surface-950 dark:text-surface-0 font-semibold">
+		<h2 class="ml-2 text-xl font-semibold text-surface-950 dark:text-surface-0">
 			Edit profile
 		</h2>
 		<Button
 			label="Save"
 			severity="contrast"
-			pt:root:class="px-8 ml-auto"
+			pt:root:class="ml-auto px-8"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
 			rounded
 			@click="onSubmit"
 		/>
 	</header>
-	<ProfileEditModalBanner @on-file="onFile" />
-	<ProfileEditModalImage @on-file="onFile" />
+	<ProfileEditFormBanner @on-file="onFile" />
+	<ProfileEditFormImage @on-file="onFile" />
 	<!-- TODO: handle empty fields case -->
 	<form
-		class="flex flex-col p-3 gap-y-8"
+		class="flex flex-col gap-y-8 p-3"
 		novalidate
 	>
 		<div class="relative flex flex-col">
@@ -114,11 +114,11 @@
 				autocomplete="name"
 				placeholder="Name"
 				aria-describedby="name-help"
-				pt:root:class="py-4 group"
+				pt:root:class="group py-4"
 				:maxlength="50"
 				:invalid="!!errors.name"
 			/>
-			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ name?.length || 0 }} / 50</span>
+			<span class="absolute right-4 top-1 z-10 text-sm text-muted-color">{{ name?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.name"
 				id="name-help"
@@ -134,12 +134,12 @@
 				autocomplete="off"
 				placeholder="Bio"
 				aria-describedby="bio-help"
+				pt:root:class="resize-none py-4"
 				:maxlength="160"
 				:invalid="!!errors.bio"
 				:auto-resize="true"
-				pt:root:class="py-4 resize-none"
 			/>
-			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ bio?.length || 0 }} / 160</span>
+			<span class="absolute right-4 top-1 z-10 text-sm text-muted-color">{{ bio?.length || 0 }} / 160</span>
 			<small
 				v-if="errors.bio"
 				id="bio-help"
@@ -161,11 +161,11 @@
 				:maxlength="30"
 				:invalid="!!errors.location"
 			/>
-			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ location?.length || 0 }} / 30</span>
+			<span class="absolute right-4 top-1 z-10 text-sm text-muted-color">{{ location?.length || 0 }} / 30</span>
 			<small
 				v-if="errors.location"
 				id="location-help"
-				class="absolute ml-2 text-xs text-red-500 -bottom-5"
+				class="absolute -bottom-5 ml-2 text-xs text-red-500"
 			>
 				{{ errors.location }}
 			</small>
@@ -183,7 +183,7 @@
 				:maxlength="50"
 				:invalid="!!errors.website"
 			/>
-			<span class="absolute z-10 text-sm text-muted-color top-1 right-4">{{ website?.length || 0 }} / 50</span>
+			<span class="absolute right-4 top-1 z-10 text-sm text-muted-color">{{ website?.length || 0 }} / 50</span>
 			<small
 				v-if="errors.website"
 				id="website-help"

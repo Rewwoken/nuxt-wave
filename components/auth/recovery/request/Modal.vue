@@ -11,26 +11,24 @@
 </script>
 
 <template>
-	<div class="flex flex-col gap-y-6">
-		<AuthLogin />
-		<AuthRecoverySendModal />
-	</div>
 	<Button
-		label="Haven't registered yet?"
+		label="Forgot password?"
+		severity="contrast"
 		size="small"
-		pt:root:class="!p-0 mt-1"
-		pt:label:class="hover:underline"
-		text
+		outlined
+		rounded
+		fluid
 		@click="showModal"
 	/>
 	<Dialog
 		v-model:visible="visible"
-		header="Create an account"
+		header="Send password recovery email"
+		pt:header-actions:class="ml-4"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
 		:modal="true"
 	>
-		<AuthRegister @close-modal="closeModal" />
+		<AuthRecoveryRequestForm @on-submit="closeModal" />
 	</Dialog>
 </template>

@@ -26,13 +26,13 @@
 	<Dialog
 		v-model:visible="visible"
 		header="New post creation"
-		pt:root:class="w-full max-w-[586px] mx-4"
+		pt:root:class="mx-4 w-full max-w-[586px]"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
 		:modal="true"
 	>
-		<div class="flex gap-x-2 modal">
+		<div class="flex gap-x-2">
 			<PostCreation />
 		</div>
 	</Dialog>

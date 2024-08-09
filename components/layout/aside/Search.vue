@@ -9,7 +9,7 @@
 			v-model="term"
 			name="Search"
 			placeholder="Search"
-			pt:root:class="border-none !rounded-full !bg-neutral-400/20"
+			pt:root:class="!rounded-full border-none !bg-neutral-400/20"
 			fluid
 		/>
 	</IconField>

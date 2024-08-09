@@ -25,10 +25,10 @@
 
 <template>
 	<Button
-		:icon="icon"
 		title="Upload image"
 		size="large"
 		pt:root:class="!ring-0"
+		:icon="icon"
 		text
 		rounded
 		@click="onIconClick"

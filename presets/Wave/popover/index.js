@@ -3,7 +3,6 @@ export default {
 		class: [
 			// Shape
 			'rounded-md shadow-lg',
-			'dark:shadow-surface-400/50',
 
 			// Position
 			'absolute left-0 top-0 mt-2',

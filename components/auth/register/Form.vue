@@ -7,16 +7,27 @@
 
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
 		validationSchema: toTypedSchema(registerSchema),
+		validateOnMount: false,
 	});
-	const [email] = defineField('email');
-	const [username] = defineField('username');
-	const [password] = defineField('password');
+
+	const [email, emailAttrs] = defineField('email', state => ({
+		validateOnModelUpdate: state.errors.length > 0,
+		validateOnBlur: false,
+	}));
+	const [username, usernameAttrs] = defineField('username', state => ({
+		validateOnModelUpdate: state.errors.length > 0,
+		validateOnBlur: false,
+	}));
+	const [password, passwordAttrs] = defineField('password', state => ({
+		validateOnModelUpdate: state.errors.length > 0,
+		validateOnBlur: false,
+	}));
+
 	const hasErrors = computed(() => !!Object.keys(errors.value).length);
 
 	const { handleRequest, serverError } = useHandleRequest();
-
-	const toast = useToast();
 	const { $api } = useNuxtApp();
+	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
 		await handleRequest(
@@ -25,13 +36,13 @@
 				body: values,
 			}),
 			async () => {
+				emit('closeModal');
+
 				toast.add({
 					severity: 'info',
 					summary: 'An email has been sent to verify your email address.',
 					detail: 'Please, check your mailbox and follow the link in the message within 15 minutes before it expires.',
 				});
-
-				emit('closeModal');
 			},
 			{
 				'error/user-exists': 'User already exists!',
@@ -45,14 +56,14 @@
 
 <template>
 	<form
-		class="flex flex-col py-0.5 w-80 gap-y-2"
-		novalidate
+		class="flex w-80 flex-col gap-y-2 py-0.5"
 		@submit="onSubmit"
 	>
 		<IconField>
 			<InputIcon class="pi pi-envelope" />
 			<InputText
 				v-model="email"
+				v-bind="emailAttrs"
 				type="text"
 				name="email"
 				autocomplete="email"
@@ -63,17 +74,16 @@
 				fluid
 			/>
 		</IconField>
-		<small
-			v-if="errors.email"
+		<ErrorMessage
 			id="email-help"
+			name="email"
 			class="ml-2 text-xs text-red-500"
-		>
-			{{ errors.email }}
-		</small>
+		/>
 		<IconField>
 			<InputIcon class="pi pi-at" />
 			<InputText
 				v-model="username"
+				v-bind="usernameAttrs"
 				type="text"
 				name="username"
 				autocomplete="off"
@@ -83,17 +93,16 @@
 				fluid
 			/>
 		</IconField>
-		<small
-			v-if="errors.username"
+		<ErrorMessage
 			id="username-help"
+			name="username"
 			class="ml-2 text-xs text-red-500"
-		>
-			{{ errors.username }}
-		</small>
+		/>
 		<IconField>
 			<InputIcon class="pi pi-lock" />
 			<InputText
 				v-model="password"
+				v-bind="passwordAttrs"
 				type="password"
 				name="password"
 				autocomplete="off"
@@ -103,13 +112,11 @@
 				fluid
 			/>
 		</IconField>
-		<small
-			v-if="errors.password"
+		<ErrorMessage
 			id="password-help"
+			name="password"
 			class="ml-2 text-xs text-red-500"
-		>
-			{{ errors.password }}
-		</small>
+		/>
 		<!-- TODO: add password-confirm -->
 		<Message
 			v-if="serverError"
@@ -119,7 +126,7 @@
 			{{ serverError }}
 		</Message>
 		<div class="flex items-end justify-between">
-			<IconNuxt class="size-10 !fill-bg-contrast-color" />
+			<CommonIconNuxt class="size-10" />
 			<Button
 				type="submit"
 				label="Submit"

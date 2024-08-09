@@ -11,24 +11,22 @@
 </script>
 
 <template>
-	<div class="absolute flex justify-center select-none">
-		<UserImage
-			:src="source"
-			:px="140"
-			class="cursor-pointer border-bg-color border-[3px] bg-color"
-			@click="showModal"
-		/>
-	</div>
+	<CommonUserImage
+		class="absolute cursor-pointer border-[3px] border-bg-color bg-color"
+		:src="source"
+		:px="140"
+		@click="showModal"
+	/>
 	<Dialog
 		v-model:visible="visible"
-		pt:root:class="!bg-transparent !border-none !shadow-none !static"
+		pt:root:class="!static !border-none !bg-transparent !shadow-none"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:show-header="false"
 		:draggable="false"
 		:modal="true"
 	>
-		<UserImage
+		<CommonUserImage
 			:src="source"
 			:px="384"
 		/>

@@ -16,16 +16,16 @@
 <template>
 	<NuxtLink
 		to="/notifications"
-		class="flex items-center p-3 rounded-full gap-x-5 hover:bg-gray-500/10"
+		class="flex items-center gap-x-5 rounded-full p-3 hover:bg-emphasis"
 		aria-label="Navigate to notifications"
 		active-class="font-bold"
 	>
-		<i class="relative !text-3xl pi pi-bell">
+		<i class="pi pi-bell relative !text-3xl">
 			<Badge
 				v-if="count"
-				:value="count"
-				pt:root:class="absolute font-sans -top-2 -right-2"
+				pt:root:class="absolute -right-2 -top-2 font-sans"
 				size="small"
+				:value="count"
 			/>
 		</i>
 		<span class="hidden text-xl xl:inline">Notifications</span>

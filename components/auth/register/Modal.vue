@@ -12,23 +12,21 @@
 
 <template>
 	<Button
-		label="Forgot password?"
-		severity="contrast"
+		label="Haven't registered yet?"
 		size="small"
-		outlined
-		rounded
-		fluid
+		pt:root:class="!p-0 !ring-0"
+		pt:label:class="hover:text-primary-emphasis"
+		text
 		@click="showModal"
 	/>
 	<Dialog
 		v-model:visible="visible"
-		header="Send password recovery email"
-		pt:header-actions:class="ml-4"
+		header="Create an account"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
 		:modal="true"
 	>
-		<AuthRecoverySendForm @on-submit="closeModal" />
+		<AuthRegisterForm @close-modal="closeModal" />
 	</Dialog>
 </template>

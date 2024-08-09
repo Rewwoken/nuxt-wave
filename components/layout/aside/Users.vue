@@ -25,19 +25,19 @@
 			:key="item.handle"
 			class="flex items-center gap-x-2"
 		>
-			<UserImage
+			<CommonUserImage
 				:src="item.image"
 				:px="44"
 			/>
 			<div class="flex flex-col">
 				<span class="font-bold">{{ item.name }}</span>
-				<span class="text-sm text-neutral-500 relative bottom-1">{{ item.handle }}</span>
+				<span class="relative bottom-1 text-sm text-muted-color">{{ item.handle }}</span>
 			</div>
 			<Button
 				label="Follow"
 				size="small"
 				severity="contrast"
-				pt:root:class="px-4 ml-auto"
+				pt:root:class="ml-auto px-4"
 				pt:label:class="font-semibold"
 				rounded
 			/>

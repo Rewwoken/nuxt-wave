@@ -79,9 +79,9 @@
 		<Button
 			label="Send"
 			icon="pi pi-send"
+			type="submit"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
-			type="submit"
 			rounded
 		/>
 	</form>

@@ -20,7 +20,7 @@
 </script>
 
 <template>
-	<div class="flex items-center p-1 gap-x-6">
+	<div class="sticky top-0 z-10 flex items-center gap-x-6 bg-bg-color p-1">
 		<Button
 			icon="pi pi-arrow-left"
 			aria-label="Back"
@@ -30,9 +30,9 @@
 			rounded
 			@click="router.back"
 		/>
-		<div class="flex flex-col leading-4 overflow-hidden">
+		<div class="flex flex-col overflow-hidden leading-4">
 			<span class="text-xl font-bold">{{ user.profile!.name }}</span>
-			<span class="text-xs text-gray-500">{{ count }} posts</span>
+			<span class="text-xs text-muted-color">{{ count }} posts</span>
 		</div>
 		<Button
 			icon="pi pi-sign-out"

@@ -5,10 +5,10 @@
 <template>
 	<NuxtLink
 		to="/home"
-		class="p-2 transition-colors rounded-full size-12 hover:bg-gray-500/10"
+		class="size-12 rounded-full p-2 transition-colors hover:bg-emphasis"
 		aria-label="Home"
 	>
-		<IconNuxt />
+		<CommonIconNuxt />
 	</NuxtLink>
 	<nav class="flex flex-col gap-y-4">
 		<LayoutAsideNavLink
@@ -34,8 +34,8 @@
 		/>
 		<LayoutAsideNavLink
 			icon="pi-user"
-			:to="`/${currentUser.username}`"
 			text="Profile"
+			:to="`/${currentUser.username}`"
 		/>
 		<LayoutAsideNavLink
 			icon="pi-ellipsis-h"

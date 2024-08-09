@@ -22,7 +22,7 @@
 			:key="item.title"
 		>
 			<span class="font-bold">{{ item.title }}</span>
-			<p class="text-sm text-neutral-500">
+			<p class="text-sm text-muted-color">
 				{{ item.count }} Tweets
 			</p>
 		</li>

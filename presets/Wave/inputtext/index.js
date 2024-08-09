@@ -34,7 +34,7 @@ export default {
 			// Invalid State
 			'invalid:ring:border-red-200',
 			'invalid:hover:border-red-500',
-			{ 'border-red-500 dark:border-red-400': props.invalid },
+			{ 'border-red-500 dark:border-red-500': props.invalid },
 
 			// States
 			{

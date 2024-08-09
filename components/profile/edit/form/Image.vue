@@ -21,14 +21,14 @@
 </script>
 
 <template>
-	<div class="relative w-full h-12">
-		<div class="absolute flex items-center justify-center ml-6 bottom-4">
-			<UserImage
+	<div class="relative h-12 w-full">
+		<div class="absolute bottom-4 ml-6 flex items-center justify-center">
+			<CommonUserImage
+				class="cursor-pointer border-[3px] border-bg-color bg-color"
 				:src="image"
 				:px="128"
-				class="cursor-point border-bg-color border-[3px] bg-color"
 			/>
-			<ProfileEditModalFileButton @on-click="onClick" />
+			<ProfileEditFormFileButton @on-click="onClick" />
 		</div>
 	</div>
 	<input

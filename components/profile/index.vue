@@ -13,19 +13,19 @@
 
 <template>
 	<ProfileHeader :user="user" />
-	<!-- Potential improvement: reduce UserBanner size on mobile -->
-	<UserBanner
+	<!-- Potential improvement: reduce CommonUserBanner size on mobile -->
+	<CommonUserBanner
 		:src="user.profile!.bannerUrl"
 		:height="195"
 		:width="586"
 	/>
-	<div class="flex items-end px-3 mt-2">
+	<div class="mt-2 flex items-end px-3">
 		<ProfileImage :source="user.profile!.imageUrl" />
 		<!-- If the profile is the current user, display the 'Edit profile' button -->
-		<ProfileEdit v-if="isCurrentUser" />
+		<ProfileEditModal v-if="isCurrentUser" />
 		<div
 			v-else
-			class="flex items-center ml-auto gap-x-2"
+			class="ml-auto flex items-center gap-x-2"
 		>
 			<!-- TODO: add block -->
 			<!-- <ProfileMore

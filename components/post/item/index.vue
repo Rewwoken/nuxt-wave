@@ -7,14 +7,14 @@
 </script>
 
 <template>
-	<article class="flex gap-x-3 w-full px-4 py-2">
-		<UserImage
+	<article class="flex w-full gap-x-3 px-4 py-2">
+		<CommonUserImage
 			:src="data.user.profile!.imageUrl"
 			:px="40"
 		/>
 		<div class="flex flex-col">
 			<div class="space-x-1">
-				<span class="text-color font-bold">{{ data.user.profile!.name }}</span>
+				<span class="font-bold text-color">{{ data.user.profile!.name }}</span>
 				<span class="text-muted-color">@{{ data.user.username }}</span>
 			</div>
 			<p>
@@ -24,6 +24,8 @@
 				<!-- TODO: add mediafiles -->
 			</ol>
 			<div class="flex justify-between">
+				<!-- TODO: add replies -->
+				<PostActionsRepost :count="data._count.reposts" />
 				<PostActionsLike
 					:post-id="data.id"
 					:is-liked="data.status.liked"

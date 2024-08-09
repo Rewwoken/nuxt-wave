@@ -15,7 +15,7 @@
 </script>
 
 <template>
-	<nav class="flex items-center mr-0.5 justify-between px-4 py-1 bg-color border-t border-surface">
+	<nav class="mr-0.5 flex items-center justify-between border-t bg-color px-4 py-1 border-surface">
 		<LayoutMobileNavLink
 			to="/home"
 			icon="pi-home"
@@ -30,16 +30,16 @@
 		/>
 		<NuxtLink
 			to="/notifications"
-			class="flex items-center p-3 rounded-full gap-x-5 hover:bg-gray-500/10"
+			class="flex items-center gap-x-5 rounded-full p-3 hover:bg-emphasis"
 			aria-label="Navigate to notifications"
 			active-class="font-bold"
 		>
-			<i class="relative !text-2xl pi pi-bell">
+			<i class="pi pi-bell relative !text-2xl">
 				<Badge
 					v-if="count"
-					:value="count"
-					pt:root:class="absolute font-sans text-white -top-2 -right-2"
+					pt:root:class="absolute -right-2 -top-2 font-sans text-white"
 					size="small"
+					:value="count"
 				/>
 			</i>
 		</NuxtLink>
@@ -48,8 +48,8 @@
 			icon="pi-envelope"
 		/>
 		<LayoutMobileNavLink
-			:to="`/${currentUser.username}`"
 			icon="pi-user"
+			:to="`/${currentUser.username}`"
 		/>
 	</nav>
 </template>

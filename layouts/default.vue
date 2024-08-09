@@ -12,19 +12,19 @@
 </script>
 
 <template>
-	<div class="flex justify-center min-h-screen">
-		<aside class="hidden md:flex flex-col gap-y-3 pr-4 items-center xl:items-stretch xl:w-[300px] select-none">
+	<div class="flex min-h-screen justify-center">
+		<aside class="sticky top-0 hidden h-full select-none flex-col items-center gap-y-3 pr-4 md:flex xl:w-[300px] xl:items-stretch">
 			<LayoutAsideNavigation />
 			<PostCreationModal />
 			<LayoutAsideAccount />
 		</aside>
-		<main class="w-[586px] border-x lg:mr-4 overflow-hidden border-surface">
+		<main class="w-[586px] border-x border-surface lg:mr-4">
 			<slot />
-			<div class="fixed bottom-0 max-w-[586px] w-full md:hidden">
+			<nav class="fixed bottom-0 w-full max-w-[586px] md:hidden">
 				<LayoutMobileNav />
-			</div>
+			</nav>
 		</main>
-		<aside class="hidden lg:flex flex-col gap-y-2 w-[350px] pt-2">
+		<aside class="sticky top-0 hidden h-full w-[350px] flex-col gap-y-2 pt-2 lg:flex">
 			<LayoutAsideSearch />
 			<LayoutAsideBox
 				title="What's happening"
@@ -38,8 +38,8 @@
 			>
 				<LayoutAsideUsers />
 			</LayoutAsideBox>
-			<div class="flex flex-wrap justify-between px-2 text-nowrap gap-x-4 gap-y-1">
-				<WebsiteInfo />
+			<div class="flex flex-wrap justify-between gap-x-4 gap-y-1 text-nowrap px-2">
+				<CommonWebsiteInfo />
 			</div>
 		</aside>
 	</div>

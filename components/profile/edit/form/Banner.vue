@@ -22,12 +22,12 @@
 
 <template>
 	<div class="relative flex items-center justify-center">
-		<UserBanner
+		<CommonUserBanner
 			:src="banner"
 			:height="192"
 			:width="586"
 		/>
-		<ProfileEditModalFileButton @on-click="onClick" />
+		<ProfileEditFormFileButton @on-click="onClick" />
 	</div>
 	<input
 		ref="hiddenInput"

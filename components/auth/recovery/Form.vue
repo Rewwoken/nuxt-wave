@@ -49,8 +49,8 @@
 <template>
 	<form
 		autocomplete="off"
-		novalidate
 		class="flex flex-col gap-y-2"
+		novalidate
 		@submit="onSubmit"
 	>
 		<IconField>
@@ -103,11 +103,11 @@
 			{{ serverError }}
 		</Message>
 		<Button
+			type="submit"
 			label="Change password"
 			pt:root:class="mt-2"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
-			type="submit"
 			fluid
 			rounded
 		/>

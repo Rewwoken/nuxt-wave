@@ -10,5 +10,9 @@
 </script>
 
 <template>
-	<Auth />
+	<div class="mb-1 flex flex-col gap-y-4">
+		<AuthLoginForm />
+		<AuthRecoveryRequestModal />
+	</div>
+	<AuthRegisterModal />
 </template>

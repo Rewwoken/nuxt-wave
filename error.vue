@@ -32,19 +32,19 @@
 </script>
 
 <template>
-	<main class="flex flex-col items-center justify-center h-dvh bg-color text-color">
+	<main class="flex h-dvh flex-col items-center justify-center bg-color text-color">
 		<h1 class="mb-6 text-4xl">
 			{{ error.statusCode }} - {{ error.statusMessage }}
 		</h1>
 		<Button
-			:label="label"
 			icon="pi pi-link"
 			size="large"
+			:label="label"
 			text
 			@click="onNavigate"
 		/>
 	</main>
-	<footer class="fixed bottom-0 w-full py-4 space-x-4 text-center">
-		<WebsiteInfo />
+	<footer class="fixed bottom-0 w-full space-x-4 py-4 text-center">
+		<CommonWebsiteInfo />
 	</footer>
 </template>

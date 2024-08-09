@@ -1,15 +1,16 @@
-import global from './global.js';
-import inputtext from './inputtext';
-import badge from './badge';
-import button from './button';
-import dialog from './dialog';
-import iconfield from './iconfield';
-import message from './message';
-import popover from './popover';
-import skeleton from './skeleton';
-import tag from './tag';
-import textarea from './textarea';
-import toast from './toast';
+import badge from '~/presets/Wave/badge';
+import button from '~/presets/Wave/button';
+import dialog from '~/presets/Wave/dialog';
+import global from '~/presets/Wave/global.js';
+import iconfield from '~/presets/Wave/iconfield';
+import inputtext from '~/presets/Wave/inputtext';
+import menu from '~/presets/Wave/menu';
+import message from '~/presets/Wave/message';
+import popover from '~/presets/Wave/popover';
+import skeleton from '~/presets/Wave/skeleton';
+import tag from '~/presets/Wave/tag';
+import textarea from '~/presets/Wave/textarea';
+import toast from '~/presets/Wave/toast';
 
 export default {
 	global,
@@ -24,4 +25,5 @@ export default {
 	tag,
 	textarea,
 	toast,
+	menu,
 };

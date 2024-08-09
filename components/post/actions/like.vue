@@ -26,19 +26,23 @@
 <template>
 	<Button
 		v-if="isLiked"
-		:label="label"
+		title="Delete post like"
+		aria-label="Delete post like"
 		icon="pi pi-heart-fill"
-		size="small"
 		severity="secondary"
+		size="small"
+		:label="label"
 		text
 		@click="toggleLike"
 	/>
 	<Button
 		v-else
-		:label="label"
+		title="Add post like"
+		aria-label="Add post like"
 		icon="pi pi-heart"
-		size="small"
 		severity="secondary"
+		size="small"
+		:label="label"
 		text
 		@click="toggleLike"
 	/>

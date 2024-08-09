@@ -21,17 +21,21 @@
 <template>
 	<Button
 		v-if="isBookmarked"
+		title="Delete from bookmarks"
+		aria-label="Delete from bookmarks"
 		icon="pi pi-bookmark-fill"
-		size="small"
 		severity="secondary"
+		size="small"
 		text
 		@click="toggleBookmark"
 	/>
 	<Button
 		v-else
+		title="Add to bookmarks"
+		aria-label="Add to bookmarks"
 		icon="pi pi-bookmark"
-		size="small"
 		severity="secondary"
+		size="small"
 		text
 		@click="toggleBookmark"
 	/>

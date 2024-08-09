@@ -21,7 +21,7 @@
 
 <template>
 	<Button
-		v-if="isFollowing"
+		v-show="isFollowing"
 		label="Stop following"
 		severity="danger"
 		size="small"
@@ -32,7 +32,7 @@
 		@click="toggleFollow"
 	/>
 	<Button
-		v-else
+		v-show="!isFollowing"
 		label="Follow"
 		severity="contrast"
 		size="small"

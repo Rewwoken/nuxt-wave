@@ -74,24 +74,24 @@
 </script>
 
 <template>
-	<UserImage
+	<CommonUserImage
 		:src="currentUser.profile!.imageUrl"
 		:px="48"
 	/>
-	<form class="flex flex-col w-full">
+	<form class="flex w-full flex-col">
 		<Textarea
 			id="new-post-text"
 			v-model="text"
 			name="postText"
 			placeholder="What is happening?!"
-			pt:root:class="text-xl border-none resize-none"
+			pt:root:class="resize-none border-none text-xl"
 			:auto-resize="true"
 		/>
 		<PostCreationMediaList
 			:items="items"
 			@delete-media="deleteMedia"
 		/>
-		<div class="flex justify-between pt-2 mt-2 border-t border-surface">
+		<div class="mt-2 flex justify-between border-t pt-2 border-surface">
 			<fieldset class="flex items-center gap-x-0.5">
 				<PostCreationMediaUpload
 					icon="pi pi-image"

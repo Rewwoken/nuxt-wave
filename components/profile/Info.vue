@@ -10,7 +10,7 @@
 </script>
 
 <template>
-	<div class="p-3 space-y-3">
+	<div class="space-y-3 p-3">
 		<div class="flex flex-col leading-3">
 			<span class="text-lg font-bold">{{ user.profile!.name }}</span>
 			<span class="text-muted-color">@{{ user.username }}</span>
@@ -18,7 +18,7 @@
 		<p class="text-muted-color">
 			{{ user.profile!.bio }}
 		</p>
-		<div class="flex flex-wrap text-muted-color gap-x-3">
+		<div class="flex flex-wrap gap-x-3 text-muted-color">
 			<div
 				v-if="user.profile!.location"
 				class="flex items-center gap-x-1"
@@ -32,9 +32,9 @@
 			>
 				<i class="pi pi-link" />
 				<NuxtLink
-					:href="user.profile!.website"
 					target="_blank"
 					class="text-primary-500 hover:underline"
+					:href="user.profile!.website"
 				>
 					{{ user.profile!.website.split('//')[1] }}
 				</NuxtLink>

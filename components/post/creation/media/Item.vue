@@ -21,12 +21,12 @@
 		/>
 		<NuxtImg
 			v-if="source.startsWith('data:image/')"
+			class="aspect-square w-full rounded-2xl object-cover"
 			:src="source"
-			class="object-cover w-full aspect-square rounded-2xl"
 		/>
 		<video
 			v-else-if="source.startsWith('data:video/')"
-			class="object-cover w-full aspect-square rounded-2xl"
+			class="aspect-square w-full rounded-2xl object-cover"
 			controls
 			playsinline
 			loop

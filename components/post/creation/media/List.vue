@@ -33,11 +33,11 @@
 	<!--	https://github.com/primefaces/primevue-tailwind/issues/256 -->
 	<Carousel
 		v-else-if="items.length > 2"
+		container-class="!relative"
 		:value="items"
 		:num-visible="2"
 		:num-scroll="1"
 		:show-indicators="false"
-		container-class="!relative"
 		:prev-button-props="{ class: '!absolute z-[1] left-2 !size-9', rounded: true, severity: 'contrast' }"
 		:next-button-props="{ class: '!absolute z-[1] right-2 !size-9', rounded: true, severity: 'contrast' }"
 		:unstyled="false"
