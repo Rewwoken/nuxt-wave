@@ -5,8 +5,6 @@
 	useHead({
 		htmlAttrs: {
 			lang: 'en',
-		},
-		bodyAttrs: {
 			class: theme,
 		},
 		link: [

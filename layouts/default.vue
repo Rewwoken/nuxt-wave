@@ -14,9 +14,9 @@
 <template>
 	<div class="flex min-h-screen justify-center">
 		<aside class="sticky top-0 hidden h-full select-none flex-col items-center gap-y-3 pr-4 md:flex xl:w-[300px] xl:items-stretch">
-			<LayoutAsideNavigation />
-			<PostCreationModal />
-			<LayoutAsideAccount />
+			<LayoutNav />
+			<LayoutPostModal />
+			<LayoutUserAccount />
 		</aside>
 		<main class="w-[586px] border-x border-surface lg:mr-4">
 			<slot />
@@ -25,19 +25,19 @@
 			</nav>
 		</main>
 		<aside class="sticky top-0 hidden h-full w-[350px] flex-col gap-y-2 pt-2 lg:flex">
-			<LayoutAsideSearch />
-			<LayoutAsideBox
+			<LayoutUserSearch />
+			<LayoutExploreBox
 				title="What's happening"
 				footer-link="/"
 			>
-				<LayoutAsideTags />
-			</LayoutAsideBox>
-			<LayoutAsideBox
+				<LayoutExploreTags />
+			</LayoutExploreBox>
+			<LayoutExploreBox
 				title="You might like"
 				footer-link="/"
 			>
-				<LayoutAsideUsers />
-			</LayoutAsideBox>
+				<LayoutExploreUsers />
+			</LayoutExploreBox>
 			<div class="flex flex-wrap justify-between gap-x-4 gap-y-1 text-nowrap px-2">
 				<CommonWebsiteInfo />
 			</div>

@@ -1,13 +1,15 @@
 import { z } from 'zod';
-import { createPostSchema } from '~/schemas/createPost';
-import { createPost } from '~/server/database/post';
+import { createPostSchema } from '~/schemas/post/create-post';
+import { createPost } from '~/server/database/post/crud/create';
+
+const schema = z.object({
+	parentPostId: z.string().optional(),
+});
 
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
-		const query = await getValidatedQuery(event, z.object({
-			parentPostId: z.string().optional(),
-		}).parse);
+		const query = await getValidatedQuery(event, schema.parse);
 
 		const formParse = await parseForm(event.node.req);
 

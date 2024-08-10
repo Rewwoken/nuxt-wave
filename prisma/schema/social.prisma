@@ -1,10 +1,10 @@
 model FollowRelation {
   createdAt DateTime @default(now()) @map("created_at")
 
-  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id])
+  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id], onDelete: Cascade)
   initiatorUserId String
 
-  followedUser   User   @relation("Followed", fields: [followedUserId], references: [id])
+  followedUser   User   @relation("Followed", fields: [followedUserId], references: [id], onDelete: Cascade)
   followedUserId String
 
   @@id([initiatorUserId, followedUserId])
@@ -17,10 +17,10 @@ model FollowRelation {
 model BlockRelation {
   createdAt DateTime @default(now()) @map("created_at")
 
-  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id])
+  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id], onDelete: Cascade)
   initiatorUserId String
 
-  blockedUser   User   @relation("Blocked", fields: [blockedUserId], references: [id])
+  blockedUser   User   @relation("Blocked", fields: [blockedUserId], references: [id], onDelete: Cascade)
   blockedUserId String
 
   @@id([initiatorUserId, blockedUserId])
@@ -33,10 +33,10 @@ model BlockRelation {
 model PostLikeRelation {
   createdAt DateTime @default(now()) @map("created_at")
 
-  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id])
+  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id], onDelete: Cascade)
   initiatorUserId String
 
-  likedPost   Post   @relation("LikedPost", fields: [likedPostId], references: [id])
+  likedPost   Post   @relation("LikedPost", fields: [likedPostId], references: [id], onDelete: Cascade)
   likedPostId String
 
   @@id([initiatorUserId, likedPostId])
@@ -49,10 +49,10 @@ model PostLikeRelation {
 model PostBookmarkRelation {
   createdAt DateTime @default(now()) @map("created_at")
 
-  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id])
+  initiatorUser   User   @relation("Initiator", fields: [initiatorUserId], references: [id], onDelete: Cascade)
   initiatorUserId String
 
-  bookmarkedPost   Post   @relation("BookmarkedPost", fields: [bookmarkedPostId], references: [id])
+  bookmarkedPost   Post   @relation("BookmarkedPost", fields: [bookmarkedPostId], references: [id], onDelete: Cascade)
   bookmarkedPostId String
 
   @@id([initiatorUserId, bookmarkedPostId])

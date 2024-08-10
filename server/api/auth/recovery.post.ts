@@ -1,6 +1,7 @@
-import { deleteRecoveryCodeByUserId, recoverUserPassword } from '~/server/database/recoveryCode';
-import { codeSchema } from '~/schemas/code';
-import { recoverySchema } from '~/schemas/recovery';
+import { recoverySchema } from '~/schemas/auth/recovery';
+import { deleteRecoveryCodeByUserId } from '~/server/database/recovery-code/crud/delete';
+import { recoverUserPassword } from '~/server/database/recovery-code/recover';
+import { codeSchema } from '~/server/schemas/code';
 
 export default defineEventHandler(async (event) => {
 	const query = await getValidatedQuery(event, codeSchema.parse);

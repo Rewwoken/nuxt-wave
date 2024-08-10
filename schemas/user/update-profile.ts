@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const profileSchema = z
+export const updateProfileSchema = z
 	.object({
 		name: z
 			.string({ message: 'Name must be a string!' })
@@ -20,4 +20,4 @@ export const profileSchema = z
 			.optional(),
 	});
 
-export type ProfileSchema = z.infer<typeof profileSchema>;
+export type UpdateProfileSchema = z.infer<typeof updateProfileSchema>;

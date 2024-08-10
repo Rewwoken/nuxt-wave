@@ -1,5 +1,5 @@
-import { blockUser } from '~/server/database/user/block';
-import { followUser } from '~/server/database/user/follow';
+import { blockUser } from '~/server/database/user/actions/block';
+import { followUser } from '~/server/database/user/actions/follow';
 import { userActionSchema } from '~/server/schemas/user-action';
 
 export default defineEventHandler({
@@ -8,7 +8,6 @@ export default defineEventHandler({
 		const params = await getValidatedRouterParams(event, userActionSchema.parse);
 
 		const userId = event.context.user.id;
-		setResponseStatus(event, 200);
 
 		if (params.action === 'follow') {
 			return followUser(userId, params.id);

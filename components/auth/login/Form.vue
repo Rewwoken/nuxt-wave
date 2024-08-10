@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { loginSchema } from '~/schemas/login';
+	import { loginSchema } from '~/schemas/auth/login';
 
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
 		validationSchema: toTypedSchema(loginSchema),
@@ -22,12 +22,12 @@
 	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleRequest(
-			() => $api('/api/auth/login', {
+		await handleRequest({
+			requestFunc: () => $api('/api/auth/login', {
 				method: 'POST',
 				body: values,
 			}),
-			async () => {
+			onSuccess: async () => {
 				await navigateTo('/home', { replace: true });
 				toast.add({
 					severity: 'info',
@@ -36,13 +36,13 @@
 					life: 3000,
 				});
 			},
-			{
+			errors: {
 				'error/credentials': 'Invalid credentials!',
 				'error/not-verified': 'Email is not verified!',
 				'error/body': 'Invalid data!',
 				'error/unknown': 'Unexpected error!',
 			},
-		);
+		});
 	});
 </script>
 

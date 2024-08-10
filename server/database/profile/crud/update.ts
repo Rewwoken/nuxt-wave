@@ -1,12 +1,7 @@
-import type { ProfileSchema } from '~/schemas/profile';
+import type { UpdateProfileSchema } from '~/schemas/user/update-profile';
 import { cloudinaryUpload } from '~/server/cloudinary';
 import { prisma } from '~/server/database';
-
-export async function findProfileByUserId(userId: string) {
-	return prisma.profile.findUnique({
-		where: { userId },
-	});
-}
+import { findProfileByUserId } from '~/server/database/profile/crud/read';
 
 interface UpdatedMedia {
 	image?: {
@@ -31,7 +26,7 @@ async function handleMediaUpload(url: string, currentPublicId: string | undefine
 	};
 }
 
-export async function updateProfile(userId: string, text?: ProfileSchema, imageUrl?: string, bannerUrl?: string) {
+export async function updateProfile(userId: string, text?: UpdateProfileSchema, imageUrl?: string, bannerUrl?: string) {
 	const updatedMedia: UpdatedMedia = {};
 	const profile = await findProfileByUserId(userId);
 

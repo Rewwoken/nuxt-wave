@@ -27,6 +27,6 @@
 		:draggable="false"
 		:modal="true"
 	>
-		<AuthRegisterForm @close-modal="closeModal" />
+		<AuthRegisterForm @on-submit="closeModal" />
 	</Dialog>
 </template>

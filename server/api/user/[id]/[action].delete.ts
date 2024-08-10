@@ -1,5 +1,5 @@
-import { unBlockUser } from '~/server/database/user/block';
-import { unFollowUser } from '~/server/database/user/follow';
+import { unBlockUser } from '~/server/database/user/actions/block';
+import { unFollowUser } from '~/server/database/user/actions/follow';
 import { userActionSchema } from '~/server/schemas/user-action';
 
 export default defineEventHandler({

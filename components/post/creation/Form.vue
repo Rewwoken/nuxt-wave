@@ -1,5 +1,14 @@
 <script setup lang="ts">
-	import { createPostSchema } from '~/schemas/createPost';
+	import { createPostSchema } from '~/schemas/post/create-post';
+	import type { Post } from '~/types/api.types';
+
+	const props = defineProps<{
+		replyTo?: Post;
+	}>();
+
+	const emit = defineEmits<{
+		(event: 'onSubmit'): void;
+	}>();
 
 	interface MediaItem {
 		file: File;
@@ -26,7 +35,6 @@
 	const { handleRequest } = useHandleRequest();
 
 	const { $api } = useNuxtApp();
-	const route = useRoute();
 	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
@@ -37,15 +45,17 @@
 			formData.append(`media/${index + 1}`, media.file);
 		});
 
-		await handleRequest(
-			() => $api('/api/post', {
+		await handleRequest({
+			requestFunc: () => $api('/api/post', {
 				method: 'POST',
 				body: formData,
 				params: {
-					parentPostId: route.params.parentPostId,
+					parentPostId: props.replyTo?.id,
 				},
 			}),
-			async () => {
+			onSuccess: async () => {
+				emit('onSubmit');
+
 				items.value = [];
 				resetForm();
 
@@ -56,12 +66,12 @@
 					life: 3000,
 				});
 			},
-			{
+			errors: {
 				'error/size': 'File size is too much! Allow for a maximum of 15 MB.',
 				'error/invalid-type': 'Invalid file type!',
 				'error/unknown': 'Unexpected error!',
 			},
-			(message) => {
+			onError: (message) => {
 				toast.add({
 					severity: 'error',
 					summary: 'Error creating new post!',
@@ -69,7 +79,7 @@
 					life: 3000,
 				});
 			},
-		);
+		});
 	});
 </script>
 
@@ -84,7 +94,7 @@
 			v-model="text"
 			name="postText"
 			placeholder="What is happening?!"
-			pt:root:class="resize-none border-none text-xl"
+			pt:root:class="resize-none border-none !bg-transparent text-xl"
 			:auto-resize="true"
 		/>
 		<PostCreationMediaList

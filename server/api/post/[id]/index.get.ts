@@ -1,12 +1,16 @@
 import { z } from 'zod';
-import { checkPostBookmark, checkPostLike, findPostById } from '~/server/database/post';
+import { checkPostBookmark } from '~/server/database/post/actions/bookmark';
+import { checkPostLike } from '~/server/database/post/actions/like';
+import { findPostById } from '~/server/database/post/crud/read';
+
+const schema = z.object({
+	id: z.string(),
+});
 
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
-		const params = await getValidatedQuery(event, z.object({
-			id: z.string(),
-		}).parse);
+		const params = await getValidatedQuery(event, schema.parse);
 
 		const post = await findPostById(params.id);
 		if (!post) {

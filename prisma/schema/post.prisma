@@ -39,7 +39,7 @@ model MediaFile {
 
 model Repost {
   id        String   @id @default(uuid()) @map("repost_id")
-  text      String
+  text      String?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

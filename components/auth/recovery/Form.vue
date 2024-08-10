@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { recoverySchema } from '~/schemas/recovery';
+	import { recoverySchema } from '~/schemas/auth/recovery';
 
 	const route = useRoute();
 	if (!route.query.id || route.query.code?.length !== 36) {
@@ -19,8 +19,8 @@
 	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleRequest(
-			() => $api('/api/auth/recovery', {
+		await handleRequest({
+			requestFunc: () => $api('/api/auth/recovery', {
 				method: 'POST',
 				query: {
 					id: route.query.id,
@@ -28,7 +28,7 @@
 				},
 				body: values,
 			}),
-			async () => {
+			onSuccess: async () => {
 				toast.add({
 					severity: 'success',
 					summary: 'Password has been successfully changed.',
@@ -38,11 +38,11 @@
 
 				await navigateTo('/auth');
 			},
-			{
+			errors: {
 				'error/expried': 'Recovery code expired!',
 				'error/unknown': 'Error recovering the password!',
 			},
-		);
+		});
 	});
 </script>
 

@@ -1,7 +1,9 @@
 import { isAfter } from 'date-fns';
-import { registerSchema } from '~/schemas/register';
-import { createUser, deleteUserById, findFirstUser } from '~/server/database/user';
-import { createVerificationCode } from '~/server/database/verificationCode';
+import { registerSchema } from '~/schemas/auth/register';
+import { createUser } from '~/server/database/user/crud/create';
+import { deleteUserById } from '~/server/database/user/crud/delete';
+import { findFirstUser } from '~/server/database/user/crud/read';
+import { createVerificationCode } from '~/server/database/verification-code/crud/create';
 
 export default defineEventHandler(async (event) => {
 	const body = await readValidatedBody(event, registerSchema.parse);

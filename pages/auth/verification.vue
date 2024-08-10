@@ -5,15 +5,15 @@
 	const toast = useToast();
 
 	onMounted(async () => {
-		await handleRequest(
-			() => $fetch('/api/auth/verification', {
+		await handleRequest({
+			requestFunc: () => $fetch('/api/auth/verification', {
 				method: 'GET',
 				query: {
 					id: route.query.id,
 					code: route.query.code,
 				},
 			}),
-			() => {
+			onSuccess: () => {
 				toast.add({
 					severity: 'success',
 					summary: 'Email verified successfully!',
@@ -21,12 +21,12 @@
 					life: 7000,
 				});
 			},
-			{
+			errors: {
 				'error/expired': 'Verification link expired. Please, try again later.',
 				'error/not-found': 'User not found.',
 				'error/unknown': 'Unexpected error. Please, try again later.',
 			},
-			(message) => {
+			onError: (message) => {
 				toast.add({
 					severity: 'error',
 					summary: 'Error verifying email!',
@@ -34,10 +34,10 @@
 					life: 7000,
 				});
 			},
-			async () => {
+			finallyFunc: async () => {
 				await navigateTo('/auth');
 			},
-		);
+		});
 	});
 
 	definePageMeta({
@@ -51,6 +51,10 @@
 
 <template>
 	<div class="pointer-events-none select-none">
-		<Auth />
+		<div class="mb-1 flex flex-col gap-y-4">
+			<AuthLoginForm />
+			<AuthRecoveryRequestModal />
+		</div>
+		<AuthRegisterModal />
 	</div>
 </template>

@@ -1,6 +1,6 @@
 import type formidable from 'formidable';
-import { profileSchema } from '~/schemas/profile';
-import { updateProfile } from '~/server/database/profile';
+import { updateProfileSchema } from '~/schemas/user/update-profile';
+import { updateProfile } from '~/server/database/profile/crud/update';
 
 export default defineEventHandler({
 	onRequest: [auth],
@@ -9,7 +9,7 @@ export default defineEventHandler({
 
 		const fields = formatFields(formParse.fields);
 
-		const schemaParse = profileSchema.safeParse(fields);
+		const schemaParse = updateProfileSchema.safeParse(fields);
 		if (!schemaParse.success) {
 			const errors = schemaParse.error.flatten().fieldErrors;
 
@@ -25,7 +25,6 @@ export default defineEventHandler({
 
 		const userId = event.context.user.id;
 		try {
-			setResponseStatus(event, 200);
 			return await updateProfile(userId, schemaParse.data, image, banner);
 		}
 		catch {

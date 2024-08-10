@@ -1,4 +1,5 @@
-import { unBookmarkPost, unLikePost } from '~/server/database/post';
+import { unBookmarkPost } from '~/server/database/post/actions/bookmark';
+import { unLikePost } from '~/server/database/post/actions/like';
 import { postActionSchema } from '~/server/schemas/post-action';
 
 export default defineEventHandler({
@@ -7,7 +8,6 @@ export default defineEventHandler({
 		const params = await getValidatedRouterParams(event, postActionSchema.parse);
 
 		const userId = event.context.user.id;
-		setResponseStatus(event, 200);
 
 		if (params.action === 'like') {
 			return unLikePost(userId, params.id);

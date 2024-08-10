@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3';
-import { findUniqueUser } from '~/server/database/user';
+import { findUniqueUser } from '~/server/database/user/crud/read';
 
 export default defineEventHandler(async (event) => {
 	const authorizationHeader = getRequestHeader(event, 'authorization');

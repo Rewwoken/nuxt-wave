@@ -1,11 +1,12 @@
 import { z } from 'zod';
-import { countPostsByUserId } from '~/server/database/post';
+import { countPostsByUserId } from '~/server/database/post/analytics/count';
+
+const schema = z.object({
+	userId: z.string(),
+});
 
 export default defineEventHandler(async (event) => {
-	const query = await getValidatedQuery(event, z.object({
-		userId: z.string(),
-	}).parse);
+	const query = await getValidatedQuery(event, schema.parse);
 
-	setResponseStatus(event, 200);
 	return countPostsByUserId(query.userId);
 });

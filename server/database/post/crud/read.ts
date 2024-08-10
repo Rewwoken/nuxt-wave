@@ -1,6 +1,6 @@
 import { prisma } from '~/server/database';
-import type { PaginationOptions } from '~/server/database/post/miscellaneous';
-import { PostSelect } from '~/server/database/post/miscellaneous';
+import type { PaginationOptions } from '~/server/database/post/options';
+import { PostSelect } from '~/server/database/post/options';
 
 /**
  * @description Finds user posts.
@@ -14,6 +14,13 @@ export async function findPostsByUserId(userId: string, options: PaginationOptio
 		where: { user: { id: userId } },
 		skip: options.skip,
 		take: options.take,
+		select: PostSelect,
+	});
+}
+
+export function findPostById(id: string) {
+	return prisma.post.findUnique({
+		where: { id },
 		select: PostSelect,
 	});
 }

@@ -1,12 +1,11 @@
-import { verifyUser } from '~/server/database/verificationCode';
-import { codeSchema } from '~/schemas/code';
-import { deleteUserById } from '~/server/database/user';
+import { deleteUserById } from '~/server/database/user/crud/delete';
+import { verifyUser } from '~/server/database/verification-code/verify';
+import { codeSchema } from '~/server/schemas/code';
 
 export default defineEventHandler(async (event) => {
 	const query = await getValidatedQuery(event, codeSchema.parse);
 
 	try {
-		setResponseStatus(event, 200);
 		return await verifyUser(query.id, query.code);
 	}
 	catch (err) {

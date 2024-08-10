@@ -11,33 +11,33 @@
 		<CommonIconNuxt />
 	</NuxtLink>
 	<nav class="flex flex-col gap-y-4">
-		<LayoutAsideNavLink
+		<LayoutNavLink
 			icon="pi-home"
 			to="/home"
 			text="Home"
 		/>
-		<LayoutAsideNavLink
+		<LayoutNavLink
 			icon="pi-hashtag"
 			to="/explore"
 			text="Explore"
 		/>
-		<LayoutAsideNotifications />
-		<LayoutAsideNavLink
+		<LayoutNavNotifications />
+		<LayoutNavLink
 			icon="pi-envelope"
 			to="/messages"
 			text="Messages"
 		/>
-		<LayoutAsideNavLink
+		<LayoutNavLink
 			icon="pi-bookmark"
 			to="/bookmarks"
 			text="Bookmarks"
 		/>
-		<LayoutAsideNavLink
+		<LayoutNavLink
 			icon="pi-user"
 			text="Profile"
 			:to="`/${currentUser.username}`"
 		/>
-		<LayoutAsideNavLink
+		<LayoutNavLink
 			icon="pi-ellipsis-h"
 			to="/settings"
 			text="Settings"

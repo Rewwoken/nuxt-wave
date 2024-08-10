@@ -1,5 +1,7 @@
 import { z } from 'zod';
-import { checkPostBookmark, checkPostLike, findPostsByUserId } from '~/server/database/post';
+import { checkPostBookmark } from '~/server/database/post/actions/bookmark';
+import { checkPostLike } from '~/server/database/post/actions/like';
+import { findPostsByUserId } from '~/server/database/post/crud/read';
 
 const schema = z.object({
 	userId: z.string(),

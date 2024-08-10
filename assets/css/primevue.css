@@ -30,7 +30,7 @@
 }
 
 /* Light Mode */
-body {
+html {
 	--p-primary-color: color-mix(in srgb, var(--p-primary-500), var(--p-primary-600));
 	--p-primary-contrast-color: var(--p-surface-0);
 	--p-primary-hover-color: var(--p-primary-600);
@@ -51,10 +51,12 @@ body {
 	--p-text-hover-color: var(--p-surface-800);
 	--p-text-muted-color: var(--p-surface-600);
 	--p-text-hover-muted-color: var(--p-surface-700);
+
+	--p-scrollbar-color: color-mix(in srgb, var(--p-surface-500), transparent 40%);
 }
 
 /* Dark Mode */
-body.dark {
+html.dark {
 	--p-primary-color: color-mix(in srgb, var(--p-primary-500), var(--p-primary-600));
 	--p-primary-contrast-color: var(--p-surface-0);
 	--p-primary-hover-color: var(--p-primary-500);
@@ -75,4 +77,6 @@ body.dark {
 	--p-text-hover-color: var(--p-surface-0);
 	--p-text-muted-color: var(--p-surface-400);
 	--p-text-hover-muted-color: var(--p-surface-300);
+
+	--p-scrollbar-color: color-mix(in srgb, var(--p-surface-500), transparent 70%);
 }

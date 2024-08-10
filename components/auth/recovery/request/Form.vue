@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { sendRecoverySchema } from '~/schemas/sendRecovery';
+	import { requestRecoverySchema } from '~/schemas/auth/request-recovery';
 
 	const emit = defineEmits<{
 		(e: 'onSubmit'): void;
@@ -7,7 +7,7 @@
 
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
 		validationSchema: toTypedSchema(
-			sendRecoverySchema,
+			requestRecoverySchema,
 		),
 	});
 	const [email] = defineField('email');
@@ -19,12 +19,12 @@
 	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleRequest(
-			() => $api('/api/send/recovery', {
+		await handleRequest({
+			requestFunc: () => $api('/api/send/recovery', {
 				method: 'POST',
 				body: { email: values.email },
 			}),
-			() => {
+			onSuccess: () => {
 				toast.add({
 					severity: 'info',
 					summary: 'A password recovery email has been sent to your email.',
@@ -33,11 +33,11 @@
 
 				emit('onSubmit');
 			},
-			{
+			errors: {
 				'error/not-expired': 'Previous code has not expired!',
 				'error/unknown': 'Error sending email!',
 			},
-		);
+		});
 	});
 </script>
 

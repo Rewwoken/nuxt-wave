@@ -1,12 +1,13 @@
 import { isAfter } from 'date-fns';
-import { createRecoveryCode, deleteRecoveryCodeByUserId } from '~/server/database/recoveryCode';
+import { requestRecoverySchema } from '~/schemas/auth/request-recovery';
 import { prisma } from '~/server/database';
-import { sendRecoverySchema } from '~/schemas/sendRecovery';
+import { createRecoveryCode } from '~/server/database/recovery-code/crud/create';
+import { deleteRecoveryCodeByUserId } from '~/server/database/recovery-code/crud/delete';
 
 // ! This route should not return or throw anything to avoid leaking information about the user's email.
 // ! Information about the user's email should be kept confidential.
 export default defineEventHandler(async (event) => {
-	const body = await readValidatedBody(event, sendRecoverySchema.parse);
+	const body = await readValidatedBody(event, requestRecoverySchema.parse);
 
 	try {
 		const user = await prisma.user.findUniqueOrThrow({

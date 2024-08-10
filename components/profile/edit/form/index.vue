@@ -1,12 +1,12 @@
 <script setup lang="ts">
-	import { profileSchema } from '~/schemas/profile';
+	import { updateProfileSchema } from '~/schemas/user/update-profile';
 
 	const emit = defineEmits<{
-		(e: 'closeModal'): void;
+		(e: 'onSubmit'): void;
 	}>();
 
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
-		validationSchema: toTypedSchema(profileSchema),
+		validationSchema: toTypedSchema(updateProfileSchema),
 	});
 	const [name] = defineField('name');
 	const [bio] = defineField('bio');
@@ -42,12 +42,12 @@
 			formData.set('banner', files.value.banner);
 		}
 
-		await handleRequest(
-			() => $api('/api/profile', {
+		await handleRequest({
+			requestFunc: () => $api('/api/profile', {
 				method: 'PATCH',
 				body: formData,
 			}),
-			() => {
+			onSuccess: () => {
 				toast.add({
 					severity: 'success',
 					summary: 'Profile has been successfully changed!',
@@ -55,15 +55,15 @@
 					life: 3000,
 				});
 
-				emit('closeModal');
+				emit('onSubmit');
 
 			// ? TODO: add loader toast
 			},
-			{
+			errors: {
 				'error/fields': 'Invalid fields.',
 				'error/unknown': 'Unexpected error, please try again later.',
 			},
-			(message) => {
+			onError: (message) => {
 				toast.add({
 					severity: 'error',
 					summary: 'An error occurred during profile change!',
@@ -71,7 +71,7 @@
 					life: 5000,
 				});
 			},
-		);
+		});
 	});
 </script>
 
@@ -83,7 +83,7 @@
 			pt:root:class="!border-none"
 			outlined
 			rounded
-			@click="$emit('closeModal')"
+			@click="$emit('onSubmit')"
 		/>
 		<h2 class="ml-2 text-xl font-semibold text-surface-950 dark:text-surface-0">
 			Edit profile

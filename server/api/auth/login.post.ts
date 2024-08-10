@@ -1,5 +1,5 @@
 import argon2 from 'argon2';
-import { loginSchema } from '~/schemas/login';
+import { loginSchema } from '~/schemas/auth/login';
 import { prisma } from '~/server/database';
 
 export default defineEventHandler(async (event) => {
@@ -43,6 +43,5 @@ export default defineEventHandler(async (event) => {
 	setRefreshToken(event, refreshToken);
 	setAccessToken(event, accessToken);
 
-	setResponseStatus(event, 200);
 	return { id: user.id };
 });

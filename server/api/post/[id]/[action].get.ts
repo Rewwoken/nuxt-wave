@@ -1,4 +1,5 @@
-import { checkPostBookmark, checkPostLike } from '~/server/database/post';
+import { checkPostBookmark } from '~/server/database/post/actions/bookmark';
+import { checkPostLike } from '~/server/database/post/actions/like';
 import { postActionSchema } from '~/server/schemas/post-action';
 
 export default defineEventHandler({
@@ -7,7 +8,6 @@ export default defineEventHandler({
 		const params = await getValidatedRouterParams(event, postActionSchema.parse);
 
 		const userId = event.context.user.id;
-		setResponseStatus(event, 200);
 
 		if (params.action === 'like') {
 			return checkPostLike(userId, params.id);

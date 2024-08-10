@@ -25,7 +25,10 @@
 			</ol>
 			<div class="flex justify-between">
 				<!-- TODO: add replies -->
-				<PostActionsRepost :count="data._count.reposts" />
+				<PostActionsShare
+					:data="data"
+					:count="data._count.reposts"
+				/>
 				<PostActionsLike
 					:post-id="data.id"
 					:is-liked="data.status.liked"

@@ -63,7 +63,7 @@ export default {
 	itemIcon: {
 		class: [
 			// Spacing
-			'mr-2',
+			'mr-3',
 
 			// Color
 			'text-surface-600 dark:text-white/70',

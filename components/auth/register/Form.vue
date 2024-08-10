@@ -1,8 +1,8 @@
 <script setup lang="ts">
-	import { registerSchema } from '~/schemas/register';
+	import { registerSchema } from '~/schemas/auth/register';
 
 	const emit = defineEmits<{
-		(e: 'closeModal'): void;
+		(e: 'onSubmit'): void;
 	}>();
 
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
@@ -30,13 +30,13 @@
 	const toast = useToast();
 
 	const onSubmit = handleSubmit(async (values) => {
-		await handleRequest(
-			() => $api('/api/auth/register', {
+		await handleRequest({
+			requestFunc: () => $api('/api/auth/register', {
 				method: 'POST',
 				body: values,
 			}),
-			async () => {
-				emit('closeModal');
+			onSuccess: async () => {
+				emit('onSubmit');
 
 				toast.add({
 					severity: 'info',
@@ -44,13 +44,13 @@
 					detail: 'Please, check your mailbox and follow the link in the message within 15 minutes before it expires.',
 				});
 			},
-			{
+			errors: {
 				'error/user-exists': 'User already exists!',
 				'error/not-expired': 'Previous code has not expired!',
 				'error/body': 'Invalid data!',
 				'error/unknown': 'Unexpected error!',
 			},
-		);
+		});
 	});
 </script>
 

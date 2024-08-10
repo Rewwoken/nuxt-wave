@@ -1,7 +1,7 @@
 import { prisma } from '~/server/database';
 import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
-import type { ValidatedMediaFile } from '~/server/utils/validate/mediaFiles';
-import { PostSelect } from '~/server/database/post/miscellaneous';
+import type { ValidatedMediaFile } from '~/server/utils/validate/validateMediaFiles';
+import { PostSelect } from '~/server/database/post/options';
 
 export async function createPost(
 	userId: string,

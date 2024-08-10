@@ -6,3 +6,22 @@ input:-webkit-autofill:active {
 	-webkit-transition: color 999999s ease-out, background-color 999999s ease-out !important;
 	-webkit-transition-delay: 999999s !important;
 }
+
+/* Removing scrollbar shift */
+html {
+	scrollbar-gutter: stable !important;
+	background-color: var(--p-bg-color);
+}
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--p-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: var(--p-scrollbar-color);
+}
