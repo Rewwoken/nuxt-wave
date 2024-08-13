@@ -1,9 +1,8 @@
 <script setup lang="ts">
 	import { createPostSchema } from '~/schemas/post/create-post';
-	import type { Post } from '~/types/api.types';
 
 	const props = defineProps<{
-		replyTo?: Post;
+		parentId?: string;
 	}>();
 
 	const emit = defineEmits<{
@@ -49,8 +48,8 @@
 			requestFunc: () => $api('/api/post', {
 				method: 'POST',
 				body: formData,
-				params: {
-					parentPostId: props.replyTo?.id,
+				query: {
+					parentId: props.parentId,
 				},
 			}),
 			onSuccess: async () => {

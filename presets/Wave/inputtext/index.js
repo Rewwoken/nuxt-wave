@@ -29,7 +29,7 @@ export default {
 			'placeholder:text-surface-400 dark:placeholder:text-surface-500',
 			{ 'bg-surface-0 dark:bg-surface-950': !context.disabled },
 			'border',
-			{ 'border-surface-300 dark:border-surface-600/30': !props.invalid },
+			{ 'border-surface': !props.invalid },
 
 			// Invalid State
 			'invalid:ring:border-red-200',

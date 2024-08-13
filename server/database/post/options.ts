@@ -29,18 +29,6 @@ export const PostSelect = {
 			mimetype: true,
 		},
 	},
-	parentPost: {
-		select: {
-			id: true,
-			text: true,
-			user: {
-				select: {
-					id: true,
-					username: true,
-				},
-			},
-		},
-	},
 	_count: {
 		select: {
 			likedByUsersRelations: true, // as likes ?
@@ -49,3 +37,7 @@ export const PostSelect = {
 		},
 	},
 } satisfies Prisma.PostSelect;
+
+export const PostOrder: Prisma.PostOrderByWithAggregationInput = {
+	createdAt: 'desc',
+};

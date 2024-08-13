@@ -5,7 +5,7 @@ import { PostSelect } from '~/server/database/post/options';
 
 export async function createPost(
 	userId: string,
-	parentPostId: string | undefined,
+	parentId: string | undefined,
 	text: string,
 	files: ValidatedMediaFile[],
 ) {
@@ -13,7 +13,7 @@ export async function createPost(
 		const newPost = await tx.post.create({
 			data: {
 				user: { connect: { id: userId } },
-				parentPost: parentPostId ? { connect: { id: parentPostId } } : undefined,
+				parentPost: parentId ? { connect: { id: parentId } } : undefined,
 				text,
 			},
 			select: PostSelect,

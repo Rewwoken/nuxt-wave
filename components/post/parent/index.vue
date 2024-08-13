@@ -1,8 +1,8 @@
 <script setup lang="ts">
-	import type { Post } from '~/types/api.types';
+	import type { ParentPost } from '~/types/api.types';
 
 	const props = defineProps<{
-		data: Post;
+		data: ParentPost;
 	}>();
 
 	const item = ref();
@@ -26,26 +26,21 @@
 		@click="navigateToPost"
 	>
 		<PostItemAside
-			:is-parent="false"
+			:is-parent="true"
 			:image-url="data.user.profile!.imageUrl"
 		/>
-		<div class="flex w-full flex-col">
+		<div class="flex w-full flex-col pb-8">
 			<PostItemHeader
 				:name="data.user.profile!.name"
 				:username="data.user.username"
 				:time="data.createdAt"
 			/>
-			<PostItemText :data="data.text" />
+			<p class="flex gap-3 py-px">
+				{{ data.text }}
+			</p>
 			<PostMediaFileList
-				class="py-2"
+				class="pt-2"
 				:items="data.mediaFiles"
-			/>
-			<PostItemFooter
-				:post-id="data.id"
-				:author="data.user.username"
-				:count="data._count"
-				:status="data.status"
-				:class="{ 'mt-2': !data.mediaFiles.length }"
 			/>
 		</div>
 	</article>

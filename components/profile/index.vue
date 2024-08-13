@@ -12,8 +12,14 @@
 </script>
 
 <template>
-	<ProfileHeader :user="user" />
-	<!-- Potential improvement: reduce CommonUserBanner size on mobile -->
+	<header class="sticky top-0 z-10 flex items-center gap-x-6 bg-bg-color p-1">
+		<ProfileHeaderReturn />
+		<ProfileHeaderUserInfo
+			:user-id="user.id"
+			:name="user.profile!.name"
+		/>
+		<ProfileHeaderLogout />
+	</header>
 	<CommonUserBanner
 		:src="user.profile!.bannerUrl"
 		:height="195"
@@ -21,23 +27,18 @@
 	/>
 	<div class="mt-2 flex items-end px-3">
 		<ProfileImage :source="user.profile!.imageUrl" />
-		<!-- If the profile is the current user, display the 'Edit profile' button -->
 		<ProfileEditModal v-if="isCurrentUser" />
 		<div
 			v-else
 			class="ml-auto flex items-center gap-x-2"
 		>
 			<!-- TODO: add block -->
-			<!-- <ProfileMore
+			<!-- <ProfileActionsMore
 				:user-id="user.id"
 				:username="user.username"
 			/> -->
-			<ProfileFollowing
-				:user-id="user.id"
-			/>
+			<ProfileActionsFollow :user-id="user.id" />
 		</div>
 	</div>
 	<ProfileInfo :user="user" />
-	<!--	<ProfileSelection /> -->
-	<ProfilePosts :user-id="user.id" />
 </template>

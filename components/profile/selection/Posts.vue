@@ -8,9 +8,9 @@
 		query: {
 			userId: props.userId,
 		},
+		deep: false, // ! Change it, if you want need reactivity
 		lazy: true,
 		server: false,
-		deep: false, // ! Change it, if you want need reactivity
 	});
 </script>
 
@@ -18,11 +18,20 @@
 <template>
 	<ol v-if="status === 'success'">
 		<li
-			v-for="post in posts"
+			v-for="{ parentPost, ...post } in posts"
 			:key="post.id"
-			class="w-full border-t border-surface"
+			class="w-full cursor-pointer border-b border-surface"
 		>
-			<PostItem :data="post" />
+			<PostParent
+				v-if="parentPost"
+				class="px-4 pt-2"
+				:data="parentPost"
+			/>
+			<PostItem
+				class="px-4 pb-2"
+				:class="{ 'pt-2': !parentPost }"
+				:data="post"
+			/>
 		</li>
 	</ol>
 	<!-- TODO: handle other statuses -->

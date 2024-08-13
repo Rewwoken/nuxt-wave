@@ -1,3 +1,4 @@
+<!-- Potential improvement: reduce CommonUserBanner size on mobile -->
 <script setup lang="ts">
 	const props = defineProps<{
 		src: string | null;

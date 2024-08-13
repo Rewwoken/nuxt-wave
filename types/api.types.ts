@@ -4,4 +4,5 @@ export type FetchedUser = FetchResult<'/api/user/:username', 'GET'>;
 export type User = NonNullable<FetchedUser>;
 
 export type FetchedPost = FetchResult<'/api/post/:id', 'GET'>;
-export type Post = NonNullable<FetchedPost>;
+export type Post = NonNullable<Omit<FetchedPost, 'parentPost'>>;
+export type ParentPost = NonNullable<FetchedPost['parentPost']>;

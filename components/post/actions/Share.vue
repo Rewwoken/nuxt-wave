@@ -1,9 +1,8 @@
 <script setup lang="ts">
-	import type { Post } from '~/types/api.types';
-
 	const props = defineProps<{
+		postId: string;
+		author: string;
 		count: number;
-		data: Post;
 	}>();
 
 	const repostsCount = ref(props.count);
@@ -26,16 +25,18 @@
 							requestFunc: () => $api('/api/repost', {
 								method: 'POST',
 								body: {
-									postId: props.data.id,
+									postId: props.postId,
 								},
 							}),
 							onSuccess: () => {
 								toast.add({
 									severity: 'info',
-									summary: 'Successfully created repost!',
+									summary: 'Successfully reposted!',
 									detail: 'You can now see it in your profile.',
 									life: 3000,
 								});
+
+								repostsCount.value++;
 							},
 							errors: {
 								'error/unknown': 'Unexpected error!',
@@ -90,7 +91,7 @@
 	<Dialog
 		v-model:visible="showModal"
 		pt:root:class="mx-4 w-full max-w-[586px]"
-		:header="`Reply to @${data.user.username}`"
+		:header="`Reply to @${author}`"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
@@ -98,7 +99,7 @@
 	>
 		<div class="flex gap-x-2">
 			<PostCreationForm
-				:reply-to="data"
+				:parent-id="postId"
 				@on-submit="showModal = false"
 			/>
 		</div>

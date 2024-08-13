@@ -1,20 +1,16 @@
 <script setup lang="ts">
-	const currentUser = useCurrentUser();
-
-	async function getUser(username: string) {
-		if (username === currentUser.value.username) {
-			return { data: currentUser, error: null };
-		}
-
-		return useAPI(`/api/user/${username}`, {
-			method: 'GET',
-			deep: false, // ! Change it, if you need reactivity
-		});
-	}
-
 	const route = useRoute();
+
+	const querySelect = route.query.select as string;
+	const selectOptions = ['all', 'posts', 'reposts', 'likes'];
+
+	const select = selectOptions.includes(querySelect) ? querySelect : 'all';
+
 	const username = route.params.username as string;
-	const { data: user, error } = await getUser(username);
+	const { data: user, error } = await useAPI(`/api/user/${username}`, {
+		method: 'GET',
+		deep: false, // ! Change it, if you need reactivity
+	});
 
 	const title = `${user.value!.profile!.name} (@${user.value?.username})`;
 	useSeoMeta({
@@ -23,10 +19,13 @@
 </script>
 
 <template>
-	<Profile
-		v-if="user"
-		:user="user"
-	/>
+	<template v-if="user">
+		<Profile :user="user" />
+		<ProfileSelection
+			:user-id="user.id"
+			:initial-value="select || 'all'"
+		/>
+	</template>
 	<div v-else-if="error && error.data.message === 'error/invalid'">
 		INVALID
 	</div>

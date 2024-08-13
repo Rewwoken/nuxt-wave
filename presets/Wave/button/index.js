@@ -32,11 +32,11 @@ export default {
 			{ 'text-primary-600 bg-transparent border-transparent': props.link },
 
 			// Plain Button
-			{ 'text-white bg-gray-500 border border-gray-500': props.plain && !props.outlined && !props.text },
+			{ 'text-white bg-gray-500 border border-surface': props.plain && !props.outlined && !props.text },
 			// Plain Text Button
 			{ 'text-surface-500': props.plain && props.text },
 			// Plain Outlined Button
-			{ 'text-surface-500 border border-gray-500': props.plain && props.outlined },
+			{ 'text-surface-500 border border-surface': props.plain && props.outlined },
 
 			// Text Button
 			{ 'bg-transparent border-transparent': props.text && !props.plain },
@@ -61,12 +61,12 @@ export default {
 			{
 				'text-surface-900 dark:text-white': props.severity === 'secondary' && !props.text && !props.outlined && !props.plain,
 				'bg-surface-100 dark:bg-surface-700': props.severity === 'secondary' && !props.text && !props.outlined && !props.plain,
-				'border border-surface-100 dark:border-surface-700': props.severity === 'secondary' && !props.text && !props.outlined && !props.plain,
+				'border border-surface': props.severity === 'secondary' && !props.text && !props.outlined && !props.plain,
 			},
 			// Secondary Text Button
 			{ 'text-surface-500 dark:text-surface-300': props.text && props.severity === 'secondary' && !props.plain },
 			// Secondary Outlined Button
-			{ 'text-surface-500 dark:text-surface-300 border border-surface-500 hover:bg-surface-300/10': props.outlined && props.severity === 'secondary' && !props.plain },
+			{ 'text-surface-500 dark:text-surface-300 border border-surface hover:bg-surface-300/10': props.outlined && props.severity === 'secondary' && !props.plain },
 
 			// Success Button
 			{

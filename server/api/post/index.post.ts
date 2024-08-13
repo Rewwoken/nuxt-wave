@@ -3,14 +3,13 @@ import { createPostSchema } from '~/schemas/post/create-post';
 import { createPost } from '~/server/database/post/crud/create';
 
 const schema = z.object({
-	parentPostId: z.string().optional(),
+	parentId: z.string().optional(),
 });
 
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
 		const query = await getValidatedQuery(event, schema.parse);
-
 		const formParse = await parseForm(event.node.req);
 
 		const schemaParse = createPostSchema.safeParse({
@@ -29,7 +28,7 @@ export default defineEventHandler({
 		const userId = event.context.user.id;
 		try {
 			setResponseStatus(event, 201);
-			return await createPost(userId, query.parentPostId, schemaParse.data.text, validatedFiles);
+			return await createPost(userId, query.parentId, schemaParse.data.text, validatedFiles);
 		}
 		catch {
 			throw createError({
