@@ -34,7 +34,7 @@
 		:modal="true"
 	>
 		<div class="flex gap-x-2">
-			<PostCreationForm />
+			<PostCreationForm :parent-id="postId" />
 		</div>
 	</Dialog>
 </template>

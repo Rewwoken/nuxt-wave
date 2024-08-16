@@ -13,7 +13,6 @@
 	<div class="flex justify-between">
 		<PostActionsReply
 			:post-id="postId"
-			:author="author"
 			:count="count.replies"
 		/>
 		<PostActionsShare

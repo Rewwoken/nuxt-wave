@@ -15,9 +15,9 @@
 </script>
 
 <template>
-	<header class="flex gap-x-1.5">
+	<header class="flex gap-x-1.5 leading-4">
 		<span class="font-bold text-color">{{ name }}</span>
 		<span class="text-muted-color">@{{ username }}</span>
-		<span class="ml-auto text-muted-color">{{ formattedTime }}</span>
+		<span class="ml-auto text-nowrap text-muted-color">{{ formattedTime }}</span>
 	</header>
 </template>

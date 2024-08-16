@@ -173,7 +173,7 @@
 		<div class="relative flex flex-col gap-y-1">
 			<InputText
 				v-model="website"
-				type="text"
+				type="url"
 				name="website"
 				size="large"
 				autocomplete="url"

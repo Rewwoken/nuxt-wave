@@ -7,6 +7,14 @@
 	defineProps<{
 		items: Array<Item>;
 	}>();
+
+	const responsiveOptions = ref([
+		{
+			breakpoint: '767px',
+			numVisible: 1,
+			numScroll: 1,
+		},
+	]);
 </script>
 
 <template>
@@ -37,7 +45,7 @@
 		:show-indicators="false"
 		:prev-button-props="{ class: '!absolute z-[1] left-2 border-none', rounded: true, severity: 'contrast' }"
 		:next-button-props="{ class: '!absolute z-[1] right-2 border-none', rounded: true, severity: 'contrast' }"
-		:pt-options="{ mergeProps: true }"
+		:responsive-options="responsiveOptions"
 	>
 		<template #item="item">
 			<div class="size-full px-0.5">

@@ -7,7 +7,7 @@ interface HandleRequestErrors {
 
 interface HandleRequestParams<T> {
 	requestFunc: () => Promise<T>;
-	onSuccess: (data: T) => Promise<void> | void;
+	onSuccess?: (data: T) => Promise<void> | void;
 	errors: HandleRequestErrors;
 	onError?: (message: string) => Promise<void> | void;
 	finallyFunc?: () => Promise<void> | void;
@@ -42,7 +42,9 @@ export default () => {
 			serverError.value = null;
 			const response: T = await requestFunc();
 
-			await onSuccess(response);
+			if (onSuccess) {
+				await onSuccess(response);
+			};
 		}
 		catch (err) {
 			if (err instanceof FetchError) {

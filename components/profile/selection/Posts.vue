@@ -1,22 +1,55 @@
 <script setup lang="ts">
+	import type { FetchedPost } from '~/types/api.types';
+
 	const props = defineProps<{
 		userId: string;
 	}>();
 
-	const { data: posts, status } = await useAPI('/api/post', {
+	const { $api } = useNuxtApp();
+	const posts = ref<FetchedPost[]>([]);
+
+	const { data: count } = await useAPI('/api/post/count', {
 		method: 'GET',
 		query: {
 			userId: props.userId,
 		},
-		deep: false, // ! Change it, if you want need reactivity
-		lazy: true,
-		server: false,
+		dedupe: 'defer',
 	});
+
+	const canFetchMore = computed(() => {
+		return posts.value.length !== count.value;
+	});
+
+	async function fetchMore() {
+		const nextPosts = await $api('/api/post', {
+			method: 'GET',
+			query: {
+				userId: props.userId,
+				skip: posts.value.length,
+			},
+			deep: false,
+		});
+
+		posts.value.push(...nextPosts);
+	}
+
+	const sentinel = ref<HTMLElement | null>(null);
+	useInfiniteScroll(sentinel, 1000, fetchMore, canFetchMore);
 </script>
 
-<!-- TODO: display skeletons based on /post/count value -->
+<!-- TODO: add posts skeleton -->
 <template>
-	<ol v-if="status === 'success'">
+	<Message
+		v-if="!count"
+		severity="secondary"
+		pt:root:class="m-2"
+	>
+		User has not uploaded any posts yet.
+	</Message>
+	<ol
+		v-else
+		class="flex flex-col"
+	>
 		<li
 			v-for="{ parentPost, ...post } in posts"
 			:key="post.id"
@@ -34,7 +67,12 @@
 			/>
 		</li>
 	</ol>
-	<!-- TODO: handle other statuses -->
-	<span v-else-if="status === 'pending' || status === 'idle'">LOADING POSTS...</span>
-	<span v-else-if="status === 'error'">ERROR FETCHING POSTS</span>
+	<div ref="sentinel" />
+	<Message
+		v-if="count && !canFetchMore"
+		severity="secondary"
+		pt:root:class="m-2"
+	>
+		That's all user's posts!
+	</Message>
 </template>

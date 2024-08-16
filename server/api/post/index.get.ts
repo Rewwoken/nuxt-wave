@@ -6,7 +6,7 @@ import { findPostsByUserId } from '~/server/database/post/crud/read';
 const schema = z.object({
 	userId: z.string(),
 	skip: z.coerce.number().min(0).default(0),
-	take: z.coerce.number().min(1).max(20).default(20),
+	take: z.coerce.number().min(1).max(20).default(5),
 });
 
 export default defineEventHandler({
