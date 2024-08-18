@@ -11,8 +11,8 @@
 
 <template>
 	<div class="mb-1 flex flex-col gap-y-4">
-		<AuthLoginForm />
-		<AuthRecoveryRequestModal />
+		<LoginForm />
+		<RequestRecoveryModal />
 	</div>
-	<AuthRegisterModal />
+	<RegisterModal />
 </template>

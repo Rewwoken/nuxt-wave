@@ -45,6 +45,6 @@
 		/>
 	</main>
 	<footer class="fixed bottom-0 w-full space-x-4 py-4 text-center">
-		<CommonWebsiteInfo />
+		<WebsiteInfo />
 	</footer>
 </template>

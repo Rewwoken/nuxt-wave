@@ -10,6 +10,6 @@
 
 <template>
 	<section class="flex w-full gap-x-4 p-3">
-		<PostCreationForm />
+		<NewPostForm />
 	</section>
 </template>

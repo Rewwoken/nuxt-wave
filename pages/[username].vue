@@ -21,7 +21,7 @@
 <template>
 	<template v-if="user">
 		<Profile :user="user" />
-		<ProfileSelection
+		<ProfileSelect
 			:user-id="user.id"
 			:initial-value="select || 'all'"
 		/>

@@ -52,9 +52,9 @@
 <template>
 	<div class="pointer-events-none select-none">
 		<div class="mb-1 flex flex-col gap-y-4">
-			<AuthLoginForm />
-			<AuthRecoveryRequestModal />
+			<LoginForm />
+			<RequestRecoveryModal />
 		</div>
-		<AuthRegisterModal />
+		<RegisterModal />
 	</div>
 </template>

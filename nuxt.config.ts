@@ -12,14 +12,19 @@ export default defineNuxtConfig({
 		'@nuxtjs/tailwindcss',
 		'@primevue/nuxt-module',
 		'@vee-validate/nuxt',
+		'@nuxtjs/cloudinary',
 		'@nuxt/image',
 		'@nuxtjs/robots',
 	],
-	image: {
-		cloudinary: {
-			baseURL: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/`,
-		},
-	},
+  imports: {
+		dirs: ['composables', 'composables/**'],
+  },
+	components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
 	primevue: {
 		importPT: { as: 'Wave', from: '~/presets/Wave' },
 		options: {

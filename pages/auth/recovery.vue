@@ -10,5 +10,5 @@
 </script>
 
 <template>
-	<AuthRecoveryForm />
+	<RecoveryForm />
 </template>
