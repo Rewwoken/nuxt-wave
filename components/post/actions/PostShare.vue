@@ -98,7 +98,7 @@
 		:modal="true"
 	>
 		<div class="flex gap-x-2">
-			<CreationForm
+			<NewPostForm
 				:parent-id="postId"
 				@on-submit="showModal = false"
 			/>

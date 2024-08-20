@@ -5,7 +5,7 @@
 	}>();
 
 	const emit = defineEmits<{
-		(e: 'onFileAdd', file: File, source: string): void;
+		(e: 'onFileAdd', file: File, mimetype: string, url: string): void;
 	}>();
 
 	const hiddenInput = ref();
@@ -13,10 +13,9 @@
 		hiddenInput.value.click();
 	}
 
-	function onChange(event: Event) {
-		handleFileChange(event, (file, source) => {
-			emit('onFileAdd', file, source);
-		});
+	function handleChange(event: Event) {
+		const { file, mimetype, url } = handleFileChange(event);
+		emit('onFileAdd', file, mimetype, url);
 
 		// Removing value so user can upload the same image again
 		hiddenInput.value.value = null;
@@ -38,6 +37,6 @@
 		type="file"
 		:accept="accept"
 		hidden
-		@change="onChange"
+		@change="handleChange"
 	>
 </template>

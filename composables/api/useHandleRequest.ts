@@ -18,7 +18,7 @@ interface HandleRequestParams<T> {
  *
  * @returns An object containing the `handleRequest` function and a reactive `serverError` ref.
  */
-export default () => {
+export function useHandleRequest() {
 	const serverError = ref<string | null>(null);
 
 	/**
@@ -47,13 +47,8 @@ export default () => {
 			};
 		}
 		catch (err) {
-			if (err instanceof FetchError) {
-				const code = err.data.message;
-				serverError.value = errors[code] || errors['error/unknown'];
-			}
-			else {
-				serverError.value = errors['error/unknown'];
-			}
+			const code = err instanceof FetchError ? err.data.message : 'error/unknown';
+			serverError.value = errors[code];
 
 			if (onError) {
 				await onError(serverError.value);

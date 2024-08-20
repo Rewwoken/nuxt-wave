@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	defineProps<{
-		source: string;
+		url: string;
 	}>();
 </script>
 
@@ -11,6 +11,6 @@
 		playsinline
 		loop
 	>
-		<source :src="source">
+		<source :src="url">
 	</video>
 </template>

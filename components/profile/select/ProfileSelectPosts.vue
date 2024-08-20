@@ -8,7 +8,7 @@
 	const { $api } = useNuxtApp();
 	const posts = ref<FetchedPost[]>([]);
 
-	const { data: count } = await useAPI('/api/post/count', {
+	const { data: limit } = await useAPI('/api/post/count', {
 		method: 'GET',
 		query: {
 			userId: props.userId,
@@ -16,11 +16,7 @@
 		dedupe: 'defer',
 	});
 
-	const canFetchMore = computed(() => {
-		return posts.value.length !== count.value;
-	});
-
-	async function fetchMore() {
+	async function loadMore() {
 		const nextPosts = await $api('/api/post', {
 			method: 'GET',
 			query: {
@@ -33,14 +29,18 @@
 		posts.value.push(...nextPosts);
 	}
 
+	const canLoadMore = computed(() => {
+		return posts.value.length !== limit.value;
+	});
+
 	const sentinel = ref<HTMLElement | null>(null);
-	useInfiniteScroll(sentinel, 1000, fetchMore, canFetchMore);
+	useInfiniteScroll(sentinel, 1000, loadMore, canLoadMore);
 </script>
 
 <!-- TODO: add posts skeleton -->
 <template>
 	<Message
-		v-if="!count"
+		v-if="!limit"
 		severity="secondary"
 		pt:root:class="m-2"
 	>
@@ -69,7 +69,7 @@
 	</ol>
 	<div ref="sentinel" />
 	<Message
-		v-if="count && !canFetchMore"
+		v-if="limit && !canLoadMore"
 		severity="secondary"
 		pt:root:class="m-2"
 	>

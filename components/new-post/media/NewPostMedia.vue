@@ -1,16 +1,19 @@
 <script setup lang="ts">
 	defineProps<{
-		source: string;
+		mimetype: string;
+		url: string;
 	}>();
 </script>
 
 <template>
 	<NewPostImage
-		v-if="source.startsWith('data:image/')"
-		:source="source"
+		v-if="mimetype.startsWith('image/')"
+		class="border border-surface"
+		:url="url"
 	/>
 	<NewPostVideo
-		v-else-if="source.startsWith('data:video/')"
-		:source="source"
+		v-else-if="mimetype.startsWith('video/')"
+		class="border border-surface"
+		:url="url"
 	/>
 </template>

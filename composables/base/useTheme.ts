@@ -1,4 +1,4 @@
-export default () => {
+export function useTheme() {
 	const themeCookie = useCookie('theme');
 
 	const theme = useState('theme', () => {

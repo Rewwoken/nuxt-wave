@@ -1,16 +1,16 @@
-type FileChangeCallback = (file: File, url: string) => void;
+export function handleFileChange(event: Event) {
+	const target = event.target;
 
-export default (event: Event, cb: FileChangeCallback) => {
-	const target = event.target as HTMLInputElement;
-	const file = target.files![0];
+	if (target instanceof HTMLInputElement === false) {
+		throw new TypeError('Target is not an HTMLInputElement');
+	}
 
-	const fileReader = new FileReader();
+	if (target.files === null) {
+		throw new TypeError('Target files is null');
+	}
 
-	fileReader.onload = (event) => {
-		const url = event.target?.result as string;
+	const file = target.files[0];
+	const url = URL.createObjectURL(file);
 
-		cb(file, url);
-	};
-
-	fileReader.readAsDataURL(file);
-};
+	return { file, mimetype: file.type, url };
+}

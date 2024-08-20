@@ -1,6 +1,8 @@
 <script setup lang="ts">
+	import type { MediaItem } from '~/types/new-post.types';
+
 	defineProps<{
-		sources: string[];
+		items: MediaItem[];
 	}>();
 
 	const responsiveOptions = ref([
@@ -14,24 +16,27 @@
 
 <template>
 	<NewPostMedia
-		v-if="sources.length === 1"
-		:source="sources[0]"
+		v-if="items.length === 1"
+		:mimetype="items[0].mimetype"
+		:url="items[0].url"
 	/>
 	<div
-		v-else-if="sources.length === 2"
+		v-else-if="items.length === 2"
 		class="grid w-full grid-cols-2 gap-x-1"
 	>
 		<NewPostMedia
-			:source="sources[0]"
+			:mimetype="items[0].mimetype"
+			:url="items[0].url"
 		/>
 		<NewPostMedia
-			:source="sources[1]"
+			:mimetype="items[1].mimetype"
+			:url="items[1].url"
 		/>
 	</div>
 	<Carousel
-		v-else-if="sources.length > 2"
+		v-else-if="items.length > 2"
 		container-class="!relative"
-		:value="sources"
+		:value="items"
 		:num-visible="2"
 		:num-scroll="1"
 		:show-indicators="false"
@@ -42,7 +47,8 @@
 		<template #item="item">
 			<NewPostMedia
 				class="size-full px-0.5"
-				:source="item.data"
+				:mimetype="item.data.mimetype"
+				:url="item.data.url"
 			/>
 		</template>
 	</Carousel>

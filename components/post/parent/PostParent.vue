@@ -39,7 +39,7 @@
 				{{ data.text }}
 			</p>
 			<PostMediaList
-				class="pt-2"
+				class="mt-2"
 				:items="data.mediaFiles"
 			/>
 		</div>

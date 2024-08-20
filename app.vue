@@ -18,7 +18,7 @@
 
 <template>
 	<div class="min-h-dvh w-full bg-color font-sans text-color">
-		<NuxtLoadingIndicator />
+		<NuxtLoadingIndicator color="var(--p-primary-color)" />
 		<NuxtLayout>
 			<NuxtPage />
 		</NuxtLayout>
