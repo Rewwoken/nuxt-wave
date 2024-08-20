@@ -1,5 +1,4 @@
 import type formidable from 'formidable';
-import { updateProfileSchema } from '~/schemas/user/update-profile';
 import { updateProfile } from '~/server/database/profile/crud/update';
 
 export default defineEventHandler({

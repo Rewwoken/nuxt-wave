@@ -2,7 +2,7 @@
 <script setup lang="ts">
 	const props = withDefaults(
 		defineProps<{
-			cloudinary: boolean;
+			cloudinary?: boolean;
 			src: string | null;
 			height: number;
 			width: number;

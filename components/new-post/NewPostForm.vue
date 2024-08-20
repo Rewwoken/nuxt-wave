@@ -1,6 +1,4 @@
 <script setup lang="ts">
-	import { createPostSchema } from '~/schemas/post/create-post';
-
 	const props = defineProps<{
 		parentId?: string;
 	}>();

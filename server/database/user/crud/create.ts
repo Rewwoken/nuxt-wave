@@ -1,4 +1,3 @@
-import type { RegisterSchema } from '~/schemas/auth/register';
 import { prisma } from '~/server/database';
 import { UserSelect } from '~/server/database/user/options';
 

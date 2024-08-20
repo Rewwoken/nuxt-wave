@@ -23,11 +23,10 @@
 		},
 	});
 
-	const title = computed(() =>
-		props.error.statusMessage
-			? `${props.error.statusMessage} / Wave`
-			: 'Error / Wave',
-	);
+	const title = props.error.statusMessage
+		? `${props.error.statusMessage} / Wave`
+		: 'Error / Wave';
+
 	useSeoMeta({ title });
 </script>
 

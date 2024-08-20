@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { registerSchema } from '~/schemas/auth/register';
 
 export const recoverySchema = registerSchema
 	.pick({ password: true })

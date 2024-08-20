@@ -1,4 +1,3 @@
-import { createRepostSchema } from '~/schemas/post/create-repost';
 import { createRepost } from '~/server/database/repost/crud/create';
 
 export default defineEventHandler({

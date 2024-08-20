@@ -1,6 +1,4 @@
 <script setup lang="ts">
-	import { updateProfileSchema } from '~/schemas/user/update-profile';
-
 	const emit = defineEmits<{
 		(e: 'onSubmit'): void;
 	}>();

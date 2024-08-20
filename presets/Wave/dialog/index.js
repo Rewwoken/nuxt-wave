@@ -124,7 +124,7 @@ export default {
 						enterFromClass: 'opacity-0 scale-75 -translate-x-full translate-y-0 translate-z-0 mask-active',
 						enterActiveClass: 'transition-all duration-200 ease-out',
 						leaveActiveClass: 'transition-all duration-200 ease-out',
-						leaveToClass: 'opacity-0 scale-75  -translate-x-full translate-y-0 translate-z-0 mask-active',
+						leaveToClass: 'opacity-0 scale-75 -translate-x-full translate-y-0 translate-z-0 mask-active',
 					}
 					: props.position === 'right' || props.position === 'topright' || props.position === 'bottomright'
 						? {

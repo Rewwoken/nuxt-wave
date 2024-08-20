@@ -1,18 +1,8 @@
 <script setup lang="ts">
 	const { theme } = useTheme();
 
-	const config = useRuntimeConfig();
 	useHead({
-		htmlAttrs: {
-			lang: 'en',
-			class: theme,
-		},
-		link: [
-			{
-				rel: 'canonical',
-				href: `${config.public.baseUrl}/home`,
-			},
-		],
+		htmlAttrs: { class: theme },
 	});
 
 	useSeoMeta({

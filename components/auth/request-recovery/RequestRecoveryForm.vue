@@ -1,6 +1,4 @@
 <script setup lang="ts">
-	import { requestRecoverySchema } from '~/schemas/auth/request-recovery';
-
 	const emit = defineEmits<{
 		(e: 'onSubmit'): void;
 	}>();

@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { createPostSchema } from '~/schemas/post/create-post';
 import { createPost } from '~/server/database/post/crud/create';
 
 const schema = z.object({

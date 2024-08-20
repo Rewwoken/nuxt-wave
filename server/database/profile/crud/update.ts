@@ -1,4 +1,3 @@
-import type { UpdateProfileSchema } from '~/schemas/user/update-profile';
 import { cloudinaryUpload } from '~/server/cloudinary';
 import { prisma } from '~/server/database';
 import { findProfileByUserId } from '~/server/database/profile/crud/read';

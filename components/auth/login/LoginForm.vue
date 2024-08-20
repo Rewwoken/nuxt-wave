@@ -1,102 +1,33 @@
 <script setup lang="ts">
-	import { loginSchema } from '~/schemas/auth/login';
+	const {
+		hasErrors,
+		handleSubmit,
+		isSubmitting,
+	} = useAuthForm(loginSchema);
 
-	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
-		validationSchema: toTypedSchema(loginSchema),
-		validateOnMount: false,
-	});
+	const { submitLogin, serverError } = useLoginRequest();
 
-	const [username, usernameAttrs] = defineField('username', state => ({
-		validateOnModelUpdate: state.errors.length > 0,
-		validateOnBlur: false,
-	}));
-	const [password, passwordAttrs] = defineField('password', state => ({
-		validateOnModelUpdate: state.errors.length > 0,
-		validateOnBlur: false,
-	}));
-
-	const hasErrors = computed(() => !!Object.keys(errors.value).length);
-
-	const { handleRequest, serverError } = useHandleRequest();
-	const { $api } = useNuxtApp();
-	const toast = useToast();
-
-	const onSubmit = handleSubmit(async (values) => {
-		await handleRequest({
-			requestFunc: () => $api('/api/auth/login', {
-				method: 'POST',
-				body: values,
-			}),
-			onSuccess: async () => {
-				await navigateTo('/home', { replace: true });
-				toast.add({
-					severity: 'info',
-					summary: 'Successfully logged in!',
-					detail: `You logged in as @${values.username}.`,
-					life: 3000,
-				});
-			},
-			errors: {
-				'error/credentials': 'Invalid credentials!',
-				'error/not-verified': 'Email is not verified!',
-				'error/body': 'Invalid data!',
-				'error/unknown': 'Unexpected error!',
-			},
-		});
-	});
+	const onSubmit = handleSubmit(submitLogin);
 </script>
 
 <template>
 	<form
 		class="flex flex-col gap-y-2"
-		novalidate
 		@submit="onSubmit"
 	>
-		<IconField>
-			<InputIcon class="pi pi-at" />
-			<InputText
-				v-model="username"
-				v-bind="usernameAttrs"
-				type="text"
-				name="username"
-				autocomplete="new-password"
-				placeholder="Username"
-				aria-describedby="username-help"
-				:invalid="!!errors.username"
-				fluid
-			/>
-		</IconField>
-		<ErrorMessage
-			id="username-help"
+		<AuthField
 			name="username"
-			class="ml-2 text-xs text-red-500"
+			icon="pi-at"
+			type="text"
+			placeholder="Username"
 		/>
-		<IconField>
-			<InputIcon class="pi pi-lock" />
-			<InputText
-				v-model="password"
-				v-bind="passwordAttrs"
-				type="password"
-				name="password"
-				autocomplete="new-password"
-				placeholder="Password"
-				aria-describedby="password-help"
-				:invalid="!!errors.password"
-				fluid
-			/>
-		</IconField>
-		<ErrorMessage
-			id="password-help"
+		<AuthField
+			icon="pi-lock"
 			name="password"
-			class="ml-2 text-xs text-red-500"
+			type="password"
+			placeholder="Password"
 		/>
-		<Message
-			v-if="serverError"
-			severity="error"
-			closable
-		>
-			{{ serverError }}
-		</Message>
+		<AuthMessage :value="serverError" />
 		<Button
 			type="submit"
 			label="Submit"

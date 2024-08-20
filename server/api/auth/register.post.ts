@@ -1,5 +1,4 @@
 import { isAfter } from 'date-fns';
-import { registerSchema } from '~/schemas/auth/register';
 import { createUser } from '~/server/database/user/crud/create';
 import { deleteUserById } from '~/server/database/user/crud/delete';
 import { findFirstUser } from '~/server/database/user/crud/read';

@@ -1,4 +1,3 @@
-import { recoverySchema } from '~/schemas/auth/recovery';
 import { deleteRecoveryCodeByUserId } from '~/server/database/recovery-code/crud/delete';
 import { recoverUserPassword } from '~/server/database/recovery-code/recover';
 import { codeSchema } from '~/server/schemas/code';

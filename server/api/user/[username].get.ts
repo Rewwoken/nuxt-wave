@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { isUsername } from '~/schemas/auth/register';
 import { findUniqueUser } from '~/server/database/user/crud/read';
 
 const schema = z.object({

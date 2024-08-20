@@ -80,7 +80,7 @@ export default {
 			'w-7 h-7',
 
 			// Spacing and Misc
-			'ml-auto  relative',
+			'ml-auto relative',
 
 			// Shape
 			'rounded-full',
