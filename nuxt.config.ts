@@ -1,69 +1,97 @@
 export default defineNuxtConfig({
-	app: {
-		head: {
-			link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
-		},
-	},
-	devtools: { enabled: true },
-	devServer: {
-		port: 8000,
-	},
-	modules: [
-		'@nuxtjs/tailwindcss',
-		'@primevue/nuxt-module',
-		'@vee-validate/nuxt',
-		'@nuxtjs/cloudinary',
-		'@nuxt/image',
-		'@nuxtjs/robots',
-	],
-  imports: {
-		dirs: ['composables', 'composables/**'],
+  // App configuration
+  app: {
+    // HTML head settings, including the favicon
+    head: {
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    },
   },
-	components: [
+
+  // Global CSS files
+  css: [
+    '~/assets/css/global.css', // Global styles
+    '~/assets/css/primevue.css', // Styles for PrimeVue
+    'primeicons/primeicons.css', // Icons for PrimeVue
+  ],
+
+  // Runtime configuration (using environment variables)
+  runtimeConfig: {
+    public: {
+      baseUrl: process.env.BASE_URL,
+    },
+    jwtSecret: process.env.JWT_SECRET,
+    resendApiKey: process.env.RESEND_API_KEY,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
+  },
+
+  // Modules setup
+  modules: [
+    '@nuxtjs/tailwindcss', // Tailwind CSS for styling
+    '@primevue/nuxt-module', // PrimeVue for UI components
+    '@vee-validate/nuxt', // VeeValidate for form validation
+    '@nuxtjs/cloudinary', // Cloudinary for media management
+    '@nuxt/image', // Nuxt Image for image optimization
+    '@nuxtjs/robots', // Generates robots.txt for managing indexing
+  ],
+
+  // Auto-imports for composables
+  imports: {
+    dirs: ['composables', 'composables/**'],
+  },
+
+  // Auto-registration of components from the specified directory
+  components: [
     {
       path: '~/components',
-      pathPrefix: false,
+      pathPrefix: false, // Disable path prefix
     },
   ],
-	primevue: {
-		importPT: { as: 'Wave', from: '~/presets/Wave' },
-		options: {
-			unstyled: true,
-			ptOptions: {
-				mergeProps: true,
-			},
-		},
-	},
-	compatibilityDate: '2024-08-02',
-	css: ['~/assets/css/global.css', '~/assets/css/primevue.css', 'primeicons/primeicons.css'],
-	runtimeConfig: {
-		jwtSecret: process.env.JWT_SECRET,
-		resendApiKey: process.env.RESEND_API_KEY,
-		cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-		cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-		cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
-		public: {
-			baseUrl: process.env.BASE_URL,
-		},
-	},
-	routeRules: {
-		'/': {
-			redirect: {
-				to: '/home',
-				statusCode: 301,
-			},
-		},
-		'/auth': {
-			ssr: false,
-		},
-		'/auth/recovery': {
-			ssr: false,
-		},
-		'/auth/verification': {
-			ssr: false,
-		},
-	},
-	alias: {
-		'@/*': './src/*',
-	},
+
+  // PrimeVue configuration
+  primevue: {
+    importPT: { as: 'Wave', from: '~/presets/Wave' }, // Import custom presets
+    options: {
+      unstyled: true, // Disable built-in styles
+      ptOptions: {
+        mergeProps: true, // Merge component properties
+      },
+    },
+  },
+
+  // Route rules
+  routeRules: {
+    '/': {
+      redirect: {
+        to: '/home', // Redirect from the main page to /home
+        statusCode: 301, // Response code 301 (permanent redirect)
+      },
+    },
+    '/auth': {
+      ssr: false, // Disable server-side rendering for the /auth route
+    },
+    '/auth/recovery': {
+      ssr: false, // Disable server-side rendering for the /auth/recovery route
+    },
+    '/auth/verification': {
+      ssr: false, // Disable server-side rendering for the /auth/verification route
+    },
+  },
+
+  // Aliases configuration for easier module imports
+  alias: {
+    '@/*': './src/*',
+  },
+
+  // Setting a date for project compatibility determination
+  compatibilityDate: '2024-08-02',
+
+  // Development server settings (port and other parameters)
+  devServer: {
+    port: 8000,
+  },
+
+  // Enabling and configuring devtools
+  devtools: { enabled: true },
 });

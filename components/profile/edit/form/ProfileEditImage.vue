@@ -4,7 +4,9 @@
 	}>();
 
 	const currentUser = useCurrentUser();
-	const image = ref(currentUser.value.profile!.imageUrl);
+	const currentImage = currentUser.value.profile!.imageUrl;
+
+	const image = ref(currentImage);
 	const hiddenInput = ref();
 
 	function onClick() {
@@ -25,6 +27,7 @@
 		<div class="absolute bottom-4 ml-6 flex items-center justify-center">
 			<UserImage
 				class="cursor-pointer border-[3px] border-bg-color bg-color"
+				:cloudinary="image === currentImage"
 				:src="image"
 				:px="128"
 			/>

@@ -1,8 +1,14 @@
 <script setup lang="ts">
-	const props = defineProps<{
-		src: string | null;
-		px: number;
-	}>();
+	const props = withDefaults(
+		defineProps<{
+			cloudinary?: boolean;
+			src: string | null;
+			px: number;
+		}>(),
+		{
+			cloudinary: true,
+		},
+	);
 
 	// ! Dynamic tw classes are not recommended, therefore I set sizes via style
 	// https://tailwindcss.com/docs/content-configuration#dynamic-class-names
@@ -14,13 +20,21 @@
 
 <template>
 	<CldImage
-		v-if="src"
+		v-if="cloudinary && src"
 		class="select-none rounded-full object-cover"
 		alt="User image"
 		format="avif"
 		loading="lazy"
 		gravity="center"
 		crop="thumb"
+		:src="src"
+		:style="sizes"
+		:width="px"
+		:height="px"
+	/>
+	<NuxtImg
+		v-else-if="src"
+		class="select-none rounded-full object-cover"
 		:src="src"
 		:style="sizes"
 		:width="px"

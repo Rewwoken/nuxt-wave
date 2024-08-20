@@ -1,10 +1,16 @@
 <!-- Potential improvement: reduce CommonUserBanner size on mobile -->
 <script setup lang="ts">
-	const props = defineProps<{
-		src: string | null;
-		height: number;
-		width: number;
-	}>();
+	const props = withDefaults(
+		defineProps<{
+			cloudinary: boolean;
+			src: string | null;
+			height: number;
+			width: number;
+		}>(),
+		{
+			cloudinary: true,
+		},
+	);
 
 	// ! Dynamic tw classes are not recommended, therefore I set sizes via style
 	// https://tailwindcss.com/docs/content-configuration#dynamic-class-names
@@ -16,7 +22,7 @@
 
 <template>
 	<CldImage
-		v-if="src"
+		v-if="cloudinary && src"
 		class="!max-w-full select-none object-cover"
 		alt="user image"
 		format="avif"
@@ -27,6 +33,12 @@
 		:style="sizes"
 		:height="height"
 		:width="width"
+	/>
+	<NuxtImg
+		v-else-if="src"
+		class="max-w-full select-none object-cover"
+		:src="src"
+		:style="sizes"
 	/>
 	<div
 		v-else

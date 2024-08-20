@@ -4,7 +4,9 @@
 	}>();
 
 	const currentUser = useCurrentUser();
-	const banner = ref(currentUser.value!.profile!.bannerUrl);
+	const currentBanner = currentUser.value.profile!.bannerUrl;
+
+	const banner = ref(currentBanner);
 	const hiddenInput = ref();
 
 	function onClick() {
@@ -23,6 +25,7 @@
 <template>
 	<div class="relative flex items-center justify-center">
 		<UserBanner
+			:cloudinary="banner === currentBanner"
 			:src="banner"
 			:height="192"
 			:width="586"
