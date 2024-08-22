@@ -32,7 +32,7 @@
 			v-else
 			class="ml-auto flex items-center gap-x-2"
 		>
-			<!-- TODO: add block -->
+			<!-- TODO: add block etc. -->
 			<!-- <ActionsMore
 				:user-id="user.id"
 				:username="user.username"

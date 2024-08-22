@@ -13,22 +13,14 @@ export function validateMediaFiles(files: formidable.Files<string>) {
 		const { filepath, mimetype, size } = files[fileName]![0];
 
 		if (!mimetype || (!mimetype.startsWith('video/') && !mimetype.startsWith('image/'))) {
-			throw createError({
-				statusCode: 400,
-				statusMessage: 'Bad Request',
-				message: 'error/invalid-type',
-			});
+			throw serverError(400, 'invalid-type');
 		}
-		const type = mimetype.split('/')[0] as 'image' | 'video';
 
 		if (size > 15_728_640) { // 15mb
-			throw createError({
-				statusCode: 400,
-				statusMessage: 'Bad Request',
-				message: 'error/size',
-			});
+			throw serverError(400, 'size');
 		}
 
+		const type = mimetype.split('/')[0] as 'image' | 'video';
 		result.push({ filepath, mimetype, type });
 	}
 

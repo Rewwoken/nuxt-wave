@@ -7,9 +7,7 @@
 		op.value.toggle(event);
 	}
 
-	async function onLogout() {
-		await logout();
-	}
+	const { logout } = useLogout();
 </script>
 
 <template>
@@ -32,7 +30,7 @@
 	<Popover ref="op">
 		<button
 			class="w-48 text-left font-bold"
-			@click="onLogout"
+			@click="logout"
 		>
 			Log out @{{ currentUser.username }}
 		</button>

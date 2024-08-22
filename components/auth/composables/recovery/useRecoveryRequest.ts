@@ -13,7 +13,6 @@ export function useRecoveryRequest(id: unknown, code: unknown) {
 			}),
 			onSuccess: async () => {
 				showSuccess('You can now log in with a new password.');
-
 				await navigateTo('/auth');
 			},
 			errors: {

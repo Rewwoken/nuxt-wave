@@ -1,7 +1,5 @@
 <script setup lang="ts">
-	async function onLogout() {
-		await logout();
-	}
+	const { logout } = useLogout();
 </script>
 
 <template>
@@ -13,6 +11,6 @@
 		pt:icon:class="text-xl"
 		outlined
 		rounded
-		@click="onLogout"
+		@click="logout"
 	/>
 </template>

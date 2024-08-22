@@ -1,8 +1,8 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 
-export const createRepostSchema = createPostSchema.extend({
-	postId: z.string(),
-	text: createPostSchema.shape.text.optional(),
-});
+// export const createRepostSchema = textPostSchema.extend({
+// 	postId: z.string(),
+// 	text: textPostSchema,
+// });
 
 export type CreateRepostSchema = z.infer<typeof createRepostSchema>;

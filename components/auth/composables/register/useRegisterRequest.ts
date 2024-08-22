@@ -12,6 +12,8 @@ export function useRegisterRequest(onSuccess: () => void) {
 			}),
 			onSuccess: async () => {
 				onSuccess();
+				// For now the server still sends email verification
+				// but later it should became optional
 				showSuccess('User have been successfully registered.');
 			},
 			errors: {

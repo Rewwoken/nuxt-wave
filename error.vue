@@ -4,17 +4,19 @@
 	const props = defineProps<{
 		error: NuxtError;
 	}>();
+	// import.meta.dev && console.log(props.error);
 
 	const label = props.error.statusCode === 401
 		? 'Go to authentication'
 		: 'Go home';
 
-	async function onNavigate() {
+	const { logout } = useLogout();
+	function onNavigate() {
 		if (props.error.statusCode === 401) {
-			return void await logout();
+			return logout();
 		}
 
-		await navigateTo('/home');
+		navigateTo('/home');
 	}
 
 	useHead({
@@ -32,8 +34,16 @@
 
 <template>
 	<main class="flex h-dvh flex-col items-center justify-center bg-color text-color">
-		<h1 class="mb-6 text-4xl">
-			{{ error.statusCode }} - {{ error.statusMessage }}
+		<h1 class="mb-6">
+			<span class="text-4xl">
+				{{ error.statusCode }}
+			</span>
+			<span
+				v-if="error.statusMessage"
+				class="text-4xl"
+			>
+				- {{ error.statusMessage }}
+			</span>
 		</h1>
 		<Button
 			icon="pi pi-link"

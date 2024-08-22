@@ -23,7 +23,7 @@
 		<PostLike
 			:post-id="postId"
 			:is-liked="status.liked"
-			:count="count.likedByUsersRelations"
+			:count="count.likes"
 		/>
 		<div class="space-x-1">
 			<PostBookmark

@@ -1,11 +1,12 @@
-import { prisma } from '~/server/database';
 import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
+import { prisma } from '~/server/database';
+import { postSelect } from '~/server/database/post/options';
 import type { ValidatedMediaFile } from '~/server/utils/validate/validateMediaFiles';
-import { PostSelect } from '~/server/database/post/options';
 
 export async function createPost(
 	userId: string,
-	parentId: string | undefined,
+	rootId: string | null,
+	parentId: string | null,
 	text: string,
 	files: ValidatedMediaFile[],
 ) {
@@ -13,10 +14,11 @@ export async function createPost(
 		const newPost = await tx.post.create({
 			data: {
 				user: { connect: { id: userId } },
-				parentPost: parentId ? { connect: { id: parentId } } : undefined,
+				parentPost: parentId ? { connect: { id: parentId } } : void 0,
+				rootPost: rootId ? { connect: { id: rootId } } : void 0,
 				text,
 			},
-			select: PostSelect,
+			select: postSelect,
 		});
 
 		// Safely upload all files to Cloudinary and create mediaFile records in the database

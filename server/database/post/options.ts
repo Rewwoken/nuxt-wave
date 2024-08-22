@@ -5,7 +5,7 @@ export interface PaginationOptions {
 	take: number;
 }
 
-export const PostSelect = {
+export const postSelect = {
 	id: true,
 	text: true,
 	createdAt: true,
@@ -31,13 +31,13 @@ export const PostSelect = {
 	},
 	_count: {
 		select: {
-			likedByUsersRelations: true, // as likes ?
+			likes: true,
 			replies: true,
 			reposts: true,
 		},
 	},
 } satisfies Prisma.PostSelect;
 
-export const PostOrder: Prisma.PostOrderByWithAggregationInput = {
+export const postsOrder: Prisma.PostOrderByWithAggregationInput = {
 	createdAt: 'desc',
 };

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-	import type { ParentPost } from '~/types/api.types';
+	import type { Post } from '~/types/api.types';
 
 	const props = defineProps<{
-		data: ParentPost;
+		data: Post;
 	}>();
 
 	const item = ref();

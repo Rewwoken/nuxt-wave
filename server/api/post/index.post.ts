@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { createPost } from '~/server/database/post/crud/create';
+import { findRootPostIdById } from '~/server/database/post/crud/read';
 
 const schema = z.object({
 	parentId: z.string().optional(),
@@ -8,33 +9,40 @@ const schema = z.object({
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
-		const query = await getValidatedQuery(event, schema.parse);
-		const formParse = await parseForm(event.node.req);
-
-		const schemaParse = createPostSchema.safeParse({
-			text: formParse.fields.text?.join(''),
-		});
-		if (!schemaParse.success) {
-			throw createError({
-				statusCode: 400,
-				statusMessage: 'Bad Request',
-				message: 'error/text',
-			});
+		// Validate the query parameters
+		const queryParse = await getValidatedQuery(event, schema.safeParse);
+		if (!queryParse.success) {
+			throw serverError(400, 'invalid-query');
 		}
 
-		const validatedFiles = validateMediaFiles(formParse.files);
+		// Get the form data
+		const { fields, files } = await parseForm(event.node.req);
+		const text = fields.text?.join('');
 
+		// Validate the text
+		const textParse = postTextSchema.safeParse(text);
+		if (!textParse.success) {
+			throw serverError(400, 'invalid-text');
+		}
+
+		// Validate the files
+		const validatedFiles = validateMediaFiles(files);
 		const userId = event.context.user.id;
-		try {
-			setResponseStatus(event, 201);
-			return await createPost(userId, query.parentId, schemaParse.data.text, validatedFiles);
+
+		// Get the parent post ID
+		const parentId = queryParse.data.parentId;
+		if (!parentId) {
+			// Create a new post without a parent
+			return createPost(userId, null, null, textParse.data, validatedFiles);
 		}
-		catch {
-			throw createError({
-				statusCode: 500,
-				statusMessage: 'Internal Server Error',
-				message: 'error/unknown',
-			});
+
+		// Find and validate the root post ID of the parent post
+		const rootId = await findRootPostIdById(parentId);
+		if (!rootId) {
+			throw serverError(400, 'parent-not-found');
 		}
+
+		// Create a new post with a parent
+		return createPost(userId, rootId, parentId, textParse.data, validatedFiles);
 	},
 });

@@ -11,14 +11,23 @@ model Post {
 
   reposts Repost[]
 
-  // Parent-child self-relation relationship
+  // Link to the root post in the thread
+  rootPost   Post?   @relation("ThreadRoot", fields: [rootPostId], references: [id])
+  rootPostId String? @map("root_post_id") // ID of the root post in the thread
+
+  // Link to the parent post
   parentPost   Post?   @relation("PostReplies", fields: [parentPostId], references: [id])
   parentPostId String? @map("parent_post_id")
-  replies      Post[]  @relation("PostReplies")
 
-  // social.prisma
-  likedByUsersRelations      PostLikeRelation[]     @relation("LikedPost") // PostLikeRelations where the post is liked
-  bookmarkedByUsersRelations PostBookmarkRelation[] @relation("BookmarkedPost") // PostLikeRelations where the post is bookmarked
+  // Replies to this post
+  replies Post[] @relation("PostReplies")
+
+  // All posts that reference this post as the root
+  threadPosts Post[] @relation("ThreadRoot")
+
+  // Social interactions
+  likes     PostLikeRelation[]     @relation("LikedPost")
+  bookmarks PostBookmarkRelation[] @relation("BookmarkedPost")
 
   @@map("post")
 }

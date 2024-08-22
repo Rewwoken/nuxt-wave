@@ -4,12 +4,7 @@
 		name: string;
 	}>();
 
-	const { data: count } = await useAPI('/api/post/count', {
-		method: 'GET',
-		query: {
-			userId: props.userId,
-		},
-	});
+	const { data: count } = await useProfilePostsCount(props.userId);
 </script>
 
 <template>

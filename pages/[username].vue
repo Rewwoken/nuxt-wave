@@ -1,13 +1,10 @@
 <script setup lang="ts">
 	const route = useRoute();
 
-	const querySelect = route.query.select as string;
-	const selectOptions = ['all', 'posts', 'reposts', 'likes'];
-
-	const select = selectOptions.includes(querySelect) ? querySelect : 'all';
-
 	const username = route.params.username as string;
-	const { data: user, error } = await useAPI(`/api/user/${username}`, {
+	const selected = route.query.select as string;
+
+	const { data: user } = await useAPI(`/api/user/${username}`, {
 		method: 'GET',
 		deep: false, // ! Change it, if you need reactivity
 	});
@@ -21,15 +18,10 @@
 <template>
 	<template v-if="user">
 		<Profile :user="user" />
-		<ProfileSelect
+		<ProfileTabs
+			:selected="selected"
+			:username="user.username"
 			:user-id="user.id"
-			:initial-value="select || 'all'"
 		/>
 	</template>
-	<div v-else-if="error && error.data.message === 'error/invalid'">
-		INVALID
-	</div>
-	<div v-else>
-		NOT FOUND
-	</div>
 </template>
