@@ -5,7 +5,7 @@
 		hasErrors,
 		handleSubmit,
 		isSubmitting,
-	} = useAuthForm(recoverySchema);
+	} = useZodForm(recoverySchema);
 
 	const { submitRecovery, serverError } = useRecoveryRequest(
 		route.query.id,

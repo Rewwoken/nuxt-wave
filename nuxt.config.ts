@@ -40,7 +40,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/robots', // Generates robots.txt for managing indexing
 	],
 
-	// Nuxt auto-imports
+	// * Nuxt auto-imports
 	imports: {
 		autoImport: true,
 		dirs: [
@@ -50,7 +50,7 @@ export default defineNuxtConfig({
 		],
 	},
 
-	// Nitro auto-imports
+	// * Nitro auto-imports
 	nitro: {
 		imports: {
 			dirs: ['schemas/**'], // All zod schemas in files, directories, and subdirectories in the root schemas folder
@@ -61,17 +61,17 @@ export default defineNuxtConfig({
 	components: [
 		{
 			path: '~/components',
-			pathPrefix: false, // Disable path prefix
+			pathPrefix: false, // ! Disable path prefix
 		},
 	],
 
 	// PrimeVue configuration
 	primevue: {
-		importPT: { as: 'Wave', from: '~/presets/Wave' }, // Import custom preset
+		importPT: { as: 'Wave', from: '~/presets/Wave' }, // * Import custom preset
 		options: {
-			unstyled: true, // Disable built-in styles
+			unstyled: true, // ! Disable built-in styles
 			ptOptions: {
-				mergeProps: true, // Merge component properties
+				mergeProps: true, // * Merge component properties
 			},
 		},
 	},
@@ -96,13 +96,13 @@ export default defineNuxtConfig({
 			},
 		},
 		'/auth': {
-			ssr: false, // Disable server-side rendering for the /auth route
+			ssr: false, // ! Disable server-side rendering for the /auth route
 		},
 		'/auth/recovery': {
-			ssr: false, // Disable server-side rendering for the /auth/recovery route
+			ssr: false, // ! Disable server-side rendering for the /auth/recovery route
 		},
 		'/auth/verification': {
-			ssr: false, // Disable server-side rendering for the /auth/verification route
+			ssr: false, // ! Disable server-side rendering for the /auth/verification route
 		},
 	},
 

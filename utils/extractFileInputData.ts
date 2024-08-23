@@ -1,4 +1,4 @@
-export function handleFileChange(event: Event) {
+export function extractFileInputData(event: Event) {
 	const target = event.target;
 
 	if (target instanceof HTMLInputElement === false) {

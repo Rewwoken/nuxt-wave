@@ -1,6 +1,6 @@
+import { codeSchema } from '~/schemas/auth/code';
 import { deleteRecoveryCodeByUserId } from '~/server/database/recovery-code/crud/delete';
 import { recoverUserPassword } from '~/server/database/recovery-code/recover';
-import { codeSchema } from '~/server/schemas/code';
 
 export default defineEventHandler(async (event) => {
 	const query = await getValidatedQuery(event, codeSchema.parse);
@@ -13,27 +13,15 @@ export default defineEventHandler(async (event) => {
 	catch (err) {
 		if (err instanceof Error) {
 			if (err.message === 'error/not-found') {
-				throw createError({
-					statusCode: 400,
-					statusMessage: 'Bad Request',
-					message: 'error/not-found',
-				});
+				throw serverError(404, 'not-found');
 			}
 			else if (err.message === 'error/expired') {
 				await deleteRecoveryCodeByUserId(query.id);
 
-				throw createError({
-					statusCode: 400,
-					statusMessage: 'Bad Request',
-					message: 'error/expired',
-				});
+				throw serverError(400, 'expired');
 			}
 		}
 
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: 'error/unknown',
-		});
+		throw serverError();
 	}
 });

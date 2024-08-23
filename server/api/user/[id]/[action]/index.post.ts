@@ -1,6 +1,6 @@
+import { userActionSchema } from '~/schemas/actions/user-action';
 import { blockUser } from '~/server/database/user/actions/block';
 import { followUser } from '~/server/database/user/actions/follow';
-import { userActionSchema } from '~/server/schemas/user-action';
 
 export default defineEventHandler({
 	onRequest: [auth],

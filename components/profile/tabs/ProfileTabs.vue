@@ -29,7 +29,7 @@
 				:key="value"
 				:value="value"
 			>
-				<!-- If value is empty string, assume it is 'posts' tab -->
+				<!-- If value is empty string, assume it is 'POSTS' tab -->
 				{{ value.toUpperCase() || 'POSTS' }}
 			</Tab>
 		</TabList>

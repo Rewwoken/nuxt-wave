@@ -1,4 +1,3 @@
-<!-- * Consider reading https://vee-validate.logaretm.com/v4/guide/composition-api/custom-inputs#handling-events to better understand the code -->
 <script setup lang="ts">
 	const props = defineProps<{
 		icon: string;
@@ -7,15 +6,7 @@
 		placeholder: string;
 	}>();
 
-	const { value, handleChange, handleBlur, errorMessage } = useField(() => props.name, undefined, {
-		validateOnValueUpdate: false, // ! Disable default validate on update
-	});
-
-	const validationListeners = {
-		input: (event: Event) => handleChange(event, !!errorMessage.value),
-		blur: (event: Event) => handleBlur(event, true),
-		change: handleChange,
-	};
+	const { value, errorMessage, listeners } = usePassiveField(props.name);
 
 	const iconClass = computed(() => {
 		if (!props.icon.startsWith('pi-')) {
@@ -38,7 +29,7 @@
 			:invalid="!!errorMessage"
 			:aria-describedby="`${name}-help`"
 			fluid
-			v-on="validationListeners"
+			v-on="listeners"
 		/>
 	</IconField>
 	<VeeErrorMessage

@@ -3,8 +3,11 @@ import { checkPostBookmark } from '~/server/database/post/actions/bookmark';
 import { checkPostLike } from '~/server/database/post/actions/like';
 import { findPostsByUserId } from '~/server/database/post/crud/read';
 
-const schema = z.object({
-	userId: z.string(),
+const paramsSchema = z.object({
+	id: z.string(),
+});
+
+const queryShema = z.object({
 	skip: z.coerce.number().min(0).default(0),
 	take: z.coerce.number().min(1).max(20).default(5),
 });
@@ -12,21 +15,22 @@ const schema = z.object({
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
-		const query = await getValidatedQuery(event, schema.parse);
+		const params = await getValidatedRouterParams(event, paramsSchema.parse);
+		const query = await getValidatedQuery(event, queryShema.parse);
 
-		const posts = await findPostsByUserId(query.userId, {
+		const posts = await findPostsByUserId(params.id, {
 			skip: query.skip,
 			take: query.take,
 		});
 
-		const userId = event.context.user.id;
+		const initatorId = event.context.user.id;
 
 		try {
 			const postsWithStatus = await Promise.all(
 				posts.map(async (post) => {
 					const status = {
-						liked: await checkPostLike(userId, post.id),
-						bookmarked: await checkPostBookmark(userId, post.id),
+						liked: await checkPostLike(initatorId, post.id),
+						bookmarked: await checkPostBookmark(initatorId, post.id),
 					};
 
 					return { ...post, status };
@@ -36,11 +40,7 @@ export default defineEventHandler({
 			return postsWithStatus;
 		}
 		catch {
-			throw createError({
-				statusCode: 500,
-				statusMessage: 'Internal Server Error',
-				message: 'error/unknown',
-			});
+			throw serverError();
 		}
 	},
 });

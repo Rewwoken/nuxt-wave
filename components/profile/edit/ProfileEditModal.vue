@@ -22,7 +22,7 @@
 		:modal="true"
 	>
 		<template #container="{ closeCallback }">
-			<ProfileEditForm @on-submit="closeCallback" />
+			<ProfileEditForm @on-close="closeCallback" />
 		</template>
 	</Dialog>
 </template>

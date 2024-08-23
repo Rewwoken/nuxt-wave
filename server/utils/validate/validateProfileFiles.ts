@@ -20,26 +20,17 @@ function validateFile(file: formidable.File, name: string) {
 	const { filepath, mimetype, size } = file;
 
 	if (!filepath) {
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: `error/${name}-no-filepath`,
-		});
+		const message = `error/${name}-no-filepath`;
+		throw serverError(400, message);
 	}
 
 	if (!mimetype || !MIMES.includes(mimetype)) {
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: `error/${name}-invalid-type`,
-		});
+		const message = `error/${name}-invalid-type`;
+		throw serverError(400, message);
 	}
 
 	if (size > 15_728_640) { // 15mb
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: `error/${name}-size`,
-		});
+		const message = `error/${name}-size`;
+		throw serverError(400, message);
 	}
 }

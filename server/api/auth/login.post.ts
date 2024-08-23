@@ -14,28 +14,16 @@ export default defineEventHandler(async (event) => {
 	});
 
 	if (!user) {
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: 'error/credentials',
-		});
+		throw serverError(400, 'credentials');
 	}
 
 	if (user.verifiedOn === null) {
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: 'error/not-verified',
-		});
+		throw serverError(400, 'not-verified');
 	}
 
 	const valid = await argon2.verify(user.password, body.password);
 	if (!valid) {
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: 'error/credentials',
-		});
+		throw serverError(400, 'credentials');
 	}
 
 	const { accessToken, refreshToken } = issueTokens(user.id);

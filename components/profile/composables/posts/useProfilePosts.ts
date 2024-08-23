@@ -8,17 +8,18 @@ export async function useProfilePosts(userId: string) {
 
 	async function loadMore() {
 		loadingMore.value = true;
-		const nextPosts = await $api('/api/post', {
+		const nextPosts = await $api(`/api/user/${userId}/posts`, {
 			method: 'GET',
-			query: { userId, skip: posts.value.length },
+			query: {
+				skip: posts.value.length,
+				take: 5,
+			},
 			deep: false,
 		});
 		loadingMore.value = false;
 
 		posts.value.push(...nextPosts);
 	}
-
-	// onMounted(loadMore);
 
 	return { posts, loadMore, loadingMore };
 }

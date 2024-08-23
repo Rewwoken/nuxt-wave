@@ -4,15 +4,20 @@
 	const username = route.params.username as string;
 	const selected = route.query.select as string;
 
-	const { data: user } = await useAPI(`/api/user/${username}`, {
+	const { data: user } = await useAPI('/api/user', {
 		method: 'GET',
+		query: { username },
 		deep: false, // ! Change it, if you need reactivity
 	});
 
-	const title = `${user.value!.profile!.name} (@${user.value?.username})`;
-	useSeoMeta({
-		title: user.value ? title : 'Not Found',
+	const title = computed(() => {
+		if (user.value) {
+			return `${user.value.profile!.name} (@${user.value.username})`;
+		}
+		return 'Not Found';
 	});
+
+	useSeoMeta({ title });
 </script>
 
 <template>

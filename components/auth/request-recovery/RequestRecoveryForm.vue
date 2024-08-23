@@ -1,8 +1,9 @@
 <script setup lang="ts">
 	const emit = defineEmits<{
-		(e: 'onSubmit'): void;
+		(e: 'onClose'): void;
 	}>();
 
+	// TODO: refactor
 	const { handleSubmit, errors, defineField, isSubmitting } = useForm({
 		validationSchema: toTypedSchema(
 			requestRecoverySchema,
@@ -29,7 +30,7 @@
 					detail: 'If the user exists, you will receive an email. Please, check your mailbox and follow the link in the message within 10 minutes before it expires.',
 				});
 
-				emit('onSubmit');
+				emit('onClose');
 			},
 			errors: {
 				'error/not-expired': 'Previous code has not expired!',

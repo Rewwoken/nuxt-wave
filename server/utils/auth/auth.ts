@@ -15,11 +15,7 @@ export default defineEventHandler(async (event) => {
 	const cookies = parseCookies(event);
 	const isRefreshValid = verifyToken(cookies.refreshToken);
 	if (!isRefreshValid) {
-		throw createError({
-			statusCode: 401,
-			statusMessage: 'Unauthorized',
-			message: 'Invalid refresh token!',
-		});
+		throw serverError(401, 'ivalid-refresh');
 	}
 
 	const { id } = decodeToken(cookies.refreshToken);
@@ -34,11 +30,7 @@ async function handleVerifiedToken(event: H3Event, value: string) {
 
 	const user = await findUniqueUser({ id });
 	if (!user) {
-		throw createError({
-			statusCode: 401,
-			statusMessage: 'Unauthorized',
-			message: 'User does not exist!',
-		});
+		throw serverError(401, 'ivalid-user');
 	}
 
 	event.context.user = user;

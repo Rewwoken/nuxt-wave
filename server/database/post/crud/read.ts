@@ -23,18 +23,18 @@ export async function findPostsByUserId(userId: string, options: PaginationOptio
 }
 
 /**
- * Finds replies (posts with a parent) by the given user ID.
+ * Finds threads (posts with a parent and root post) by the given user ID.
  *
- * @param userId - The ID of the user to find replies for.
+ * @param userId - The ID of the user to find threads for.
  * @param options - The pagination options to apply to the query.
- * @return A promise that resolves to an array of replies.
+ * @return A promise that resolves to an array of threads.
  */
 export async function findThreadsByUserId(userId: string, options: PaginationOptions) {
 	return prisma.post.findMany({
 		where: {
 			user: { id: userId },
-			parentPost: { isNot: null }, // ! Replies are posts with a parent
-			rootPost: { isNot: null }, // ! Replies must have a root post
+			parentPost: { isNot: null }, // ! Threads are posts with a parent
+			rootPost: { isNot: null }, // ! Threads must have a root post
 		},
 		select: {
 			...postSelect,

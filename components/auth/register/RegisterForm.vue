@@ -1,16 +1,16 @@
 <script setup lang="ts">
 	const emit = defineEmits<{
-		(e: 'onSubmit'): void;
+		(e: 'onClose'): void;
 	}>();
 
 	const {
 		hasErrors,
 		handleSubmit,
 		isSubmitting,
-	} = useAuthForm(registerSchema);
+	} = useZodForm(registerSchema);
 
 	const { submitRegister, serverError } = useRegisterRequest(() => {
-		emit('onSubmit');
+		emit('onClose');
 	});
 
 	const onSubmit = handleSubmit(submitRegister);

@@ -1,7 +1,6 @@
 export function useProfilePostsCount(userId: string) {
-	return useAPI('/api/post/count', {
+	return useAPI(`/api/user/${userId}/posts/count`, {
 		method: 'GET',
-		query: { userId },
 		dedupe: 'defer',
 	});
 }

@@ -4,7 +4,7 @@
 	}>();
 
 	const emit = defineEmits<{
-		(event: 'onSubmit'): void;
+		(event: 'onClose'): void;
 	}>();
 
 	const currentUser = useCurrentUser();
@@ -14,7 +14,7 @@
 		handleSubmit,
 		isSubmitting,
 		resetForm,
-	} = useNewPostForm();
+	} = useZodForm(createPostSchema);
 	const { items, handleMediaAdd, handleMediaDelete } = useNewPostMedia();
 	const { onNewPostSubmit } = useNewPostRequest({
 		items,
@@ -23,7 +23,7 @@
 			items.value = [];
 			resetForm();
 
-			emit('onSubmit');
+			emit('onClose');
 		},
 	});
 

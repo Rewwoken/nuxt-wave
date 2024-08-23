@@ -14,7 +14,7 @@
 	}
 
 	function handleChange(event: Event) {
-		const { file, mimetype, url } = handleFileChange(event);
+		const { file, mimetype, url } = extractFileInputData(event);
 		emit('onFileAdd', file, mimetype, url);
 
 		// Removing value so user can upload the same image again

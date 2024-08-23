@@ -12,11 +12,7 @@ export default defineEventHandler(async (event) => {
 	});
 	if (existingUser) {
 		if (existingUser.verifiedOn !== null) {
-			throw createError({
-				statusCode: 400,
-				statusMessage: 'Bad Request',
-				message: 'error/user-exists',
-			});
+			throw serverError(400, 'user-exists');
 		}
 
 		// If code has expired, delete unverified user, otherwise throw an error
@@ -25,11 +21,7 @@ export default defineEventHandler(async (event) => {
 			await deleteUserById(existingUser.id);
 		}
 		else {
-			throw createError({
-				statusCode: 400,
-				statusMessage: 'Bad Request',
-				message: 'error/not-expired',
-			});
+			throw serverError(400, 'not-expired');
 		}
 	}
 

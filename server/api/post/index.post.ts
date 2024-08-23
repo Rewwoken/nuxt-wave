@@ -39,7 +39,7 @@ export default defineEventHandler({
 		// Find and validate the root post ID of the parent post
 		const rootId = await findRootPostIdById(parentId);
 		if (!rootId) {
-			throw serverError(400, 'parent-not-found');
+			throw serverError(404, 'parent-not-found');
 		}
 
 		// Create a new post with a parent

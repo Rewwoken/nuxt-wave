@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	const emit = defineEmits<{
-		(e: 'onFile', key: 'image', file: File): void;
+		(e: 'onFile', file: File): void;
 	}>();
 
 	const currentUser = useCurrentUser();
@@ -14,11 +14,10 @@
 	}
 
 	function onFileChange(event: Event) {
-		return handleFileChange(event, (file, url) => {
-			emit('onFile', 'image', file);
+		const { file, url } = extractFileInputData(event);
+		emit('onFile', file);
 
-			image.value = url;
-		});
+		image.value = url;
 	}
 </script>
 

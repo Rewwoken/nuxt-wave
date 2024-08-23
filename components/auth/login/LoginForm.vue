@@ -3,7 +3,7 @@
 		hasErrors,
 		handleSubmit,
 		isSubmitting,
-	} = useAuthForm(loginSchema);
+	} = useZodForm(loginSchema);
 
 	const { submitLogin, serverError } = useLoginRequest();
 

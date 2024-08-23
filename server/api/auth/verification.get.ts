@@ -1,6 +1,6 @@
+import { codeSchema } from '~/schemas/auth/code';
 import { deleteUserById } from '~/server/database/user/crud/delete';
 import { verifyUser } from '~/server/database/verification-code/verify';
-import { codeSchema } from '~/server/schemas/code';
 
 export default defineEventHandler(async (event) => {
 	const query = await getValidatedQuery(event, codeSchema.parse);
@@ -13,25 +13,13 @@ export default defineEventHandler(async (event) => {
 			if (err.message === 'error/expired') {
 				await deleteUserById(query.id);
 
-				throw createError({
-					statusCode: 400,
-					statusMessage: 'Bad Request',
-					message: 'error/expired',
-				});
+				throw serverError(400, 'expired');
 			}
 			else if (err.message === 'error/not-found') {
-				throw createError({
-					statusCode: 400,
-					statusMessage: 'Bad Request',
-					message: 'error/not-found',
-				});
+				throw serverError(404, 'not-found');
 			}
 		}
 
-		throw createError({
-			statusCode: 400,
-			statusMessage: 'Bad Request',
-			message: 'error/unknown',
-		});
+		throw serverError();
 	}
 });
