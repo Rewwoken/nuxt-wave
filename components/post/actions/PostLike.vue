@@ -1,26 +1,12 @@
 <script setup lang="ts">
 	const props = defineProps<{
-		postId: string;
-		isLiked: boolean;
+		id: string;
+		status: boolean;
 		count: number;
 	}>();
 
-	const isLiked = ref(props.isLiked);
-	const likesCount = ref(props.count);
-
+	const { isLiked, toggleLike, likesCount } = usePostLike(props.id, props.status, props.count);
 	const label = computed(() => String(likesCount.value));
-
-	const { $api } = useNuxtApp();
-	async function toggleLike() {
-		const method = isLiked.value ? 'DELETE' : 'POST';
-
-		await $api(`/api/post/${props.postId}/like`, {
-			method,
-		});
-
-		isLiked.value = !isLiked.value;
-		likesCount.value += isLiked.value ? 1 : -1;
-	}
 </script>
 
 <template>

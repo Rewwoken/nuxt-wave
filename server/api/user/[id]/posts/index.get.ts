@@ -23,7 +23,7 @@ export default defineEventHandler({
 			take: query.take,
 		});
 
-		const initatorId = event.context.user.id;
+		const initatorId = getCurrentUser(event, 'id');
 
 		try {
 			const postsWithStatus = await Promise.all(

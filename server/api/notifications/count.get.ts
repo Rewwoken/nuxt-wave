@@ -2,7 +2,8 @@
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: () => {
-		// return countNotifications(event.context.user.id);
+		// const id = getCurrentUser('id');
+		// return countNotificationsByUserId(id);
 		return 2;
 	},
 });

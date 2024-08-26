@@ -3,45 +3,43 @@
 		userId: string;
 	}>();
 
-	const {
-		posts,
-		loadMore,
-		loadingMore,
-	} = await useProfilePosts(props.userId);
-
-	// Limit fetch during SSR is intentional to dedupe API calls.
+	const { posts, loadMore } = await useProfilePosts(props.userId);
 	const { data: limit } = await useProfilePostsCount(props.userId);
+
 	const canLoadMore = computed(() => {
-		return posts.value.length !== limit.value;
+		return limit.value !== null && posts.value.length < limit.value;
 	});
 
-	const sentinel = ref<HTMLElement | null>(null);
-	useInfiniteScroll(sentinel, 1000, loadMore, canLoadMore);
+	const list = ref<HTMLElement | null>(null);
+	const cleanup = useInfiniteWindowScroll(list, canLoadMore, loadMore, {
+		distance: 500,
+		direction: 'bottom',
+	});
+
+	onUnmounted(cleanup);
 </script>
 
-<!-- TODO: add posts skeleton -->
 <template>
-	<ol class="flex flex-col">
+	<ol
+		ref="list"
+		class="flex flex-col"
+	>
 		<li
 			v-for="post in posts"
 			:key="post.id"
 			class="w-full cursor-pointer border-b border-surface"
 		>
 			<Post
-				class="px-4 py-2"
+				class="px-4 py-3"
 				:data="post"
 			/>
 		</li>
 	</ol>
-	<div ref="sentinel" />
-	<span v-if="loadingMore">
-		SKELETON
-	</span>
 	<Message
-		v-if="limit && !loadingMore && !canLoadMore"
+		v-if="!canLoadMore && limit !== 0"
 		severity="secondary"
 		pt:root:class="m-2"
 	>
-		That's all user's posts!
+		That's all the posts!
 	</Message>
 </template>

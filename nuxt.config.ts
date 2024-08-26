@@ -32,12 +32,13 @@ export default defineNuxtConfig({
 
 	// Modules setup
 	modules: [
-		'@nuxtjs/tailwindcss', // Tailwind CSS for styling
-		'@primevue/nuxt-module', // PrimeVue for UI components
-		'@vee-validate/nuxt', // VeeValidate for form validation
-		'@nuxtjs/cloudinary', // Cloudinary for media management
-		'@nuxt/image', // Nuxt Image for image optimization
-		'@nuxtjs/robots', // Generates robots.txt for managing indexing
+		'@vueuse/nuxt',
+		'@nuxtjs/tailwindcss',
+		'@primevue/nuxt-module',
+		'@vee-validate/nuxt',
+		'@nuxtjs/cloudinary',
+		'@nuxt/image',
+		'@nuxtjs/robots',
 	],
 
 	// * Nuxt auto-imports
@@ -57,10 +58,11 @@ export default defineNuxtConfig({
 		},
 	},
 
-	// Auto-registration of components from the specified directory
+	// Auto-registration of components from the '~/components'
 	components: [
 		{
 			path: '~/components',
+			extensions: ['vue'], // ! Exclude .ts (composables etc.) and other files
 			pathPrefix: false, // ! Disable path prefix
 		},
 	],

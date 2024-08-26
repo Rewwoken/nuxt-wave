@@ -25,7 +25,7 @@ export default defineEventHandler({
 		});
 
 		// Get the user ID from the event context
-		const initatorId = event.context.user.id;
+		const initatorId = getCurrentUser(event, 'id');
 
 		try {
 			// Retrieve the status of each thread, parent post, and root post

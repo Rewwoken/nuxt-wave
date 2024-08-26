@@ -1,10 +1,10 @@
-export function useRecoveryRequest(id: unknown, code: unknown) {
+export function useRecoveryRequest() {
 	const { $api } = useNuxtApp();
 
 	const { handleRequest, serverError } = useHandleRequest();
 	const { showSuccess } = useNotification();
 
-	const submitRecovery = async (values: RecoverySchema) => {
+	const submitRecovery = async (values: RecoverySchema, id: unknown, code: unknown) => {
 		await handleRequest({
 			requestFunc: () => $api('/api/auth/recovery', {
 				method: 'POST',

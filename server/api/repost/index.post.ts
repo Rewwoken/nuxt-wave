@@ -5,7 +5,7 @@ export default defineEventHandler({
 	handler: async (event) => {
 		const body = await readValidatedBody(event, createRepostSchema.parse);
 
-		const userId = event.context.user.id;
+		const userId = getCurrentUser(event, 'id');
 		return createRepost(userId, body.postId, body.text);
 	},
 });

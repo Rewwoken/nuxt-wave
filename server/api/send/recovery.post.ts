@@ -1,21 +1,19 @@
 import { isAfter } from 'date-fns';
-import { prisma } from '~/server/database';
 import { createRecoveryCode } from '~/server/database/recovery-code/crud/create';
 import { deleteRecoveryCodeByUserId } from '~/server/database/recovery-code/crud/delete';
+import { findUserByEmail } from '~/server/database/user/crud/read';
 
-// ! This route should not return or throw anything to avoid leaking information about the user's email.
+// ! This route should always return 204 (no content),
+// ! to avoid leaking information about the user's email.
 // ! Information about the user's email should be kept confidential.
 export default defineEventHandler(async (event) => {
-	const body = await readValidatedBody(event, requestRecoverySchema.parse);
+	const body = await readValidatedBody(event, sendRecoverySchema.parse);
 
 	try {
-		const user = await prisma.user.findUniqueOrThrow({
-			where: { email: body.email },
-			select: {
-				id: true,
-				recoveryCode: true,
-			},
-		});
+		const user = await findUserByEmail(body.email);
+		if (!user) {
+			return void 0;
+		}
 
 		if (user.recoveryCode) {
 			const isCodeExpired = isAfter(new Date(), user.recoveryCode.expiresIn);

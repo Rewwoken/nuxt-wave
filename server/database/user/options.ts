@@ -1,7 +1,17 @@
 import type { Prisma } from '@prisma/client';
 
-export const UserSelect: Prisma.UserSelect = {
+export const UserSelect = {
 	id: true,
-	email: true,
 	username: true,
-};
+	createdAt: true,
+	profile: {
+		select: {
+			name: true,
+			bio: true,
+			location: true,
+			website: true,
+			imageUrl: true,
+			bannerUrl: true,
+		},
+	},
+} satisfies Prisma.UserSelect;

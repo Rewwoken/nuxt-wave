@@ -27,7 +27,7 @@ export default defineEventHandler({
 
 		// Validate the files
 		const validatedFiles = validateMediaFiles(files);
-		const userId = event.context.user.id;
+		const userId = getCurrentUser(event, 'id');
 
 		// Get the parent post ID
 		const parentId = queryParse.data.parentId;

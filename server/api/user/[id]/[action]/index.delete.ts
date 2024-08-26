@@ -7,15 +7,15 @@ export default defineEventHandler({
 	handler: async (event) => {
 		const params = await getValidatedRouterParams(event, userActionSchema.parse);
 
-		const userId = event.context.user.id;
+		const initiatorId = getCurrentUser(event, 'id');
 		setResponseStatus(event, 200);
 
 		if (params.action === 'follow') {
-			return unFollowUser(userId, params.id);
+			return unFollowUser(initiatorId, params.id);
 		}
 
 		if (params.action === 'block') {
-			return unBlockUser(userId, params.id);
+			return unBlockUser(initiatorId, params.id);
 		}
 	},
 });

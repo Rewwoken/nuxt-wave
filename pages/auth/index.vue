@@ -12,7 +12,7 @@
 <template>
 	<div class="mb-1 flex flex-col gap-y-4">
 		<LoginForm />
-		<RequestRecoveryModal />
+		<SendRecoveryModal />
 	</div>
 	<RegisterModal />
 </template>

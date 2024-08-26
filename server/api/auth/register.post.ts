@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
 	const newUser = await createUser(body);
 
 	const verificationCode = await createVerificationCode(newUser.id);
-	await sendVerificationEmail(newUser.email, newUser.id, verificationCode.value);
+	await sendVerificationEmail(body.email, newUser.id, verificationCode.value);
 
 	setResponseStatus(event, 201);
 	return newUser;

@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 	const props = defineProps<{
-		postId: string;
+		id: string;
 		author: string;
 		count: number;
 	}>();
@@ -25,7 +25,7 @@
 							requestFunc: () => $api('/api/repost', {
 								method: 'POST',
 								body: {
-									postId: props.postId,
+									postId: props.id,
 								},
 							}),
 							onSuccess: () => {
@@ -99,9 +99,9 @@
 	>
 		<div class="flex gap-x-2">
 			<NewPostForm
-				:parent-id="postId"
+				:parent-id="id"
 				@on-submit="showModal = false"
 			/>
 		</div>
 	</Dialog>
-</template>
+</template> -->

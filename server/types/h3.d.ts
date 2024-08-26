@@ -1,11 +1,11 @@
 import 'h3';
-import type { findUniqueUser } from '~/server/database/user/crud/read';
+import type { Prisma } from '@prisma/client';
+import type { UserSelect } from '~/server/database/user/options';
 
-// TODO: simplify User type
-type User = NonNullable<Awaited<ReturnType<typeof findUniqueUser>>>;
+type User = Prisma.UserGetPayload<{ select: typeof UserSelect }>;
 
 declare module 'h3' {
 	interface H3EventContext {
-		user: User; // Set in ~/server/utils/auth.ts
+		user: User | undefined; // Set in ~/server/utils/auth.ts
 	}
 }

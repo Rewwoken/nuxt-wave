@@ -12,23 +12,23 @@
 <template>
 	<div class="flex justify-between">
 		<PostReply
-			:post-id="postId"
+			:id="postId"
 			:count="count.replies"
 		/>
-		<PostShare
-			:post-id="postId"
+		<!-- <PostShare
+			:id="postId"
 			:author="author"
 			:count="count.reposts"
-		/>
+		/> -->
 		<PostLike
-			:post-id="postId"
-			:is-liked="status.liked"
+			:id="postId"
+			:status="status.liked"
 			:count="count.likes"
 		/>
 		<div class="space-x-1">
 			<PostBookmark
-				:post-id="postId"
-				:is-bookmarked="status.bookmarked"
+				:id="postId"
+				:status="status.bookmarked"
 			/>
 		</div>
 	</div>

@@ -4,7 +4,7 @@ export function useVerificationRequest() {
 	const { handleRequest } = useHandleRequest();
 	const { showSuccess, showError } = useNotification();
 
-	const verify = async (id: string, code: string) => {
+	const submitVerification = async (id: string, code: string) => {
 		await handleRequest({
 			requestFunc: () => $api('/api/auth/verification', {
 				method: 'GET',
@@ -27,5 +27,5 @@ export function useVerificationRequest() {
 		});
 	};
 
-	return { verify };
+	return { submitVerification };
 };

@@ -2,12 +2,12 @@
 <script setup lang="ts">
 	const route = useRoute();
 
-	const { verify } = useVerificationRequest();
+	const { submitVerification } = useVerificationRequest();
 	const id = route.query.id as string;
 	const code = route.query.code as string;
 
 	onMounted(() => {
-		verify(id, code);
+		submitVerification(id, code);
 	});
 
 	definePageMeta({

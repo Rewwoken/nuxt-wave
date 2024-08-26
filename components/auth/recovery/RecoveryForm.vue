@@ -7,32 +7,30 @@
 		isSubmitting,
 	} = useZodForm(recoverySchema);
 
-	const { submitRecovery, serverError } = useRecoveryRequest(
-		route.query.id,
-		route.query.code,
-	);
+	const { submitRecovery, serverError } = useRecoveryRequest();
 
-	const onSubmit = handleSubmit(submitRecovery);
+	const onSubmit = handleSubmit(async (values) => {
+		await submitRecovery(values, route.query.id, route.query.code);
+	});
 </script>
 
 <template>
-	<VeeForm
+	<form
 		autocomplete="off"
 		class="flex flex-col gap-y-2"
-		novalidate
 		@submit="onSubmit"
 	>
 		<AuthField
 			name="password"
 			icon="pi-lock"
 			type="password"
-			placeholder="Password"
+			placeholder="New password"
 		/>
 		<AuthField
 			name="confirmPassword"
 			icon="pi-lock"
 			type="password"
-			placeholder="Confirm password"
+			placeholder="Confirm new password"
 		/>
 		<AuthMessage :value="serverError" />
 		<Button
@@ -44,5 +42,5 @@
 			fluid
 			rounded
 		/>
-	</VeeForm>
+	</form>
 </template>

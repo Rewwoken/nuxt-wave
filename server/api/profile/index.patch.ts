@@ -16,7 +16,7 @@ export default defineEventHandler({
 
 		const { image, banner } = validateProfileFiles(files.image?.[0], files.banner?.[0]);
 
-		const userId = event.context.user.id;
+		const userId = getCurrentUser(event, 'id');
 		try {
 			return await updateProfile(userId, fieldsParse.data, image, banner);
 		}

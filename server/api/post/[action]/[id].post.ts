@@ -6,7 +6,7 @@ export default defineEventHandler({
 	handler: async (event) => {
 		const params = await getValidatedRouterParams(event, postActionSchema.parse);
 
-		const initiatorId = event.context.user.id;
+		const initiatorId = getCurrentUser(event, 'id');
 
 		if (params.action === 'like') {
 			return likePost(initiatorId, params.id);

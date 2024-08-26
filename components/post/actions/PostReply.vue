@@ -1,6 +1,6 @@
 <script setup lang="ts">
 	const props = defineProps<{
-		postId: string;
+		id: string;
 		count: number;
 	}>();
 	const repliesCount = ref(props.count);
@@ -34,7 +34,7 @@
 		:modal="true"
 	>
 		<div class="flex gap-x-2">
-			<NewPostForm :parent-id="postId" />
+			<NewPostForm :parent-id="id" />
 		</div>
 	</Dialog>
 </template>

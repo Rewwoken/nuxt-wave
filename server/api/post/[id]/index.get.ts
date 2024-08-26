@@ -10,7 +10,7 @@ const schema = z.object({
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
-		const params = await getValidatedQuery(event, schema.parse);
+		const params = await getValidatedRouterParams(event, schema.parse);
 
 		const post = await findPostById(params.id);
 		if (!post) {
@@ -21,7 +21,7 @@ export default defineEventHandler({
 			});
 		}
 
-		const userId = event.context.user.id;
+		const userId = getCurrentUser(event, 'id');
 		try {
 			const status = {
 				liked: await checkPostLike(userId, post.id),
