@@ -25,7 +25,7 @@
 		v-if="cloudinary && src"
 		class="!max-w-full select-none object-cover"
 		alt="user image"
-		format="avif"
+		format="webp"
 		loading="lazy"
 		gravity="center"
 		crop="thumb"

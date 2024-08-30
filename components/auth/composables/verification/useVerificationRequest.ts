@@ -15,6 +15,7 @@ export function useVerificationRequest() {
 			},
 			errors: {
 				'error/not-found': 'User not found.',
+				'error/invalid-query': 'Invalid query!',
 				'error/expired': 'Verification link expired. Please, try again later.',
 				'error/unknown': 'Unexpected error. Please, try again later.',
 			},

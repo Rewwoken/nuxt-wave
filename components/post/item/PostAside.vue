@@ -1,19 +1,19 @@
 <script setup lang="ts">
 	defineProps<{
-		isParent: boolean;
+		role?: 'root' | 'parent' | 'reply';
 		imageUrl: string | null;
 	}>();
 </script>
 
 <template>
 	<UserImage
-		v-if="!isParent"
+		v-if="!role"
 		:src="imageUrl"
 		:px="40"
 	/>
 	<div
-		v-else
-		class="flex min-w-[40px] flex-col items-center"
+		v-else-if="role === 'root'"
+		class="flex flex-col items-center gap-x-2 pt-3"
 	>
 		<UserImage
 			:src="imageUrl"
@@ -21,4 +21,34 @@
 		/>
 		<div class="h-full w-px border border-surface" />
 	</div>
+	<div
+		v-else-if="role === 'parent'"
+		class="flex flex-col items-center gap-x-2"
+	>
+		<div class="h-6 w-px border border-surface" />
+		<UserImage
+			:src="imageUrl"
+			:px="40"
+		/>
+		<div class="h-full w-px border border-surface" />
+	</div>
+	<div
+		v-else-if="role === 'reply'"
+		class="flex flex-col items-center gap-x-2"
+	>
+		<div class="h-3 w-px border border-surface" />
+		<UserImage
+			:src="imageUrl"
+			:px="40"
+		/>
+	</div>
+	<!-- <div
+		class="flex min-w-[40px] flex-col items-center"
+	>
+		<UserImage
+			:src="imageUrl"
+			:px="40"
+		/>
+		<div class="h-full w-px border border-surface" />
+	</div> -->
 </template>

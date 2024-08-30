@@ -5,7 +5,10 @@ import { findFirstUser } from '~/server/database/user/crud/read';
 import { createVerificationCode } from '~/server/database/verification-code/crud/create';
 
 export default defineEventHandler(async (event) => {
-	const body = await readValidatedBody(event, registerSchema.parse);
+	const { success: successBody, data: body } = await readValidatedBody(event, registerSchema.safeParse);
+	if (!successBody) {
+		throw serverError(400, 'invalid-body');
+	}
 
 	const existingUser = await findFirstUser({
 		OR: [{ email: body.email }, { username: body.username }],
@@ -17,16 +20,16 @@ export default defineEventHandler(async (event) => {
 
 		// If code has expired, delete unverified user, otherwise throw an error
 		const isCodeExpired = isAfter(new Date(), existingUser.verificationCode!.expiresIn);
-		if (isCodeExpired) {
-			await deleteUserById(existingUser.id);
-		}
-		else {
+		if (!isCodeExpired) {
 			throw serverError(400, 'not-expired');
 		}
+
+		await deleteUserById(existingUser.id);
 	}
 
 	const newUser = await createUser(body);
 
+	// TODO: make email verification optional
 	const verificationCode = await createVerificationCode(newUser.id);
 	await sendVerificationEmail(body.email, newUser.id, verificationCode.value);
 

@@ -3,8 +3,15 @@ import { deleteRecoveryCodeByUserId } from '~/server/database/recovery-code/crud
 import { recoverUserPassword } from '~/server/database/recovery-code/recover';
 
 export default defineEventHandler(async (event) => {
-	const query = await getValidatedQuery(event, codeSchema.parse);
-	const body = await readValidatedBody(event, recoverySchema.parse);
+	const { success: successQuery, data: query } = await getValidatedQuery(event, codeSchema.safeParse);
+	if (!successQuery) {
+		throw serverError(400, 'invalid-query');
+	}
+
+	const { success: successBody, data: body } = await readValidatedBody(event, recoverySchema.safeParse);
+	if (!successBody) {
+		throw serverError(400, 'invalid-body');
+	}
 
 	try {
 		setResponseStatus(event, 200);

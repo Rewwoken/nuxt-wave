@@ -5,6 +5,16 @@ export interface PaginationOptions {
 	take: number;
 }
 
+export const mediaFileSelect = {
+	id: true,
+	url: true,
+	mimetype: true,
+} satisfies Prisma.MediaFileSelect;
+
+export const mediaFileOrder = {
+	createdAt: 'desc',
+} satisfies Prisma.MediaFileOrderByWithAggregationInput;
+
 export const postSelect = {
 	id: true,
 	text: true,
@@ -23,17 +33,14 @@ export const postSelect = {
 		},
 	},
 	mediaFiles: {
-		select: {
-			id: true,
-			url: true,
-			mimetype: true,
-		},
+		select: mediaFileSelect,
+		orderBy: mediaFileOrder,
 	},
 	_count: {
 		select: {
 			likes: true,
 			replies: true,
-			reposts: true,
+			// reposts: true,
 		},
 	},
 } satisfies Prisma.PostSelect;

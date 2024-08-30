@@ -17,7 +17,7 @@ export function useLoginRequest() {
 			errors: {
 				'error/credentials': 'Invalid credentials!',
 				'error/not-verified': 'Email is not verified!',
-				'error/body': 'Invalid data!',
+				'error/invalid-body': 'Invalid data!',
 				'error/unknown': 'Unexpected error!',
 			},
 		});

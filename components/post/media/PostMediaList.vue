@@ -8,6 +8,13 @@
 		items: Array<Item>;
 	}>();
 
+	const SOLO_SIZE = 500 as const;
+	const MULTIPLE_SIZE = 245 as const;
+
+	// resolveUnref so it computes size only once and doesn't spam requests on resize
+	const shouldDisplayOne = resolveUnref(useMediaQuery('(max-width: 767px)'));
+	const size = computed(() => shouldDisplayOne ? SOLO_SIZE : MULTIPLE_SIZE);
+
 	const responsiveOptions = ref([
 		{
 			breakpoint: '767px',
@@ -22,6 +29,7 @@
 		v-if="items.length === 1"
 		:url="items[0].url"
 		:mimetype="items[0].mimetype"
+		:size="size"
 	/>
 	<div
 		v-else-if="items.length === 2"
@@ -30,10 +38,12 @@
 		<PostMedia
 			:url="items[0].url"
 			:mimetype="items[0].mimetype"
+			:size="size"
 		/>
 		<PostMedia
 			:url="items[1].url"
 			:mimetype="items[1].mimetype"
+			:size="size"
 		/>
 	</div>
 	<Carousel
@@ -52,6 +62,7 @@
 				<PostMedia
 					:url="item.data.url"
 					:mimetype="item.data.mimetype"
+					:size="size"
 				/>
 			</div>
 		</template>

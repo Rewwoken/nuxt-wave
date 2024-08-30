@@ -2,7 +2,8 @@
 	import type { Post } from '~/types/api.types';
 
 	const props = defineProps<{
-		data: Post;
+		role?: 'root' | 'parent' | 'reply';
+		post: Post;
 	}>();
 
 	const item = ref();
@@ -11,8 +12,8 @@
 	// TODO: refactor redirect
 	async function navigateToPost(event: MouseEvent) {
 		if (item.value === event.target) {
-			const username = props.data.user.username;
-			const id = props.data.id;
+			const username = props.post.user.username;
+			const id = props.post.id;
 
 			await router.push(`/${username}/post/${id}`);
 		}
@@ -26,26 +27,29 @@
 		@click="navigateToPost"
 	>
 		<PostAside
-			:is-parent="false"
-			:image-url="data.user.profile!.imageUrl"
+			:role="role"
+			:image-url="post.user.profile!.imageUrl"
 		/>
-		<div class="flex w-full flex-col">
+		<div
+			class="flex w-full flex-col pb-1"
+			:class="{ 'pt-2': !!role }"
+		>
 			<PostHeader
-				:name="data.user.profile!.name"
-				:username="data.user.username"
-				:time="data.createdAt"
+				:name="post.user.profile!.name"
+				:username="post.user.username"
+				:time="post.createdAt"
 			/>
-			<PostText :data="data.text" />
+			<PostText :data="post.text" />
 			<PostMediaList
 				class="my-2"
-				:items="data.mediaFiles"
+				:items="post.mediaFiles"
 			/>
 			<PostFooter
-				:post-id="data.id"
-				:author="data.user.username"
-				:count="data._count"
-				:status="data.status"
-				:class="{ 'mt-2': !data.mediaFiles.length }"
+				:post-id="post.id"
+				:author="post.user.username"
+				:count="post._count"
+				:status="post.status"
+				:class="{ 'mt-2': !post.mediaFiles.length }"
 			/>
 		</div>
 	</article>

@@ -1,6 +1,4 @@
 import { z } from 'zod';
-import { checkPostBookmark } from '~/server/database/post/actions/bookmark';
-import { checkPostLike } from '~/server/database/post/actions/like';
 import { findThreadsByUserId } from '~/server/database/post/crud/read';
 
 const paramsSchema = z.object({
@@ -18,56 +16,34 @@ export default defineEventHandler({
 		const params = await getValidatedRouterParams(event, paramsSchema.parse);
 		const query = await getValidatedQuery(event, querySchema.parse);
 
-		// Find the threads for the given user id
 		const threads = await findThreadsByUserId(params.id, {
 			skip: query.skip,
 			take: query.take,
 		});
 
-		// Get the user ID from the event context
-		const initatorId = getCurrentUser(event, 'id');
+		const initiatorId = getCurrentUser(event, 'id');
 
 		try {
 			// Retrieve the status of each thread, parent post, and root post
 			const threadsWithStatuses = await Promise.all(
 				threads.map(async ({ rootPost, parentPost, ...post }) => {
-					const postStatus = {
-						liked: await checkPostLike(initatorId, post.id),
-						bookmarked: await checkPostBookmark(initatorId, post.id),
-					};
+					const postStatus = await getPostStatus(initiatorId, post.id);
 
 					const parentId = parentPost!.id;
 					const rootId = rootPost!.id;
 
-					const parentStatus = {
-						liked: await checkPostLike(initatorId, parentId),
-						bookmarked: await checkPostBookmark(initatorId, parentId),
-					};
+					const parentStatus = await getPostStatus(initiatorId, parentId);
 
 					// If parent post is the root, reuse the parent's status, otherwise get its status
 					const rootStatus = parentId === rootId
 						? parentStatus
-						: {
-							liked: await checkPostLike(initatorId, rootId),
-							bookmarked: await checkPostBookmark(initatorId, rootId),
-						};
+						: await getPostStatus(initiatorId, rootId);
 
+					// * Non-null assertions because of `{ isNot: null }` in the Prisma query
 					return {
-						// Include the latest post with its status
-						post: {
-							...post,
-							status: postStatus,
-						},
-						// Include the parent post with its status
-						parentPost: {
-							...parentPost!, // * Non-null Assertion because of `parentPost: { isNot: null }` in the Prisma query
-							status: parentStatus,
-						},
-						// Include the root post with its status
-						rootPost: {
-							...rootPost!, // * Non-null Assertion because of `rootPost: { isNot: null }` in the Prisma query
-							status: rootStatus,
-						},
+						post: Object.assign(post, { status: postStatus }),
+						parentPost: Object.assign(parentPost!, { status: parentStatus }),
+						rootPost: Object.assign(rootPost!, { status: rootStatus }),
 					};
 				}),
 			);
@@ -75,7 +51,6 @@ export default defineEventHandler({
 			return threadsWithStatuses;
 		}
 		catch {
-			// Throw an error if there is an issue retrieving the threads
 			throw serverError();
 		}
 	},

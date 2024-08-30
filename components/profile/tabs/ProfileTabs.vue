@@ -38,13 +38,13 @@
 				<ProfilePosts :user-id="userId" />
 			</TabPanel>
 			<TabPanel value="replies">
-				REPLIES
+				<ProfileThreads :user-id="userId" />
 			</TabPanel>
 			<TabPanel value="media">
-				MEDIA
+				<!-- <ProfileMedia :user-id="userId" /> -->
 			</TabPanel>
 			<TabPanel value="likes">
-				LIKES
+				<!-- <ProfileLikes :user-id="userId" /> -->
 			</TabPanel>
 		</TabPanels>
 	</Tabs>

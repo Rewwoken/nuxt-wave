@@ -6,7 +6,7 @@ export default defineNuxtConfig({
 			htmlAttrs: { lang: 'en' },
 			link: [
 				{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-				{ rel: 'canonical',	href: `${process.env.BASE_URL}/home` },
+				{ rel: 'canonical', href: `${process.env.BASE_URL}/home` },
 			],
 		},
 	},
@@ -71,6 +71,14 @@ export default defineNuxtConfig({
 	primevue: {
 		importPT: { as: 'Wave', from: '~/presets/Wave' }, // * Import custom preset
 		options: {
+			theme: {
+				options: {
+					cssLayer: {
+						name: 'primevue',
+						order: 'tailwind-base, primevue, tailwind-utilities',
+					},
+				},
+			},
 			unstyled: true, // ! Disable built-in styles
 			ptOptions: {
 				mergeProps: true, // * Merge component properties
@@ -82,11 +90,11 @@ export default defineNuxtConfig({
 	veeValidate: {
 		typedSchemaPackage: 'zod',
 		componentNames: {
-      Form: 'VeeForm',
-      Field: 'VeeField',
-      FieldArray: 'VeeFieldArray',
-      ErrorMessage: 'VeeErrorMessage',
-    },
+			Form: 'VeeForm',
+			Field: 'VeeField',
+			FieldArray: 'VeeFieldArray',
+			ErrorMessage: 'VeeErrorMessage',
+		},
 	},
 
 	// Route rules

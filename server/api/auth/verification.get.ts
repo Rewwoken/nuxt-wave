@@ -3,7 +3,10 @@ import { deleteUserById } from '~/server/database/user/crud/delete';
 import { verifyUser } from '~/server/database/verification-code/verify';
 
 export default defineEventHandler(async (event) => {
-	const query = await getValidatedQuery(event, codeSchema.parse);
+	const { success: successQuery, data: query } = await getValidatedQuery(event, codeSchema.safeParse);
+	if (!successQuery) {
+		throw serverError(400, 'invalid-query');
+	}
 
 	try {
 		return await verifyUser(query.id, query.code);
@@ -12,7 +15,6 @@ export default defineEventHandler(async (event) => {
 		if (err instanceof Error) {
 			if (err.message === 'error/expired') {
 				await deleteUserById(query.id);
-
 				throw serverError(400, 'expired');
 			}
 			else if (err.message === 'error/not-found') {

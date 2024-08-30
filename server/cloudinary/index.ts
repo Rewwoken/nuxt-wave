@@ -1,5 +1,6 @@
 import type { UploadApiOptions } from 'cloudinary';
 import { v2 as cloudinary } from 'cloudinary';
+import type { CloudinaryFolder } from '~/server/cloudinary/constants';
 
 const config = useRuntimeConfig();
 cloudinary.config({
@@ -9,11 +10,12 @@ cloudinary.config({
 	secure: true,
 });
 
-interface RequiredApiOptions {
+interface Options extends UploadApiOptions {
 	resource_type: 'image' | 'video';
+	folder: CloudinaryFolder;
 }
 
-export function cloudinaryUpload(path: string, options: RequiredApiOptions & UploadApiOptions) {
+export function cloudinaryUpload(path: string, options: Options) {
 	return cloudinary.uploader.upload(path, options);
 }
 

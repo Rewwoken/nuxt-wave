@@ -23,7 +23,7 @@
 		v-if="cloudinary && src"
 		class="select-none rounded-full object-cover"
 		alt="User image"
-		format="avif"
+		format="webp"
 		loading="lazy"
 		gravity="center"
 		crop="thumb"

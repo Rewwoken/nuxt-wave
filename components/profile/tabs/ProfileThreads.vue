@@ -1,17 +1,13 @@
 <script setup lang="ts">
-	// TODO: Implement a solution to prevent posts from loading on tab change
-	// Consider optimizing the scroll event listener to avoid unnecessary triggers
-	// Investigate and refine the window Y position tracking mechanism
-
 	const props = defineProps<{
 		userId: string;
 	}>();
 
-	const { posts, loadMore } = await useProfilePosts(props.userId);
-	const { data: limit } = await useProfilePostsCount(props.userId);
+	const { threads, loadMore } = await useProfileThreads(props.userId);
+	const { data: limit } = await useProfileThreadsCount(props.userId);
 
 	const canLoadMore = computed(() => {
-		return limit.value !== null && posts.value.length < limit.value;
+		return limit.value !== null && threads.value.length < limit.value;
 	});
 
 	const list = ref<HTMLElement | null>(null);
@@ -29,14 +25,11 @@
 		class="flex flex-col"
 	>
 		<li
-			v-for="post in posts"
-			:key="post.id"
+			v-for="thread in threads"
+			:key="thread.post.id"
 			class="w-full cursor-pointer border-b border-surface"
 		>
-			<Post
-				class="px-4 py-3"
-				:post="post"
-			/>
+			<PostThread :thread="thread" />
 		</li>
 	</ol>
 	<Message
@@ -44,6 +37,6 @@
 		severity="secondary"
 		pt:root:class="m-2"
 	>
-		That's all the posts!
+		That's all the threads!
 	</Message>
 </template>

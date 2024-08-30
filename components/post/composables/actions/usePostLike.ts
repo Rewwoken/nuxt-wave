@@ -6,7 +6,7 @@ export function usePostLike(id: string, status: boolean, count: number) {
 	async function toggleLike() {
 		const method = isLiked.value ? 'DELETE' : 'POST';
 
-		await $api(`/api/post/like/${id}`, {
+		await $api(`/api/post/${id}/like`, {
 			method,
 		});
 

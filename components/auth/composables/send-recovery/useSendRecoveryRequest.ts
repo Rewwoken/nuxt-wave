@@ -16,6 +16,7 @@ export function useSendRecoveryRequest() {
 				showInfo('Please, check your mailbox and follow the link in the message within 10 minutes before it expires.');
 			},
 			errors: {
+				'error/invalid-body': 'Invalid data!',
 				'error/unknown': 'Error sending email!',
 			},
 		});

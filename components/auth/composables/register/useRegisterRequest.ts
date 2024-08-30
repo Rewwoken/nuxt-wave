@@ -19,7 +19,7 @@ export function useRegisterRequest(onSuccess: () => void) {
 			errors: {
 				'error/user-exists': 'User already exists!',
 				'error/not-expired': 'Previous code has not expired!',
-				'error/body': 'Invalid data!',
+				'error/invalid-body': 'Invalid data!',
 				'error/unknown': 'Unexpected error!',
 			},
 		});

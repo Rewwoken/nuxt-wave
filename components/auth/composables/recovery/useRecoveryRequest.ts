@@ -16,7 +16,9 @@ export function useRecoveryRequest() {
 				await navigateTo('/auth');
 			},
 			errors: {
-				'error/expried': 'Recovery code expired!',
+				'error/expired': 'Recovery code expired!',
+				'error/invalid-query': 'Invalid query!',
+				'error/invalid-body': 'Invalid body!',
 				'error/unknown': 'Error recovering the password!',
 			},
 		});

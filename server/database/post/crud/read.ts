@@ -68,25 +68,14 @@ export function findPostById(id: string) {
 	});
 }
 
-/**
- * Finds the root post ID of the thread for a given post ID.
- *
- * If the given post is the root post of the thread, returns the provided post ID.
- *
- * @param postId - The ID of the post to find the root post of the thread for.
- * @return The ID of the root post of the thread.
- */
-export async function findRootPostIdById(postId: string) {
-	const result = await prisma.post.findUnique({
-		where: { id: postId },
+export async function findPostWithRootIdById(id: string) {
+	return prisma.post.findUnique({
+		where: { id },
 		select: {
-			rootPostId: true,
+			...postSelect,
+			rootPost: {
+				select: postSelect,
+			},
 		},
 	});
-
-	if (!result) {
-		return null;
-	}
-
-	return result.rootPostId ?? postId;
 }

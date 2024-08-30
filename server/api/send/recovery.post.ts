@@ -7,7 +7,10 @@ import { findUserByEmail } from '~/server/database/user/crud/read';
 // ! to avoid leaking information about the user's email.
 // ! Information about the user's email should be kept confidential.
 export default defineEventHandler(async (event) => {
-	const body = await readValidatedBody(event, sendRecoverySchema.parse);
+	const { success, data: body } = await readValidatedBody(event, sendRecoverySchema.safeParse);
+	if (!success) {
+		throw serverError(400, 'invalid-body');
+	}
 
 	try {
 		const user = await findUserByEmail(body.email);

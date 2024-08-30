@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import { createPost } from '~/server/database/post/crud/create';
-import { findRootPostIdById } from '~/server/database/post/crud/read';
+import { findPostWithRootIdById } from '~/server/database/post/crud/read';
+
+const ALLOWED_MIMES = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg', 'video/mp4'];
+const MAX_FILE_SIZE = 15_728_640; // 15mb
 
 const schema = z.object({
 	parentId: z.string().optional(),
@@ -9,40 +12,39 @@ const schema = z.object({
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
-		// Validate the query parameters
 		const queryParse = await getValidatedQuery(event, schema.safeParse);
 		if (!queryParse.success) {
 			throw serverError(400, 'invalid-query');
 		}
 
-		// Get the form data
 		const { fields, files } = await parseForm(event.node.req);
-		const text = fields.text?.join('');
+		const text = fields.text ? joinFormField(fields.text) : '';
 
-		// Validate the text
 		const textParse = postTextSchema.safeParse(text);
 		if (!textParse.success) {
 			throw serverError(400, 'invalid-text');
 		}
 
-		// Validate the files
-		const validatedFiles = validateMediaFiles(files);
+		const validatedFiles = validateFormFiles(files, ALLOWED_MIMES, MAX_FILE_SIZE);
 		const userId = getCurrentUser(event, 'id');
 
-		// Get the parent post ID
 		const parentId = queryParse.data.parentId;
 		if (!parentId) {
-			// Create a new post without a parent
+			// If no parentId is provided, create a new root post (i.e., a post without a parent)
+			// This will be the start of a new conversation thread
 			return createPost(userId, null, null, textParse.data, validatedFiles);
 		}
 
-		// Find and validate the root post ID of the parent post
-		const rootId = await findRootPostIdById(parentId);
-		if (!rootId) {
+		const parentPost = await findPostWithRootIdById(parentId);
+		if (!parentPost) {
 			throw serverError(404, 'parent-not-found');
 		}
 
-		// Create a new post with a parent
+		// Determine the root post ID:
+		// If the parent post has a root post, use that root post's ID.
+		// Otherwise, the parent post itself is the root, so use the parent's ID.
+		const rootId = parentPost?.rootPost?.id ?? parentId;
+
 		return createPost(userId, rootId, parentId, textParse.data, validatedFiles);
 	},
 });

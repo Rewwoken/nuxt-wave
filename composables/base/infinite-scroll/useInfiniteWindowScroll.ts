@@ -16,7 +16,7 @@ interface InfiniteWindowScrollOptions {
  * @param canLoadMore - A reactive boolean indicating if more items can be loaded.
  * @param loadMore - A function to load more items.
  * @param options - Configuration options for the infinite scroll behavior.
- * @returns A cleanup function to stop the infinite scroll behavior.
+ * @returns A cleanup function to stop the infinite scroll watchers.
  */
 export function useInfiniteWindowScroll(
 	list: MaybeRefOrGetter<HTMLElement | null>,
@@ -63,9 +63,7 @@ export function useInfiniteWindowScroll(
 		return !resolveCanLoadMore;
 	});
 
-	/**
-	 * Stops the effect scope, cleaning up all reactive effects.
-	 */
+	/** Stops the effect scope, cleaning up all reactive effects. */
 	function cleanup() {
 		scope.stop();
 	}

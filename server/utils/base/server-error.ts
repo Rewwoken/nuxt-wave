@@ -1,12 +1,12 @@
 // Free to add other status codes as needed
-const messsages = {
+const messages = {
 	400: 'Bad Request',
 	401: 'Unauthorized',
 	403: 'Forbidden',
 	404: 'Not Found',
 	500: 'Internal Server Error',
 };
-type Code = keyof typeof messsages;
+type Code = keyof typeof messages;
 
 /**
  * Throws a server error with a given status code, message, and data.
@@ -20,7 +20,7 @@ type Code = keyof typeof messsages;
 export function serverError(statusCode: Code = 500, message: string = 'unknown', data?: unknown) {
 	throw createError({
 		statusCode,
-		statusMessage: messsages[statusCode],
+		statusMessage: messages[statusCode],
 		message: `error/${message}`,
 		data,
 	});

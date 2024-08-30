@@ -4,7 +4,7 @@
 	}>();
 
 	const emit = defineEmits<{
-		(event: 'onClose'): void;
+		(event: 'onSuccess'): void;
 	}>();
 
 	const currentUser = useCurrentUser();
@@ -16,18 +16,20 @@
 		resetForm,
 	} = useZodForm(createPostSchema);
 	const { items, handleMediaAdd, handleMediaDelete } = useNewPostMedia();
-	const { onNewPostSubmit } = useNewPostRequest({
-		items,
-		parentId: props.parentId,
-		onSuccess: () => {
-			items.value = [];
-			resetForm();
+	const { onNewPostSubmit } = useNewPostRequest();
 
-			emit('onClose');
-		},
+	function onSuccess() {
+		items.value = [];
+		resetForm();
+		emit('onSuccess');
+	}
+
+	const onSubmit = handleSubmit(async (values) => {
+		await onNewPostSubmit(values, items, {
+			parentId: props.parentId,
+			onSuccess,
+		});
 	});
-
-	const onSubmit = handleSubmit(onNewPostSubmit);
 </script>
 
 <template>

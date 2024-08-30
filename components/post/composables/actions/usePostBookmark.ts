@@ -5,7 +5,7 @@ export function usePostBookmark(id: string, status: boolean) {
 	async function toggleBookmark() {
 		const method = isBookmarked.value ? 'DELETE' : 'POST';
 
-		await $api(`/api/post/bookmark/${id}`, {
+		await $api(`/api/post/${id}/bookmark`, {
 			method,
 		});
 

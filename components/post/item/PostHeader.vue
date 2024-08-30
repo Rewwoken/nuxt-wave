@@ -16,8 +16,9 @@
 
 <template>
 	<header class="flex gap-x-1.5 leading-4">
-		<span class="font-bold text-color">{{ name }}</span>
-		<span class="text-muted-color">@{{ username }}</span>
-		<span class="ml-auto text-nowrap text-muted-color">{{ formattedTime }}</span>
+		<span class="text-nowrap font-bold text-color">{{ name }}</span>
+		<span class="text-nowrap text-muted-color">
+			@{{ username }} • {{ formattedTime }}
+		</span>
 	</header>
 </template>

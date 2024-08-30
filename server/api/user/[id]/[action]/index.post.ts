@@ -5,7 +5,10 @@ import { followUser } from '~/server/database/user/actions/follow';
 export default defineEventHandler({
 	onRequest: [auth],
 	handler: async (event) => {
-		const params = await getValidatedRouterParams(event, userActionSchema.parse);
+		const { success, data: params } = await getValidatedRouterParams(event, userActionSchema.safeParse);
+		if (!success) {
+			throw serverError(400, 'invalid-params');
+		}
 
 		const initiatorId = getCurrentUser(event, 'id');
 

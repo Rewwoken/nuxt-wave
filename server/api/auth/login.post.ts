@@ -2,7 +2,10 @@ import argon2 from 'argon2';
 import { prisma } from '~/server/database';
 
 export default defineEventHandler(async (event) => {
-	const body = await readValidatedBody(event, loginSchema.parse);
+	const { data: body, success } = await readValidatedBody(event, loginSchema.safeParse);
+	if (!success) {
+		throw serverError(400, 'invalid-body');
+	}
 
 	const user = await prisma.user.findUnique({
 		where: { username: body.username },

@@ -1,6 +1,4 @@
 import { z } from 'zod';
-import { checkPostBookmark } from '~/server/database/post/actions/bookmark';
-import { checkPostLike } from '~/server/database/post/actions/like';
 import { findPostById } from '~/server/database/post/crud/read';
 
 const schema = z.object({
@@ -14,28 +12,16 @@ export default defineEventHandler({
 
 		const post = await findPostById(params.id);
 		if (!post) {
-			throw createError({
-				statusCode: 404,
-				statusMessage: 'Not Found',
-				message: 'error/not-found',
-			});
+			throw serverError(404, 'not-found');
 		}
 
-		const userId = getCurrentUser(event, 'id');
+		const initiatorId = getCurrentUser(event, 'id');
 		try {
-			const status = {
-				liked: await checkPostLike(userId, post.id),
-				bookmarked: await checkPostBookmark(userId, post.id),
-			};
-
-			return { ...post, status };
+			const status = await getPostStatus(initiatorId, post.id);
+			return Object.assign(post, { status });
 		}
 		catch {
-			throw createError({
-				statusCode: 500,
-				statusMessage: 'Internal Server Error',
-				message: 'error/unknown',
-			});
+			throw serverError();
 		}
 	},
 });

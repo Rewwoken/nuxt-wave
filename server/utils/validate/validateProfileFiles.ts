@@ -1,36 +1,24 @@
 import type formidable from 'formidable';
 
-const MIMES = ['image/png', 'image/jpeg', 'image/webp'];
-export function validateProfileFiles(image: formidable.File | undefined, banner: formidable.File | undefined) {
-	if (image) {
-		validateFile(image, 'image');
+const ALLOWED_MIMES = ['image/png', 'image/jpeg', 'image/webp'] as const;
+const MAX_FILE_SIZE = 15_728_640; // 15mb
+
+export function validateProfileFiles(files: formidable.Files) {
+	const { image, banner } = files;
+
+	let imageFile: ValidatedFormFile | undefined;
+	let bannerFile: ValidatedFormFile | undefined;
+
+	if (image && image[0]) {
+		imageFile = validateFormFile(image[0], ALLOWED_MIMES, MAX_FILE_SIZE);
 	}
 
-	if (banner) {
-		validateFile(banner, 'banner');
+	if (banner && banner[0]) {
+		bannerFile = validateFormFile(banner[0], ALLOWED_MIMES, MAX_FILE_SIZE);
 	}
 
 	return {
-		image: image?.filepath,
-		banner: banner?.filepath,
+		imageFilepath: imageFile?.filepath,
+		bannerFilepath: bannerFile?.filepath,
 	};
-}
-
-function validateFile(file: formidable.File, name: string) {
-	const { filepath, mimetype, size } = file;
-
-	if (!filepath) {
-		const message = `error/${name}-no-filepath`;
-		throw serverError(400, message);
-	}
-
-	if (!mimetype || !MIMES.includes(mimetype)) {
-		const message = `error/${name}-invalid-type`;
-		throw serverError(400, message);
-	}
-
-	if (size > 15_728_640) { // 15mb
-		const message = `error/${name}-size`;
-		throw serverError(400, message);
-	}
 }
