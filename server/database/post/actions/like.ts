@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 
 export function likePost(initiatorUserId: string, postId: string) {
 	return prisma.postLikeRelation.create({

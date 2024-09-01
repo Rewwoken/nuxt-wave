@@ -1,35 +1,13 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
+import type { CreatePostArgs } from '~/server/types/post.types';
 
-export async function createPost(
-	userId: string,
-	rootId: string | null,
-	parentId: string | null,
-	text: string,
-	files: ValidatedFormFile[],
-) {
+export async function createPost(args: CreatePostArgs) {
 	return prisma.$transaction(async (tx) => {
-		const newPost = await tx.post.create({
-			data: {
-				user: { connect: { id: userId } },
-				parentPost: parentId
-					? ({ connect: { id: parentId } })
-					: undefined,
-				rootPost: rootId
-					? ({ connect: { id: rootId } })
-					: undefined,
-				text,
-			},
-			select: { id: true },
-		});
-
 		try {
-			await tx.post.createMediaFiles(newPost.id, files);
+			return await tx.post.createWithMediaFiles(args);
 		}
 		catch {
-			await tx.post.deleteMediaFiles(newPost.id);
 			throw new Error('error/unknown');
 		}
-
-		return newPost;
 	});
 }

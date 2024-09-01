@@ -1,5 +1,5 @@
 import { isAfter } from 'date-fns';
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 
 export async function verifyUser(userId: string, verificationCode: string) {
 	return prisma.$transaction(async (tx) => {

@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 import { findProfileByUserId } from '~/server/database/profile/crud/read';
 
 interface MediaInfo {

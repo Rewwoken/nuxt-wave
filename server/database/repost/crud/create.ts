@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 import { repostSelect } from '~/server/database/repost/options';
 
 export function createRepost(userId: string, postId: string, text: string | undefined) {

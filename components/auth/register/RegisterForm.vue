@@ -9,11 +9,15 @@
 		isSubmitting,
 	} = useZodForm(registerSchema);
 
-	const { submitRegister, serverError } = useRegisterRequest(() => {
-		emit('onClose');
-	});
+	const { submitRegister, serverError } = useRegisterRequest();
 
-	const onSubmit = handleSubmit(submitRegister);
+	function onSuccess() {
+		emit('onClose');
+	}
+
+	const onSubmit = handleSubmit(async (values) => {
+		await submitRegister(values, onSuccess);
+	});
 </script>
 
 <template>

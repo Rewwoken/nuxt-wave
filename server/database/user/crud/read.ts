@@ -1,5 +1,5 @@
 import type { Prisma } from '@prisma/client';
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 import { UserSelect } from '~/server/database/user/options';
 
 export async function findUniqueUser(where: Prisma.UserWhereUniqueInput) {

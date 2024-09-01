@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 
 export async function createUser(data: RegisterSchema) {
 	data.password = await hash(data.password);

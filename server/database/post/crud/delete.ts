@@ -1,11 +1,12 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 
-export async function deletePost(userId: string, postId: string) {
-	// ! Post deletion is extended in ~/server/database/index.ts
-	return prisma.post.delete({
-		where: {
-			id: postId,
-			user: { id: userId },
-		},
+export async function deletePost(id: string) {
+	return prisma.$transaction(async (tx) => {
+		try {
+			return await tx.post.deleteWithMediaFiles(id);
+		}
+		catch {
+			throw new Error('error/unknown');
+		}
 	});
 }

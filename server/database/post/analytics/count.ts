@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 
 export function countPostsByUserId(userId: string) {
 	return prisma.post.count({

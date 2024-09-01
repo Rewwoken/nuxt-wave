@@ -1,10 +1,10 @@
-export function useRegisterRequest(onSuccess: () => void) {
+export function useRegisterRequest() {
 	const { $api } = useNuxtApp();
 
 	const { handleRequest, serverError } = useHandleRequest();
 	const { showSuccess } = useNotification();
 
-	const submitRegister = async (values: RegisterSchema) => {
+	const submitRegister = async (values: RegisterSchema, onSuccess: () => void) => {
 		await handleRequest({
 			requestFunc: () => $api('/api/auth/register', {
 				method: 'POST',

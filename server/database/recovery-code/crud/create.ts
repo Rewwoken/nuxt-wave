@@ -1,5 +1,5 @@
 import { addMinutes } from 'date-fns';
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 
 export async function createRecoveryCode(userId: string) {
 	const code = crypto.randomUUID();

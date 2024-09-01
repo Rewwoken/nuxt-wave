@@ -1,5 +1,5 @@
 import argon2 from 'argon2';
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 
 export default defineEventHandler(async (event) => {
 	const { data: body, success } = await readValidatedBody(event, loginSchema.safeParse);

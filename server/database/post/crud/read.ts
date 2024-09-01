@@ -1,4 +1,4 @@
-import { prisma } from '~/server/database';
+import { prisma } from '~/server/prisma';
 import { POSTS_PER_PAGE, THREADS_PER_PAGE } from '~/server/database/post/constants';
 import { postSelect, postsOrder } from '~/server/database/post/options';
 
@@ -68,7 +68,7 @@ export function findPostById(id: string) {
 	});
 }
 
-export async function findPostWithRootIdById(id: string) {
+export async function findPostWithRootById(id: string) {
 	return prisma.post.findUnique({
 		where: { id },
 		select: {

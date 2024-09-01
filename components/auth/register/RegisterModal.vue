@@ -27,6 +27,6 @@
 		:draggable="false"
 		:modal="true"
 	>
-		<RegisterForm @on-submit="closeModal" />
+		<RegisterForm @on-close="closeModal" />
 	</Dialog>
 </template>
