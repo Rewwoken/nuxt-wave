@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import { invalidatePostsCache } from '~/server/cache/post/manager';
+import { invalidateThreadsCache } from '~/server/cache/thread/manager';
 import { cloudinaryDestroy, cloudinaryUpload } from '~/server/cloudinary';
 import { CLOUDINARY_FOLDERS } from '~/server/cloudinary/constants';
 
@@ -52,6 +54,24 @@ export const prisma = new PrismaClient()
 					);
 
 					return query(args);
+				},
+				async create({ args, query }) {
+					const createdPost = await query(args);
+
+					const userId = args.data.user?.connect?.id;
+					if (!userId) {
+						throw new Error('User ID connection is required');
+					}
+
+					const isReply = args.data.parentPost || args.data.rootPost;
+					if (isReply) {
+						await invalidateThreadsCache(userId);
+					}
+					else {
+						await invalidatePostsCache(userId);
+					}
+
+					return createdPost;
 				},
 			},
 		},

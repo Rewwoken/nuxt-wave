@@ -1,13 +1,12 @@
 import { z } from 'zod';
-import { findThreadsByUserId } from '~/server/database/post/crud/read';
+import { getCachedThreadsByUserId } from '~/server/cache/thread/service';
 
 const paramsSchema = z.object({
 	id: z.string(),
 });
 
 const querySchema = z.object({
-	skip: z.coerce.number().min(0).default(0),
-	take: z.coerce.number().min(1).max(10).default(3),
+	page: z.coerce.number().min(0).default(0),
 });
 
 export default defineEventHandler({
@@ -16,13 +15,9 @@ export default defineEventHandler({
 		const params = await getValidatedRouterParams(event, paramsSchema.parse);
 		const query = await getValidatedQuery(event, querySchema.parse);
 
-		const threads = await findThreadsByUserId(params.id, {
-			skip: query.skip,
-			take: query.take,
-		});
+		const threads = await getCachedThreadsByUserId(params.id, query.page);
 
 		const initiatorId = getCurrentUser(event, 'id');
-
 		try {
 			// Retrieve the status of each thread, parent post, and root post
 			const threadsWithStatuses = await Promise.all(

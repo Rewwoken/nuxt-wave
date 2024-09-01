@@ -31,7 +31,7 @@ export function useInfiniteWindowScroll(
 		// Use the resize auto-fill composable to safely handle initial loading and resizing
 		const { safeLoadMore } = useResizeAutoFill(list, loadMore, canLoadMore, options.distance);
 
-		// Get the current scroll position
+		// Get the current scroll reactive position
 		const { y } = useWindowScroll();
 
 		// Compute the distance to the bottom of the page

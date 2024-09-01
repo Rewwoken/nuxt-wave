@@ -42,13 +42,4 @@
 			:px="40"
 		/>
 	</div>
-	<!-- <div
-		class="flex min-w-[40px] flex-col items-center"
-	>
-		<UserImage
-			:src="imageUrl"
-			:px="40"
-		/>
-		<div class="h-full w-px border border-surface" />
-	</div> -->
 </template>

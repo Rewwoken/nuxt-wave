@@ -1,8 +1,6 @@
 <script setup lang="ts">
-	const route = useRoute();
-
+	const route = useRouter().currentRoute.value;
 	const username = route.params.username as string;
-	const selected = route.query.select as string;
 
 	const { data: user } = await useAPI('/api/user', {
 		method: 'GET',
@@ -21,12 +19,11 @@
 </script>
 
 <template>
-	<template v-if="user">
-		<Profile :user="user" />
-		<ProfileTabs
-			:selected="selected"
-			:username="user.username"
-			:user-id="user.id"
-		/>
-	</template>
+	<NuxtLayout name="default">
+		<template v-if="user">
+			<Profile :user="user" />
+			<ProfileTabs :username="user.username" />
+			<NuxtPage :user-id="user.id" />
+		</template>
+	</NuxtLayout>
 </template>

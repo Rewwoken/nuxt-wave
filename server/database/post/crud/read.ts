@@ -1,23 +1,23 @@
 import { prisma } from '~/server/database';
-import type { PaginationOptions } from '~/server/database/post/options';
+import { POSTS_PER_PAGE, THREADS_PER_PAGE } from '~/server/database/post/constants';
 import { postSelect, postsOrder } from '~/server/database/post/options';
 
 /**
  * Finds top-level (without a parent) posts by the given user ID.
  *
  * @param userId - The ID of the user to find posts for.
- * @param options - The pagination options to apply to the query.
+ * @param page - The page number for pagination.
  * @return A promise that resolves to an array of top-level posts.
  */
-export async function findPostsByUserId(userId: string, options: PaginationOptions) {
+export async function findPostsByUserId(userId: string, page: number) {
 	return prisma.post.findMany({
 		where: {
 			user: { id: userId },
 			parentPost: { is: null }, // ! Find only top-level posts
 		},
 		select: postSelect,
-		skip: options.skip,
-		take: options.take,
+		skip: page * POSTS_PER_PAGE,
+		take: POSTS_PER_PAGE,
 		orderBy: postsOrder,
 	});
 }
@@ -26,10 +26,10 @@ export async function findPostsByUserId(userId: string, options: PaginationOptio
  * Finds threads (posts with a parent and root post) by the given user ID.
  *
  * @param userId - The ID of the user to find threads for.
- * @param options - The pagination options to apply to the query.
+ * @param page - The page number for pagination.
  * @return A promise that resolves to an array of threads.
  */
-export async function findThreadsByUserId(userId: string, options: PaginationOptions) {
+export async function findThreadsByUserId(userId: string, page: number) {
 	return prisma.post.findMany({
 		where: {
 			user: { id: userId },
@@ -55,8 +55,8 @@ export async function findThreadsByUserId(userId: string, options: PaginationOpt
 			},
 		},
 		distinct: ['rootPostId'], // ! Distinct by root posts to avoid fetching posts from the same thread multiple times
-		skip: options.skip,
-		take: options.take,
+		skip: page * THREADS_PER_PAGE,
+		take: THREADS_PER_PAGE,
 		orderBy: postsOrder,
 	});
 }

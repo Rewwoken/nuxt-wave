@@ -1,8 +1,4 @@
 <script setup lang="ts">
-	// TODO: Implement a solution to prevent posts from loading on tab change
-	// Consider optimizing the scroll event listener to avoid unnecessary triggers
-	// Investigate and refine the window Y position tracking mechanism
-
 	const props = defineProps<{
 		userId: string;
 	}>();
@@ -39,11 +35,4 @@
 			/>
 		</li>
 	</ol>
-	<Message
-		v-if="!canLoadMore && limit !== 0"
-		severity="secondary"
-		pt:root:class="m-2"
-	>
-		That's all the posts!
-	</Message>
 </template>

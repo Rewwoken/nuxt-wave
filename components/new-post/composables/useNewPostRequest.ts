@@ -1,19 +1,16 @@
 import type { MediaItem } from '~/types/new-post.types';
 
-interface UseNewPostFormParams {
-	parentId?: string;
-	onSuccess: () => void;
-}
 export function useNewPostRequest() {
-	const { handleRequest } = useHandleRequest();
-
 	const { $api } = useNuxtApp();
+
+	const { handleRequest } = useHandleRequest();
 	const { showInfo, showError } = useNotification();
 
-	const onNewPostSubmit = async (
+	const submitNewPost = async (
 		values: CreatePostSchema,
 		items: Ref<MediaItem[]>,
-		{ parentId, onSuccess }: UseNewPostFormParams,
+		parentId: string | undefined,
+		onSuccess: () => void,
 	) => {
 		const formData = new FormData();
 
@@ -43,5 +40,5 @@ export function useNewPostRequest() {
 		});
 	};
 
-	return { onNewPostSubmit };
+	return { submitNewPost };
 }

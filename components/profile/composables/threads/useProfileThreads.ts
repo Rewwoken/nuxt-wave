@@ -1,25 +1,21 @@
+// ? TODO: client cache
+// ? TODO: reusable composable for posts and threads
 import type { Thread } from '~/types/api.types';
-
-const THREADS_COUNT = 3;
 
 export async function useProfileThreads(userId: string) {
 	const threads = ref<Thread[]>([]);
+	const { count: page, inc: nextPage } = useCounter(0);
 
 	const { $api } = useNuxtApp();
 	async function loadMore() {
-		// const shouldCache = threads.value.length < (THREADS_COUNT * 2);
-
 		const moreData = await $api(`/api/user/${userId}/threads`, {
 			method: 'GET',
-			params: { skip: threads.value.length, take: THREADS_COUNT },
-			// cache: shouldCache ? 'force-cache' : 'default',
+			params: { page: page.value },
 		});
 
 		threads.value.push(...moreData);
+		nextPage();
 	}
 
-	return {
-		threads,
-		loadMore,
-	};
+	return { threads, loadMore };
 }

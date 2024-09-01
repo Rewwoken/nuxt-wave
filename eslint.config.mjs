@@ -14,6 +14,7 @@ export default antfu(
 				'node/prefer-global/process': ['error', 'always'],
 				'style/indent': ['off'],
 				'quotes': ['error', 'single', { avoidEscape: true }],
+				'jsdoc/no-types': ['error', { contexts: ['*'] }],
 			},
 		},
 		vue: {

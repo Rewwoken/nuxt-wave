@@ -16,7 +16,7 @@
 		resetForm,
 	} = useZodForm(createPostSchema);
 	const { items, handleMediaAdd, handleMediaDelete } = useNewPostMedia();
-	const { onNewPostSubmit } = useNewPostRequest();
+	const { submitNewPost } = useNewPostRequest();
 
 	function onSuccess() {
 		items.value = [];
@@ -25,10 +25,7 @@
 	}
 
 	const onSubmit = handleSubmit(async (values) => {
-		await onNewPostSubmit(values, items, {
-			parentId: props.parentId,
-			onSuccess,
-		});
+		await submitNewPost(values, items, props.parentId, onSuccess);
 	});
 </script>
 

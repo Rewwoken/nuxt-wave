@@ -32,11 +32,7 @@
 			to="/bookmarks"
 			text="Bookmarks"
 		/>
-		<NavLink
-			icon="pi-user"
-			text="Profile"
-			:to="`/${currentUser.username}`"
-		/>
+		<NavProfile :username="currentUser.username" />
 		<NavLink
 			icon="pi-ellipsis-h"
 			to="/settings"

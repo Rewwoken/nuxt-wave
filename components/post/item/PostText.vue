@@ -3,7 +3,7 @@
 		data: string;
 	}>();
 
-	// TODO: highlight tags
+// TODO: highlight tags
 </script>
 
 <template>

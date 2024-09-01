@@ -1,4 +1,5 @@
 <script setup lang="ts">
+	// TODO: Display counts as relative numbers (e.g. "1K" instead of "1000")
 	import type { Post } from '~/types/api.types';
 
 	defineProps<{

@@ -1,13 +1,12 @@
 import { z } from 'zod';
-import { findPostsByUserId } from '~/server/database/post/crud/read';
+import { getCachedPostsByUserId } from '~/server/cache/post/service';
 
 const paramsSchema = z.object({
 	id: z.string(),
 });
 
 const querySchema = z.object({
-	skip: z.coerce.number().min(0).default(0),
-	take: z.coerce.number().min(1).max(20).default(5),
+	page: z.coerce.number().min(0).default(0),
 });
 
 export default defineEventHandler({
@@ -16,13 +15,9 @@ export default defineEventHandler({
 		const params = await getValidatedRouterParams(event, paramsSchema.parse);
 		const query = await getValidatedQuery(event, querySchema.parse);
 
-		const posts = await findPostsByUserId(params.id, {
-			skip: query.skip,
-			take: query.take,
-		});
+		const posts = await getCachedPostsByUserId(params.id, query.page);
 
 		const initiatorId = getCurrentUser(event, 'id');
-
 		try {
 			const postsWithStatus = await Promise.all(
 				posts.map(async (post) => {

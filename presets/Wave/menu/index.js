@@ -1,5 +1,5 @@
 export default {
-		root: {
+	root: {
 		class: [
 			// Sizing and Shape
 			'min-w-[12rem]',
