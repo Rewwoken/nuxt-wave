@@ -12,6 +12,8 @@ export default defineEventHandler(async (event) => {
 		return await verifyUser(query.id, query.code);
 	}
 	catch (err) {
+		console.error('Error verifying user', err);
+
 		if (err instanceof Error) {
 			if (err.message === 'error/expired') {
 				await deleteUserById(query.id);

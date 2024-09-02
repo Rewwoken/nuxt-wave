@@ -14,10 +14,11 @@ export default defineEventHandler(async (event) => {
 	}
 
 	try {
-		setResponseStatus(event, 200);
 		return await recoverUserPassword(query.id, body.password, query.code);
 	}
 	catch (err) {
+		console.error('Error recovering user password', err);
+
 		if (err instanceof Error) {
 			if (err.message === 'error/not-found') {
 				throw serverError(404, 'not-found');

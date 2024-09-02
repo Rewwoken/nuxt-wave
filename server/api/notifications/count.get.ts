@@ -1,9 +1,6 @@
 // TODO: implement countNotifications function
-export default defineEventHandler({
-	onRequest: [auth],
-	handler: () => {
-		// const id = getCurrentUser('id');
-		// return countNotificationsByUserId(id);
-		return 2;
-	},
+export default defineAuthEventHandler(() => {
+	// const id = authUser('id');
+	// return countNotificationsByUserId(id);
+	return 2;
 });

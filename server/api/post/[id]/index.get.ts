@@ -5,23 +5,21 @@ const schema = z.object({
 	id: z.string(),
 });
 
-export default defineEventHandler({
-	onRequest: [auth],
-	handler: async (event) => {
-		const params = await getValidatedRouterParams(event, schema.parse);
+export default defineAuthEventHandler(async (event) => {
+	const params = await getValidatedRouterParams(event, schema.parse);
 
-		const post = await findPostById(params.id);
-		if (!post) {
-			throw serverError(404, 'not-found');
-		}
+	const post = await findPostById(params.id);
+	if (!post) {
+		throw serverError(404, 'not-found');
+	}
 
-		const initiatorId = getCurrentUser(event, 'id');
-		try {
-			const status = await getPostStatus(initiatorId, post.id);
-			return Object.assign(post, { status });
-		}
-		catch {
-			throw serverError();
-		}
-	},
+	const initiatorId = authUser(event, 'id');
+	try {
+		const status = await getPostStatus(initiatorId, post.id);
+		return Object.assign(post, { status });
+	}
+	catch (err) {
+		console.error('Error retrieving post status:', err);
+		throw serverError();
+	}
 });

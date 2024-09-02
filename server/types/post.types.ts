@@ -1,4 +1,4 @@
-export interface CreatePostArgs {
+export interface CreatePostData {
 	userId: string;
 	rootId?: string;
 	parentId?: string;

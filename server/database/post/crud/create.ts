@@ -1,10 +1,10 @@
 import { prisma } from '~/server/prisma';
-import type { CreatePostArgs } from '~/server/types/post.types';
+import type { CreatePostData } from '~/server/types/post.types';
 
-export async function createPost(args: CreatePostArgs) {
+export async function createPost(data: CreatePostData) {
 	return prisma.$transaction(async (tx) => {
 		try {
-			return await tx.post.createWithMediaFiles(args);
+			return await tx.post.createWithMediaFiles(data);
 		}
 		catch {
 			throw new Error('error/unknown');

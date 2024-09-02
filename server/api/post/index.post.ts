@@ -9,40 +9,44 @@ const schema = z.object({
 	parentId: z.string().optional(),
 });
 
-export default defineEventHandler({
-	onRequest: [auth],
-	handler: async (event) => {
-		const { success: querySuccess, data: query } = await getValidatedQuery(event, schema.safeParse);
-		if (!querySuccess) {
-			throw serverError(400, 'invalid-query');
-		}
+export default defineAuthEventHandler(async (event) => {
+	const { success: successQuery, data: query } = await getValidatedQuery(event, schema.safeParse);
+	if (!successQuery) {
+		throw serverError(400, 'invalid-query');
+	}
 
-		const formParse = await parseForm(event.node.req);
-		const joinedText = formParse.fields.text ? joinFormField(formParse.fields.text) : ''; // TODO: handle \n
+	const formParse = await parseForm(event.node.req);
+	const joinedText = formParse.fields.text ? joinFormField(formParse.fields.text) : ''; // TODO: handle \n
 
-		const { success: textSuccess, data: text } = postTextSchema.safeParse(joinedText);
-		if (!textSuccess) {
-			throw serverError(400, 'invalid-text');
-		}
+	const { success: successText, data: text } = postTextSchema.safeParse(joinedText);
+	if (!successText) {
+		throw serverError(400, 'invalid-text');
+	}
 
-		const files = validateFormFiles(formParse.files, ALLOWED_MIMES, MAX_FILE_SIZE);
-		const userId = getCurrentUser(event, 'id');
+	const files = validateFormFiles(formParse.files, ALLOWED_MIMES, MAX_FILE_SIZE);
+	const userId = authUser(event, 'id');
 
-		const parentId = query.parentId;
-		if (!parentId) {
-			return createPost({ userId, text, files });
-		}
+	const parentId = query.parentId;
+	if (!parentId) {
+		return createPost({ userId, text, files });
+	}
 
-		const parentPost = await findPostWithRootById(parentId);
-		if (!parentPost) {
-			throw serverError(404, 'parent-not-found');
-		}
+	const parentPost = await findPostWithRootById(parentId);
+	if (!parentPost) {
+		throw serverError(404, 'parent-not-found');
+	}
 
-		// Determine the root post ID:
-		// If the parent post has a root post, use that root post's ID.
-		// Otherwise, the parent post itself is the root, so use the parent's ID.
-		const rootId = parentPost?.rootPost?.id ?? parentId;
+	// Determine the root post ID:
+	// If the parent post has a root post, use that root post's ID.
+	// Otherwise, the parent post itself is the root, so use the parent's ID.
+	const rootId = parentPost?.rootPost?.id ?? parentId;
 
-		return createPost({ userId, rootId, parentId, text, files });
-	},
+	setResponseStatus(event, 201);
+	try {
+		return await createPost({ userId, rootId, parentId, text, files });
+	}
+	catch (err) {
+		console.error('Error creating post:', err);
+		throw serverError();
+	}
 });

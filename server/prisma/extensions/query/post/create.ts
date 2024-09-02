@@ -15,8 +15,13 @@ export const postQueryCreateExtension = Prisma.defineExtension((client) => {
 						throw new Error('User ID connection is required!');
 					}
 
-					const isReply = !!(args.data.parentPost || args.data.rootPost);
-					await (isReply ? invalidateThreadsCache : invalidatePostsCache)(userId);
+					const isReply = args.data.parentPost || args.data.rootPost;
+					if (isReply) {
+						await invalidateThreadsCache(userId);
+					}
+					else {
+						await invalidatePostsCache(userId);
+					}
 
 					return createdPost;
 				},

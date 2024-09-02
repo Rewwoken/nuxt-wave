@@ -8,15 +8,7 @@ export async function recoverUserPassword(userId: string, newPassword: string, r
 				id: userId,
 				recoveryCode: { value: recoveryCode },
 			},
-			select: {
-				id: true,
-				recoveryCode: {
-					select: {
-						id: true,
-						expiresIn: true,
-					},
-				},
-			},
+			include: { recoveryCode: true },
 		});
 		if (!user) {
 			throw new Error('error/not-found');
@@ -31,14 +23,12 @@ export async function recoverUserPassword(userId: string, newPassword: string, r
 		await tx.user.update({
 			where: { id: user.id },
 			data: {
-				password: await hash(newPassword),
+				password: await hashPassword(newPassword),
 			},
 		});
 
 		await tx.recoveryCode.delete({
 			where: { id: user.recoveryCode!.id },
 		});
-
-		return user;
 	});
 }

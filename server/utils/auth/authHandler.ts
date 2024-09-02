@@ -1,7 +1,8 @@
-import type { H3Event } from 'h3';
+import type { EventHandler, H3Event } from 'h3';
 import { findUniqueUser } from '~/server/database/user/crud/read';
 
-export default defineEventHandler(async (event) => {
+// TODO: keep refreshToken in database
+export const authHandler = defineEventHandler(async (event) => {
 	const authorizationHeader = getRequestHeader(event, 'authorization');
 	const accessToken = authorizationHeader?.split(' ')[1];
 
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
 	const cookies = parseCookies(event);
 	const isRefreshValid = verifyToken(cookies.refreshToken);
 	if (!isRefreshValid) {
-		throw serverError(401, 'ivalid-refresh');
+		throw serverError(401, 'invalid-refresh');
 	}
 
 	const { id } = decodeToken(cookies.refreshToken);
@@ -30,8 +31,21 @@ async function handleVerifiedToken(event: H3Event, value: string) {
 
 	const user = await findUniqueUser({ id });
 	if (!user) {
-		throw serverError(401, 'ivalid-user');
+		throw serverError(401, 'invalid-user');
 	}
 
 	event.context.user = user;
+}
+
+/**
+ * A shortcut for `defineEventHandler` using `authHandler` on request.
+ *
+ * @param handler - The event handler to be wrapped with authentication.
+ * @returns The event handler wrapped with authentication.
+ */
+export function defineAuthEventHandler(handler: EventHandler) {
+	return defineEventHandler({
+		onRequest: [authHandler],
+		handler,
+	});
 }

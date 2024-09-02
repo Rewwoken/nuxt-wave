@@ -1,8 +1,5 @@
-import { isAfter } from 'date-fns';
 import { createUser } from '~/server/database/user/crud/create';
-import { deleteUserById } from '~/server/database/user/crud/delete';
-import { findFirstUser } from '~/server/database/user/crud/read';
-import { createVerificationCode } from '~/server/database/verification-code/crud/create';
+import { findUserByUsernameOrEmail } from '~/server/database/user/crud/read';
 
 export default defineEventHandler(async (event) => {
 	const { success: successBody, data: body } = await readValidatedBody(event, registerSchema.safeParse);
@@ -10,29 +7,17 @@ export default defineEventHandler(async (event) => {
 		throw serverError(400, 'invalid-body');
 	}
 
-	const existingUser = await findFirstUser({
-		OR: [{ email: body.email }, { username: body.username }],
-	});
+	const existingUser = await findUserByUsernameOrEmail(body.username, body.email);
 	if (existingUser) {
-		if (existingUser.verifiedOn !== null) {
-			throw serverError(400, 'user-exists');
-		}
-
-		// If code has expired, delete unverified user, otherwise throw an error
-		const isCodeExpired = isAfter(new Date(), existingUser.verificationCode!.expiresIn);
-		if (!isCodeExpired) {
-			throw serverError(400, 'not-expired');
-		}
-
-		await deleteUserById(existingUser.id);
+		throw serverError(400, 'user-exists');
 	}
 
-	const newUser = await createUser(body);
-
-	// TODO: make email verification optional
-	const verificationCode = await createVerificationCode(newUser.id);
-	await sendVerificationEmail(body.email, newUser.id, verificationCode.value);
-
 	setResponseStatus(event, 201);
-	return newUser;
+	try {
+		return await createUser(body);
+	}
+	catch (err) {
+		console.error('Error creating user:', err);
+		throw serverError();
+	}
 });

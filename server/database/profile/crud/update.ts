@@ -1,5 +1,6 @@
 import { prisma } from '~/server/prisma';
 import { findProfileByUserId } from '~/server/database/profile/crud/read';
+import { CLOUDINARY_FOLDERS } from '~/server/cloudinary/constants';
 
 interface MediaInfo {
 	url: string;
@@ -15,8 +16,8 @@ export async function updateProfile(userId: string, text?: UpdateProfileSchema, 
 	const profile = await findProfileByUserId(userId);
 
 	const updatedMedia: UpdatedMedia = {
-		image: await updateMediaIfProvided(imageUrl, profile?.imagePublicId),
-		banner: await updateMediaIfProvided(bannerUrl, profile?.bannerPublicId),
+		image: await updateMediaIfProvided(imageUrl, profile?.imagePublicId, CLOUDINARY_FOLDERS.USER_IMAGES),
+		banner: await updateMediaIfProvided(bannerUrl, profile?.bannerPublicId, CLOUDINARY_FOLDERS.USER_BANNERS),
 	};
 
 	return prisma.profile.update({

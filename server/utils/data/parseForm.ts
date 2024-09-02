@@ -4,8 +4,13 @@ import formidable from 'formidable';
 export async function parseForm(req: IncomingMessage) {
 	const form = formidable();
 
-	// ? Potential improvement: handle errors
-	const [fields, files] = await form.parse(req);
+	try {
+		const [fields, files] = await form.parse(req);
 
-	return { fields, files };
+		return { fields, files };
+	}
+	catch (error) {
+		console.error('Error parsing request form:', error);
+		throw serverError(400, 'invalid-form');
+	}
 }

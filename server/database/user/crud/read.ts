@@ -9,16 +9,20 @@ export async function findUniqueUser(where: Prisma.UserWhereUniqueInput) {
 	});
 }
 
+// Used in /api/auth/login.post.ts
+export async function findUserByUsername(username: string) {
+	return prisma.user.findUnique({
+		where: { username },
+	});
+}
+
 // Used in /api/auth/register.post.ts
-export async function findFirstUser(where: Prisma.UserWhereInput) {
+export async function findUserByUsernameOrEmail(username: string, email: string) {
 	return prisma.user.findFirst({
-		where,
-		select: {
-			id: true,
-			email: true,
-			verifiedOn: true,
-			verificationCode: true,
+		where: {
+			OR: [{ email }, { username }],
 		},
+		include: { verificationCode: true },
 	});
 }
 
@@ -26,9 +30,6 @@ export async function findFirstUser(where: Prisma.UserWhereInput) {
 export async function findUserByEmail(email: string) {
 	return prisma.user.findUnique({
 		where: { email },
-		select: {
-			id: true,
-			recoveryCode: true,
-		},
+		include: { recoveryCode: true },
 	});
 }

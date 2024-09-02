@@ -1,31 +1,18 @@
-import argon2 from 'argon2';
-import { prisma } from '~/server/prisma';
+import { findUserByUsername } from '~/server/database/user/crud/read';
 
 export default defineEventHandler(async (event) => {
-	const { data: body, success } = await readValidatedBody(event, loginSchema.safeParse);
-	if (!success) {
+	const { success: successBody, data: body } = await readValidatedBody(event, loginSchema.safeParse);
+	if (!successBody) {
 		throw serverError(400, 'invalid-body');
 	}
 
-	const user = await prisma.user.findUnique({
-		where: { username: body.username },
-		select: {
-			id: true,
-			verifiedOn: true,
-			password: true,
-		},
-	});
-
+	const user = await findUserByUsername(body.username);
 	if (!user) {
 		throw serverError(400, 'credentials');
 	}
 
-	if (user.verifiedOn === null) {
-		throw serverError(400, 'not-verified');
-	}
-
-	const valid = await argon2.verify(user.password, body.password);
-	if (!valid) {
+	const isValid = await verifyPassword(user.password, body.password);
+	if (!isValid) {
 		throw serverError(400, 'credentials');
 	}
 

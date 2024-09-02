@@ -1,22 +1,24 @@
 import { bookmarkPost } from '~/server/database/post/actions/bookmark';
 import { likePost } from '~/server/database/post/actions/like';
 
-export default defineEventHandler({
-	onRequest: [auth],
-	handler: async (event) => {
-		const { success, data: params } = await getValidatedRouterParams(event, postActionSchema.safeParse);
-		if (!success) {
-			throw serverError(400, 'invalid-params');
-		}
+export default defineAuthEventHandler(async (event) => {
+	const { success: successParams, data: params } = await getValidatedRouterParams(event, postActionSchema.safeParse);
+	if (!successParams) {
+		throw serverError(400, 'invalid-params');
+	}
 
-		const initiatorId = getCurrentUser(event, 'id');
-
+	const initiatorId = authUser(event, 'id');
+	try {
 		if (params.action === 'like') {
-			return likePost(initiatorId, params.id);
+			return await likePost(initiatorId, params.id);
 		}
 
 		if (params.action === 'bookmark') {
-			return bookmarkPost(initiatorId, params.id);
+			return await bookmarkPost(initiatorId, params.id);
 		}
-	},
+	}
+	catch (err) {
+		console.error(`Error performing post ${params.action}:`, err);
+		throw serverError();
+	}
 });

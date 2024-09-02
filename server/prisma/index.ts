@@ -7,6 +7,10 @@ import { postQueryDeleteExtension } from '~/server/prisma/extensions/query/post/
 // ! Query extensions should be added before model extensions.
 // ! Because model extensions depend on query extensions.
 
+/**
+ * Prisma singleton instance, MUST be used for all database operations.
+ * This ensures that all extensions and configurations are applied consistently.
+ */
 export const prisma = new PrismaClient()
 	// Query extensions
 	.$extends(postQueryCreateExtension)

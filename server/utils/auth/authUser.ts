@@ -9,9 +9,9 @@ type UserKey = keyof ContextUser;
  * @returns The entire user object if no key is provided, otherwise the value of the specified key.
  *
  * @throws Throws an error if the user is not authenticated.
- * @note This function assumes that the authentication middleware has been executed and the user object is present in the event context.
+ * @note This function assumes that the `authHandler` has been executed and the user object is present in the event context.
  */
-export function getCurrentUser(event: H3Event): ContextUser;
+export function authUser(event: H3Event): ContextUser;
 
 /**
  * @overload
@@ -20,21 +20,21 @@ export function getCurrentUser(event: H3Event): ContextUser;
  * @returns The specified key of the user object.
  *
  * @throws Throws an error if the user is not authenticated.
- * @note This function assumes that the authentication middleware has been executed and the user object is present in the event context.
+ * @note This function assumes that the `authHandler` has been executed and the user object is present in the event context.
  */
-export function getCurrentUser<KeyT extends UserKey>(event: H3Event, key: KeyT): ContextUser[KeyT];
+export function authUser<KeyT extends UserKey>(event: H3Event, key: KeyT): ContextUser[KeyT];
 
 /**
- * Retrieves the current user object or a specific property from the event context.
+ * Extracts the authenticated user entire object or a specific property from the event context.
  *
  * @param event - The event object containing the context.
  * @param key - The specific key of the user object to retrieve.
  * @returns The entire user object if no key is provided, otherwise the value of the specified key.
  *
  * @throws Throws an error if the user is not authenticated.
- * @note This function assumes that the authentication middleware has been executed and the user object is present in the event context.
+ * @note This function assumes that the `authHandler` has been executed and the user object is present in the event context.
  */
-export function getCurrentUser(event: H3Event, key?: UserKey) {
+export function authUser(event: H3Event, key?: UserKey) {
 	const user = event.context.user;
 
 	if (!user) {

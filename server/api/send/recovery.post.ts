@@ -15,14 +15,14 @@ export default defineEventHandler(async (event) => {
 	try {
 		const user = await findUserByEmail(body.email);
 		if (!user) {
-			return void 0;
+			return;
 		}
 
 		if (user.recoveryCode) {
 			const isCodeExpired = isAfter(new Date(), user.recoveryCode.expiresIn);
 
 			if (!isCodeExpired) {
-				return void 0;
+				return;
 			}
 
 			await deleteRecoveryCodeByUserId(user.id);
@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
 		const code = await createRecoveryCode(user.id);
 		await sendRecoveryEmail(body.email, user.id, code.value);
 	}
-	catch {
-		return void 0;
+	catch (err) {
+		console.error('Error recovering sending password recover:', err);
 	}
 });

@@ -1,7 +1,7 @@
 import { prisma } from '~/server/prisma';
 
 export async function createUser(data: RegisterSchema) {
-	data.password = await hash(data.password);
+	data.password = await hashPassword(data.password);
 
 	return prisma.$transaction(async (tx) => {
 		const user = await tx.user.create({

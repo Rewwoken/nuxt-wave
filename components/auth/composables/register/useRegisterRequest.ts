@@ -12,13 +12,10 @@ export function useRegisterRequest() {
 			}),
 			onSuccess: async () => {
 				onSuccess();
-				// For now the server still sends email verification
-				// but later it should became optional
 				showSuccess('User have been successfully registered.');
 			},
 			errors: {
 				'error/user-exists': 'User already exists!',
-				'error/not-expired': 'Previous code has not expired!',
 				'error/invalid-body': 'Invalid data!',
 				'error/unknown': 'Unexpected error!',
 			},

@@ -1,12 +1,16 @@
 import { cloudinaryUpload } from '~/server/cloudinary';
-import { CLOUDINARY_FOLDERS } from '~/server/cloudinary/constants';
+import type { CloudinaryFolder } from '~/server/cloudinary/constants';
 
 /** Uploads media to Cloudinary and returns the public ID and URL. */
-async function handleMediaUpload(url: string, currentPublicId: string | undefined | null) {
+async function handleMediaUpload(
+	url: string,
+	currentPublicId: string | undefined | null,
+	folder: CloudinaryFolder,
+) {
 	const { public_id, version } = await cloudinaryUpload(url, {
 		public_id: currentPublicId || undefined,
-		folder: CLOUDINARY_FOLDERS.USERS,
 		resource_type: 'image',
+		folder,
 	});
 
 	return {
@@ -19,9 +23,10 @@ async function handleMediaUpload(url: string, currentPublicId: string | undefine
 export async function updateMediaIfProvided(
 	url: string | undefined,
 	currentPublicId: string | undefined | null,
+	folder: CloudinaryFolder,
 ) {
 	if (url) {
-		return handleMediaUpload(url, currentPublicId);
+		return handleMediaUpload(url, currentPublicId, folder);
 	}
 
 	return undefined;

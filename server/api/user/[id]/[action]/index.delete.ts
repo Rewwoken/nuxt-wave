@@ -2,22 +2,24 @@ import { userActionSchema } from '~/schemas/actions/user-action';
 import { unBlockUser } from '~/server/database/user/actions/block';
 import { unFollowUser } from '~/server/database/user/actions/follow';
 
-export default defineEventHandler({
-	onRequest: [auth],
-	handler: async (event) => {
-		const { success, data: params } = await getValidatedRouterParams(event, userActionSchema.safeParse);
-		if (!success) {
-			throw serverError(400, 'invalid-params');
-		}
+export default defineAuthEventHandler(async (event) => {
+	const { success: successParams, data: params } = await getValidatedRouterParams(event, userActionSchema.safeParse);
+	if (!successParams) {
+		throw serverError(400, 'invalid-params');
+	}
 
-		const initiatorId = getCurrentUser(event, 'id');
-
+	const initiatorId = authUser(event, 'id');
+	try {
 		if (params.action === 'follow') {
-			return unFollowUser(initiatorId, params.id);
+			return await unFollowUser(initiatorId, params.id);
 		}
 
 		if (params.action === 'block') {
-			return unBlockUser(initiatorId, params.id);
+			return await unBlockUser(initiatorId, params.id);
 		}
-	},
+	}
+	catch (err) {
+		console.error(`Error performing ${params.action} deletion:`, err);
+		throw serverError();
+	}
 });

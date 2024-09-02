@@ -1,15 +1,15 @@
 import { findUniqueUser } from '~/server/database/user/crud/read';
 
 export default defineEventHandler(async (event) => {
-	const query = await getValidatedQuery(event, findUserSchema.safeParse);
-	if (!query.success) {
+	const { success: successQuery, data: query } = await getValidatedQuery(event, findUserSchema.safeParse);
+	if (!successQuery) {
 		throw serverError(400, 'invalid-query');
 	}
 
-	const findUser = await findUniqueUser(query.data);
-	if (!findUser) {
+	const user = await findUniqueUser(query);
+	if (!user) {
 		throw serverError(404, 'user-not-found');
 	}
 
-	return findUser;
+	return user;
 });

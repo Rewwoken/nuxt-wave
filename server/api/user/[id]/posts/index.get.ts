@@ -9,28 +9,26 @@ const querySchema = z.object({
 	page: z.coerce.number().min(0).default(0),
 });
 
-export default defineEventHandler({
-	onRequest: [auth],
-	handler: async (event) => {
-		const params = await getValidatedRouterParams(event, paramsSchema.parse);
-		const query = await getValidatedQuery(event, querySchema.parse);
+export default defineAuthEventHandler(async (event) => {
+	const params = await getValidatedRouterParams(event, paramsSchema.parse);
+	const query = await getValidatedQuery(event, querySchema.parse);
 
-		const posts = await getCachedPostsByUserId(params.id, query.page);
+	const posts = await getCachedPostsByUserId(params.id, query.page);
 
-		const initiatorId = getCurrentUser(event, 'id');
-		try {
-			const postsWithStatus = await Promise.all(
-				posts.map(async (post) => {
-					const status = await getPostStatus(initiatorId, post.id);
+	const initiatorId = authUser(event, 'id');
+	try {
+		const postsWithStatus = await Promise.all(
+			posts.map(async (post) => {
+				const status = await getPostStatus(initiatorId, post.id);
 
-					return Object.assign(post, { status });
-				}),
-			);
+				return Object.assign(post, { status });
+			}),
+		);
 
-			return postsWithStatus;
-		}
-		catch {
-			throw serverError();
-		}
-	},
+		return postsWithStatus;
+	}
+	catch (err) {
+		console.error('Error fetching post statuses:', err);
+		throw serverError();
+	}
 });
