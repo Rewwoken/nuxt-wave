@@ -1,7 +1,7 @@
 import { prisma } from '~/server/prisma';
 
-export function likePost(initiatorUserId: string, postId: string) {
-	return prisma.postLikeRelation.create({
+export async function likePost(initiatorUserId: string, postId: string) {
+	return await prisma.postLikeRelation.create({
 		data: {
 			initiatorUser: {
 				connect: { id: initiatorUserId },
@@ -13,8 +13,8 @@ export function likePost(initiatorUserId: string, postId: string) {
 	});
 }
 
-export function unLikePost(initiatorUserId: string, postId: string) {
-	return prisma.postLikeRelation.delete({
+export async function unLikePost(initiatorUserId: string, postId: string) {
+	return await prisma.postLikeRelation.delete({
 		where: {
 			initiatorUserId_likedPostId: {
 				initiatorUserId,

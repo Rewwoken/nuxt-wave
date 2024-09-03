@@ -5,9 +5,9 @@
 		user: User;
 	}>();
 
-	const currentUser = useCurrentUser();
-	const isCurrentUser = computed(() => {
-		return props.user.username === currentUser.value.username;
+	const { authUser } = useAuth();
+	const isauthUser = computed(() => {
+		return props.user.username === authUser.value.username;
 	});
 </script>
 
@@ -27,7 +27,7 @@
 	/>
 	<div class="mt-2 flex items-end px-3">
 		<ProfileImage :source="user.profile!.imageUrl" />
-		<ProfileEditModal v-if="isCurrentUser" />
+		<ProfileEditModal v-if="isauthUser " />
 		<div
 			v-else
 			class="ml-auto flex items-center gap-x-2"

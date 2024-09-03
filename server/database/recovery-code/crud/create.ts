@@ -5,7 +5,7 @@ export async function createRecoveryCode(userId: string) {
 	const code = crypto.randomUUID();
 	const expiresIn = addMinutes(new Date(), 10);
 
-	return prisma.recoveryCode.create({
+	return await prisma.recoveryCode.create({
 		data: {
 			user: {
 				connect: { id: userId },

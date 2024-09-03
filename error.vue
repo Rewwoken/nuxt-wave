@@ -10,9 +10,9 @@
 		: 'Go home';
 
 	const { logout } = useLogout();
-	function onNavigate() {
+	async function onNavigate() {
 		if (props.error.statusCode === 401) {
-			return logout();
+			return await logout();
 		}
 
 		navigateTo('/home');
@@ -31,7 +31,6 @@
 </script>
 
 <template>
-	<pre>{{ props.error }}</pre>
 	<main class="flex h-dvh flex-col items-center justify-center bg-color text-color">
 		<h1 class="mb-6 text-4xl">
 			{{ error.statusCode }} - {{ error.statusMessage || 'Unknown' }}

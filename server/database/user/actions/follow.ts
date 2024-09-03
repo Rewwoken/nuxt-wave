@@ -1,7 +1,7 @@
 import { prisma } from '~/server/prisma';
 
-export function followUser(initiatorUserId: string, userIdToFollow: string) {
-	return prisma.followRelation.create({
+export async function followUser(initiatorUserId: string, userIdToFollow: string) {
+	return await prisma.followRelation.create({
 		data: {
 			initiatorUser: {
 				connect: { id: initiatorUserId },
@@ -18,8 +18,8 @@ export function followUser(initiatorUserId: string, userIdToFollow: string) {
 	});
 }
 
-export function unFollowUser(initiatorUserId: string, userIdToUnFollow: string) {
-	return prisma.followRelation.delete({
+export async function unFollowUser(initiatorUserId: string, userIdToUnFollow: string) {
+	return await prisma.followRelation.delete({
 		where: {
 			initiatorUserId_followedUserId: {
 				initiatorUserId,

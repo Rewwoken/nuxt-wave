@@ -19,14 +19,14 @@ export const postModelDeleteExtension = Prisma.defineExtension((client) => {
 					const context = Prisma.getExtensionContext(this);
 					const mediaFilesPromises = deletedPost.mediaFiles.map(
 						async (file) => {
-							return context.deletePostMediaFileWithCloudinary(file.id);
+							return await context.deletePostMediaFileWithCloudinary(file.id);
 						},
 					);
 
 					try {
 						await Promise.all(mediaFilesPromises);
 					}
- catch (err) {
+					catch (err) {
 						console.error('Error deleting post media files:', err);
 						throw new Error('Failed to delete post media files!');
 					}
@@ -42,7 +42,7 @@ export const postModelDeleteExtension = Prisma.defineExtension((client) => {
 					try {
 						await cloudinaryDestroy(deletedMediaFile.publicId);
 					}
- catch (err) {
+					catch (err) {
 						console.error('Error deleting media file from Cloudinary:', err);
 						throw new Error('Failed to delete media file from Cloudinary!');
 					}

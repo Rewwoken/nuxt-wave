@@ -1,7 +1,7 @@
 import { prisma } from '~/server/prisma';
 
-export function blockUser(userId: string, userIdToBlock: string) {
-	return prisma.blockRelation.create({
+export async function blockUser(userId: string, userIdToBlock: string) {
+	return await prisma.blockRelation.create({
 		data: {
 			initiatorUser: {
 				connect: { id: userId },
@@ -18,8 +18,8 @@ export function blockUser(userId: string, userIdToBlock: string) {
 	});
 }
 
-export function unBlockUser(userId: string, userIdToUnBlock: string) {
-	return prisma.blockRelation.delete({
+export async function unBlockUser(userId: string, userIdToUnBlock: string) {
+	return await prisma.blockRelation.delete({
 		where: {
 			initiatorUserId_blockedUserId: {
 				initiatorUserId: userId,

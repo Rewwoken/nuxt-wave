@@ -23,7 +23,7 @@ export const postModelCreateExtension = Prisma.defineExtension((client) => {
 
 					const mediaFilesPromises = data.files.map(
 						async (file) => {
-							return context.createPostMediaFileWithCloudinary(newPost.id, file);
+							return await context.createPostMediaFileWithCloudinary(newPost.id, file);
 						},
 					);
 
@@ -42,7 +42,7 @@ export const postModelCreateExtension = Prisma.defineExtension((client) => {
 						resource_type: file.type,
 					});
 
-					return client.mediaFile.create({
+					return await client.mediaFile.create({
 						data: {
 							postId,
 							publicId: public_id,

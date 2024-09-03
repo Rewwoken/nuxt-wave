@@ -11,6 +11,7 @@ export async function useProfilePosts(userId: string) {
 		const moreData = await $api(`/api/user/${userId}/posts`, {
 			method: 'GET',
 			query: { page: page.value },
+			// cache: 'no-store',
 		});
 
 		posts.value.push(...moreData);

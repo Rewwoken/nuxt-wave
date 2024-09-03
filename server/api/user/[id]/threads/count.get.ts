@@ -8,5 +8,5 @@ const paramsSchema = z.object({
 export default defineEventHandler(async (event) => {
 	const params = await getValidatedRouterParams(event, paramsSchema.parse);
 
-	return countThreadsByUserId(params.id);
+	return await countThreadsByUserId(params.id);
 });

@@ -10,7 +10,6 @@ export default antfu(
 			quotes: 'single',
 			indent: 'tab',
 			overrides: {
-				'no-return-await': ['error'],
 				'node/prefer-global/process': ['error', 'always'],
 				'style/indent': ['off'],
 				'quotes': ['error', 'single', { avoidEscape: true }],

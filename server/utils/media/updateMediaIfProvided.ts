@@ -26,8 +26,8 @@ export async function updateMediaIfProvided(
 	folder: CloudinaryFolder,
 ) {
 	if (url) {
-		return handleMediaUpload(url, currentPublicId, folder);
+		return await handleMediaUpload(url, currentPublicId, folder);
 	}
 
-	return undefined;
+	return null;
 }

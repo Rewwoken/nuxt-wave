@@ -15,10 +15,10 @@ interface Options extends UploadApiOptions {
 	folder: CloudinaryFolder;
 }
 
-export function cloudinaryUpload(path: string, options: Options) {
-	return cloudinary.uploader.upload(path, options);
+export async function cloudinaryUpload(path: string, options: Options) {
+	return await cloudinary.uploader.upload(path, options);
 }
 
-export function cloudinaryDestroy(publicId: string) {
-	return cloudinary.uploader.destroy(publicId);
+export async function cloudinaryDestroy(publicId: string) {
+	return await cloudinary.uploader.destroy(publicId);
 }

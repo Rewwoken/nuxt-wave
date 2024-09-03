@@ -2,7 +2,7 @@ import { isAfter } from 'date-fns';
 import { prisma } from '~/server/prisma';
 
 export async function verifyUser(userId: string, verificationCode: string) {
-	return prisma.$transaction(async (tx) => {
+	return await prisma.$transaction(async (tx) => {
 		const user = await tx.user.findUnique({
 			where: {
 				id: userId,

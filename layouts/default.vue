@@ -1,13 +1,13 @@
 <script setup lang="ts">
 	const { $api } = useNuxtApp();
-	const data = useCurrentUser();
+	const { authUser } = useAuth();
 
 	await callOnce(async () => {
 		const response = await $api('/api/me', {
 			method: 'GET',
 		});
 
-		data.value = response;
+		authUser.value = response;
 	});
 </script>
 

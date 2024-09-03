@@ -3,8 +3,8 @@
 		(e: 'onFile', file: File): void;
 	}>();
 
-	const currentUser = useCurrentUser();
-	const currentBanner = currentUser.value.profile!.bannerUrl;
+	const { authUser } = useAuth();
+	const currentBanner = authUser.value.profile!.bannerUrl;
 
 	const banner = ref(currentBanner);
 	const hiddenInput = ref();

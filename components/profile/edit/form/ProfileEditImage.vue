@@ -3,8 +3,8 @@
 		(e: 'onFile', file: File): void;
 	}>();
 
-	const currentUser = useCurrentUser();
-	const currentImage = currentUser.value.profile!.imageUrl;
+	const { authUser } = useAuth();
+	const currentImage = authUser.value.profile!.imageUrl;
 
 	const image = ref(currentImage);
 	const hiddenInput = ref();

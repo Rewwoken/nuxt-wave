@@ -7,7 +7,7 @@
 		(event: 'onSuccess'): void;
 	}>();
 
-	const currentUser = useCurrentUser();
+	const { authUser } = useAuth();
 
 	const {
 		hasErrors,
@@ -31,7 +31,7 @@
 
 <template>
 	<UserImage
-		:src="currentUser.profile!.imageUrl"
+		:src="authUser .profile!.imageUrl"
 		:px="48"
 	/>
 	<form

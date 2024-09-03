@@ -1,7 +1,7 @@
 import { prisma } from '~/server/prisma';
 
-export function countPostsByUserId(userId: string) {
-	return prisma.post.count({
+export async function countPostsByUserId(userId: string) {
+	return await prisma.post.count({
 		where: {
 			user: { id: userId },
 			parentPost: { is: null },
@@ -11,7 +11,7 @@ export function countPostsByUserId(userId: string) {
 
 // Not supported yet: https://github.com/prisma/prisma/issues/4228
 // export function countThreadsByUserId(userId: string) {
-// 	return prisma.post.count({
+// 	return await prisma.post.count({
 // 		where: {
 // 			user: { id: userId },
 // 			parentPost: { isNot: null },

@@ -1,4 +1,3 @@
-import { codeSchema } from '~/schemas/auth/code';
 import { deleteUserById } from '~/server/database/user/crud/delete';
 import { verifyUser } from '~/server/database/verification-code/verify';
 

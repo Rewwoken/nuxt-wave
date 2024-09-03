@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	const currentUser = useCurrentUser();
+	const { authUser } = useAuth();
 </script>
 
 <template>
@@ -32,7 +32,7 @@
 			to="/bookmarks"
 			text="Bookmarks"
 		/>
-		<NavProfile :username="currentUser.username" />
+		<NavProfile :username="authUser .username" />
 		<NavLink
 			icon="pi-ellipsis-h"
 			to="/settings"

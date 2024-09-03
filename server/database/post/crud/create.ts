@@ -2,7 +2,7 @@ import { prisma } from '~/server/prisma';
 import type { CreatePostData } from '~/server/types/post.types';
 
 export async function createPost(data: CreatePostData) {
-	return prisma.$transaction(async (tx) => {
+	return await prisma.$transaction(async (tx) => {
 		try {
 			return await tx.post.createWithMediaFiles(data);
 		}

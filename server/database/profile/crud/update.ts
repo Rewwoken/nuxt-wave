@@ -20,7 +20,7 @@ export async function updateProfile(userId: string, text?: UpdateProfileSchema, 
 		banner: await updateMediaIfProvided(bannerUrl, profile?.bannerPublicId, CLOUDINARY_FOLDERS.USER_BANNERS),
 	};
 
-	return prisma.profile.update({
+	return await prisma.profile.update({
 		where: { userId },
 		data: {
 			...text,

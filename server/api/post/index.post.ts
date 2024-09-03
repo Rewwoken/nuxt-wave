@@ -28,7 +28,7 @@ export default defineAuthEventHandler(async (event) => {
 
 	const parentId = query.parentId;
 	if (!parentId) {
-		return createPost({ userId, text, files });
+		return await createPost({ userId, text, files });
 	}
 
 	const parentPost = await findPostWithRootById(parentId);

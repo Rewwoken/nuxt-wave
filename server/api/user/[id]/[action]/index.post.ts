@@ -1,4 +1,3 @@
-import { userActionSchema } from '~/schemas/actions/user-action';
 import { blockUser } from '~/server/database/user/actions/block';
 import { followUser } from '~/server/database/user/actions/follow';
 

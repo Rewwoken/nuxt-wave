@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	const currentUser = useCurrentUser();
+	const { authUser } = useAuth();
 	const { data: count } = await useAPI('/api/notifications/count', {
 		method: 'GET',
 		dedupe: 'defer',
@@ -49,7 +49,7 @@
 		/>
 		<MobileNavLink
 			icon="pi-user"
-			:to="`/${currentUser.username}`"
+			:to="`/${authUser .username}`"
 		/>
 	</nav>
 </template>

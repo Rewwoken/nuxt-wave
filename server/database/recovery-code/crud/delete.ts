@@ -1,7 +1,7 @@
 import { prisma } from '~/server/prisma';
 
-export function deleteRecoveryCodeByUserId(userId: string) {
-	return prisma.recoveryCode.delete({
+export async function deleteRecoveryCodeByUserId(userId: string) {
+	return await prisma.recoveryCode.delete({
 		where: { userId },
 	});
 }

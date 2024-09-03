@@ -1,7 +1,7 @@
 import { prisma } from '~/server/prisma';
 
-export function bookmarkPost(initiatorUserId: string, postId: string) {
-	return prisma.postBookmarkRelation.create({
+export async function bookmarkPost(initiatorUserId: string, postId: string) {
+	return await prisma.postBookmarkRelation.create({
 		data: {
 			initiatorUser: {
 				connect: { id: initiatorUserId },
@@ -13,8 +13,8 @@ export function bookmarkPost(initiatorUserId: string, postId: string) {
 	});
 }
 
-export function unBookmarkPost(initiatorUserId: string, postId: string) {
-	return prisma.postBookmarkRelation.delete({
+export async function unBookmarkPost(initiatorUserId: string, postId: string) {
+	return await prisma.postBookmarkRelation.delete({
 		where: {
 			initiatorUserId_bookmarkedPostId: {
 				initiatorUserId,

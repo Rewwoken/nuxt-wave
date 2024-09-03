@@ -1,4 +1,4 @@
-import type { EventHandler, H3Event } from 'h3';
+import type { EventHandler, EventHandlerRequest, H3Event } from 'h3';
 import { findUniqueUser } from '~/server/database/user/crud/read';
 
 // TODO: keep refreshToken in database
@@ -43,7 +43,7 @@ async function handleVerifiedToken(event: H3Event, value: string) {
  * @param handler - The event handler to be wrapped with authentication.
  * @returns The event handler wrapped with authentication.
  */
-export function defineAuthEventHandler(handler: EventHandler) {
+export function defineAuthEventHandler<ResT>(handler: EventHandler<EventHandlerRequest, ResT>) {
 	return defineEventHandler({
 		onRequest: [authHandler],
 		handler,

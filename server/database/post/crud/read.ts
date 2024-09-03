@@ -10,7 +10,7 @@ import { postSelect, postsOrder } from '~/server/database/post/options';
  * @return A promise that resolves to an array of top-level posts.
  */
 export async function findPostsByUserId(userId: string, page: number) {
-	return prisma.post.findMany({
+	return await prisma.post.findMany({
 		where: {
 			user: { id: userId },
 			parentPost: { is: null }, // ! Find only top-level posts
@@ -30,7 +30,7 @@ export async function findPostsByUserId(userId: string, page: number) {
  * @return A promise that resolves to an array of threads.
  */
 export async function findThreadsByUserId(userId: string, page: number) {
-	return prisma.post.findMany({
+	return await prisma.post.findMany({
 		where: {
 			user: { id: userId },
 			parentPost: { isNot: null }, // ! Threads are posts with a parent
@@ -61,15 +61,15 @@ export async function findThreadsByUserId(userId: string, page: number) {
 	});
 }
 
-export function findPostById(id: string) {
-	return prisma.post.findUnique({
+export async function findPostById(id: string) {
+	return await prisma.post.findUnique({
 		where: { id },
 		select: postSelect,
 	});
 }
 
 export async function findPostWithRootById(id: string) {
-	return prisma.post.findUnique({
+	return await prisma.post.findUnique({
 		where: { id },
 		select: {
 			...postSelect,
