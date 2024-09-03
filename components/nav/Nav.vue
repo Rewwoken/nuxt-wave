@@ -32,7 +32,7 @@
 			to="/bookmarks"
 			text="Bookmarks"
 		/>
-		<NavProfile :username="authUser .username" />
+		<NavProfile :username="authUser.username" />
 		<NavLink
 			icon="pi-ellipsis-h"
 			to="/settings"

@@ -6,7 +6,7 @@
 	}>();
 
 	const { authUser } = useAuth();
-	const isauthUser = computed(() => {
+	const isCurrentUser = computed(() => {
 		return props.user.username === authUser.value.username;
 	});
 </script>
@@ -27,7 +27,7 @@
 	/>
 	<div class="mt-2 flex items-end px-3">
 		<ProfileImage :source="user.profile!.imageUrl" />
-		<ProfileEditModal v-if="isauthUser " />
+		<ProfileEditModal v-if="isCurrentUser" />
 		<div
 			v-else
 			class="ml-auto flex items-center gap-x-2"

@@ -31,7 +31,7 @@
 
 <template>
 	<UserImage
-		:src="authUser .profile!.imageUrl"
+		:src="authUser.profile!.imageUrl"
 		:px="48"
 	/>
 	<form

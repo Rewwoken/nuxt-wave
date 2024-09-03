@@ -49,7 +49,7 @@
 		/>
 		<MobileNavLink
 			icon="pi-user"
-			:to="`/${authUser .username}`"
+			:to="`/${authUser.username}`"
 		/>
 	</nav>
 </template>
