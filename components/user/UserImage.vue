@@ -10,7 +10,7 @@
 		},
 	);
 
-	// ! Dynamic tw classes are not recommended, therefore I set sizes via style
+	// ! Dynamic tw classes are not recommended, therefore set sizes via style
 	// https://tailwindcss.com/docs/content-configuration#dynamic-class-names
 	const sizes = {
 		width: `${props.px}px`,

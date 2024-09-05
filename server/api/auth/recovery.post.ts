@@ -1,8 +1,15 @@
+import { z } from 'zod';
 import { deleteRecoveryCodeByUserId } from '~/server/database/recovery-code/crud/delete';
 import { recoverUserPassword } from '~/server/database/recovery-code/recover';
 
+const querySchema = z
+	.object({
+		id: z.string(),
+		code: z.string(),
+	});
+
 export default defineEventHandler(async (event) => {
-	const { success: successQuery, data: query } = await getValidatedQuery(event, codeSchema.safeParse);
+	const { success: successQuery, data: query } = await getValidatedQuery(event, querySchema.safeParse);
 	if (!successQuery) {
 		throw serverError(400, 'invalid-query');
 	}

@@ -7,7 +7,7 @@
 		icon="pi pi-arrow-left"
 		aria-label="Back"
 		severity="contrast"
-		pt:root:class="!border-none"
+		class="!border-none"
 		outlined
 		rounded
 		@click="router.back"

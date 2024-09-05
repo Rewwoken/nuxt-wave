@@ -1,14 +1,35 @@
+interface FileState {
+	url: Ref<string | null>;
+	file: Ref<File | null>;
+}
+
 export function useProfileEditFiles() {
-	const image = ref<File>();
-	const banner = ref<File>();
+	const image = createFileState();
+	const banner = createFileState();
 
-	function updateImage(file: File) {
-		image.value = file;
-	}
+	onUnmounted(() => {
+		revokeObjectURL(image.url.value);
+		revokeObjectURL(banner.url.value);
+	});
 
-	function updateBanner(file: File) {
-		banner.value = file;
-	}
+	return {
+		image,
+		banner,
+		updateImage: (file: File) => updateFile(image, file),
+		updateBanner: (file: File) => updateFile(banner, file),
+	};
+}
 
-	return { image, banner, updateImage, updateBanner };
+function createFileState(): FileState {
+	return {
+		file: ref<File | null>(null),
+		url: ref<string | null>(null),
+	};
+}
+
+function updateFile(state: FileState, file: File) {
+	revokeObjectURL(state.url.value);
+
+	state.url.value = URL.createObjectURL(file);
+	state.file.value = file;
 }

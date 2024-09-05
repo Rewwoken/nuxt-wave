@@ -13,6 +13,7 @@ export function useSendRecoveryRequest() {
 			onSuccess: () => {
 				onSuccess();
 
+				// TODO: remove magic number (10 minutes)
 				showInfo('Please, check your mailbox and follow the link in the message within 10 minutes before it expires.');
 			},
 			errors: {

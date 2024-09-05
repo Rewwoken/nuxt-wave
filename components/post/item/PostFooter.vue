@@ -16,11 +16,6 @@
 			:id="postId"
 			:count="count.replies"
 		/>
-		<!-- <PostShare
-			:id="postId"
-			:author="author"
-			:count="count.reposts"
-		/> -->
 		<PostLike
 			:id="postId"
 			:status="status.liked"

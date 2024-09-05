@@ -35,7 +35,7 @@
 	<Message
 		v-if="!canLoadMore && limit !== 0"
 		severity="secondary"
-		pt:root:class="m-2"
+		class="m-2"
 	>
 		That's all the threads!
 	</Message>

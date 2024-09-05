@@ -39,14 +39,14 @@ export default defineNuxtConfig({
 		dirs: [
 			'composables/**', // Global composables
 			'components/*/composables/**', // Component-scoped services
-			'schemas/**', // Zod schemas (shared between server and client)
+			'shared/schemas/**', // Zod schemas (shared between server and client)
 		],
 	},
 
 	// * Nitro auto-imports
 	nitro: {
 		imports: {
-			dirs: ['schemas/**'], // Zod schemas (shared between server and client)
+			dirs: ['shared/schemas/**'], // Zod schemas (shared between server and client)
 		},
 	},
 

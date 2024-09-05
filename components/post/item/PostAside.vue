@@ -8,12 +8,13 @@
 <template>
 	<UserImage
 		v-if="!role"
+		class="min-w-[40px]"
 		:src="imageUrl"
 		:px="40"
 	/>
 	<div
 		v-else-if="role === 'root'"
-		class="flex flex-col items-center gap-x-2 pt-3"
+		class="flex min-w-[40px] flex-col items-center gap-x-2 pt-3"
 	>
 		<UserImage
 			:src="imageUrl"
@@ -23,7 +24,7 @@
 	</div>
 	<div
 		v-else-if="role === 'parent'"
-		class="flex flex-col items-center gap-x-2"
+		class="flex min-w-[40px] flex-col items-center gap-x-2"
 	>
 		<div class="h-6 w-px border border-surface" />
 		<UserImage
@@ -34,7 +35,7 @@
 	</div>
 	<div
 		v-else-if="role === 'reply'"
-		class="flex flex-col items-center gap-x-2"
+		class="flex min-w-[40px] flex-col items-center gap-x-2"
 	>
 		<div class="h-3 w-px border border-surface" />
 		<UserImage

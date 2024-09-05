@@ -40,7 +40,6 @@ export const postSelect = {
 		select: {
 			likes: true,
 			replies: true,
-			// reposts: true,
 		},
 	},
 } satisfies Prisma.PostSelect;

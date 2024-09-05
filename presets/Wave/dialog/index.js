@@ -2,7 +2,7 @@ export default {
 	root: ({ state }) => ({
 		class: [
 			// Shape
-			'rounded-lg',
+			'rounded-2xl',
 			'shadow-lg',
 
 			// Size

@@ -11,6 +11,10 @@
 	function showModal() {
 		visible.value = true;
 	}
+
+	function closeModal() {
+		visible.value = false;
+	}
 </script>
 
 <template>
@@ -27,14 +31,17 @@
 	<Dialog
 		v-model:visible="visible"
 		header="New post creation"
-		pt:root:class="mx-4 w-full max-w-[586px]"
+		class="mx-4 w-full max-w-[586px]"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:draggable="false"
 		:modal="true"
 	>
 		<div class="flex gap-x-2">
-			<NewPostForm :parent-id="id" />
+			<NewPostForm
+				:parent-id="id"
+				@on-success="closeModal"
+			/>
 		</div>
 	</Dialog>
 </template>

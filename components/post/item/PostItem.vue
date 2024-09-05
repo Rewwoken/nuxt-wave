@@ -32,7 +32,7 @@
 		/>
 		<div
 			class="flex w-full flex-col pb-1"
-			:class="{ 'pt-2': !!role }"
+			:class="{ 'pt-3': !!role }"
 		>
 			<PostHeader
 				:name="post.user.profile!.name"

@@ -2,7 +2,7 @@ export function useLoginRequest() {
 	const { $api } = useNuxtApp();
 
 	const { handleRequest, serverError } = useHandleRequest();
-	const { showInfo } = useNotification();
+	const { showSuccess } = useNotification();
 
 	const submitLogin = async (values: LoginSchema) => {
 		await handleRequest({
@@ -12,7 +12,7 @@ export function useLoginRequest() {
 			}),
 			onSuccess: async () => {
 				await navigateTo('/home', { replace: true });
-				showInfo(`You logged in as @${values.username}.`);
+				showSuccess(`You logged in as @${values.username}.`);
 			},
 			errors: {
 				'error/credentials': 'Invalid credentials!',

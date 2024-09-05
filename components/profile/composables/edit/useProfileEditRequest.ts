@@ -4,7 +4,7 @@ export function useProfileEditRequest() {
 	const { handleRequest } = useHandleRequest();
 	const { showSuccess, showError } = useNotification();
 
-	const submitProfileEdit = async (image: File | undefined, banner: File | undefined, values: UpdateProfileSchema) => {
+	const submitProfileEdit = async (image: File | null, banner: File | null, values: UpdateProfileSchema) => {
 		const formData = new FormData();
 
 		for (const [key, value] of Object.entries(values)) {
@@ -31,7 +31,7 @@ export function useProfileEditRequest() {
 				// ? TODO: add loader toast
 			},
 			errors: {
-				'error/fields': 'Invalid fields.',
+				'error/fields': 'Invalid fields!',
 				'error/unknown': 'Unexpected error, please try again later.',
 			},
 			onError: (message) => {

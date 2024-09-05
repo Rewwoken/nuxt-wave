@@ -36,7 +36,7 @@
 		<Button
 			type="submit"
 			label="Change password"
-			pt:root:class="mt-2"
+			class="mt-2"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
 			fluid

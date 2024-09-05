@@ -1,13 +1,13 @@
 <script setup lang="ts">
+	import { profileEditFields } from '~/components/profile/edit/form/profile-edit-fields';
+
 	const emit = defineEmits<{
 		(e: 'onClose'): void;
 	}>();
 
-	const {
-		hasErrors,
-		handleSubmit,
-		isSubmitting,
-	} = useZodForm(updateProfileSchema);
+	const { authUser } = useAuth();
+	const currentImage = authUser.value.profile!.imageUrl;
+	const currentBanner = authUser.value.profile!.bannerUrl;
 
 	const {
 		image,
@@ -16,60 +16,42 @@
 		updateBanner,
 	} = useProfileEditFiles();
 
+	const {
+		hasErrors,
+		handleSubmit,
+		isSubmitting,
+	} = useZodForm(updateProfileSchema);
+
 	const { submitProfileEdit } = useProfileEditRequest();
 
-	const onSubmit = handleSubmit(
-		async (values) => {
-			await submitProfileEdit(image.value, banner.value, values);
-			emit('onClose');
-		},
-	);
+	const onSubmit = handleSubmit(async (values) => {
+		await submitProfileEdit(image.file.value, banner.file.value, values);
+		emit('onClose');
+	});
 </script>
 
 <template>
 	<ProfileEditHeader
 		:has-errors="hasErrors"
 		:is-submitting="isSubmitting"
-		@on-close="onSubmit"
+		@on-submit="onSubmit"
+		@on-close="$emit('onClose')"
 	/>
-	<ProfileEditBanner @on-file="updateBanner" />
-	<ProfileEditImage @on-file="updateImage" />
-	<!-- TODO: handle empty fields case -->
-	<form
-		class="flex flex-col gap-y-4 p-3"
-		novalidate
-	>
+	<ProfileEditBanner
+		:url="banner.url.value || currentBanner"
+		:is-cloudinary="!banner.url.value"
+		@on-file="updateBanner"
+	/>
+	<ProfileEditImage
+		:url="image.url.value || currentImage"
+		:is-cloudinary="!image.url.value"
+		@on-file="updateImage"
+	/>
+	<form class="flex flex-col gap-y-4 p-3">
 		<ProfileEditField
-			is="input"
-			type="text"
-			name="name"
-			placeholder="Name"
-			autocomplete="name"
-			:max-length="50"
-		/>
-		<ProfileEditField
-			is="textarea"
-			type="text"
-			name="bio"
-			placeholder="Bio"
-			autocomplete="new-password"
-			:max-length="160"
-		/>
-		<ProfileEditField
-			is="input"
-			type="text"
-			name="location"
-			placeholder="Location"
-			autocomplete="country-name"
-			:max-length="30"
-		/>
-		<ProfileEditField
-			is="input"
-			type="text"
-			name="website"
-			placeholder="Website"
-			autocomplete="url"
-			:max-length="50"
+			v-for="field in profileEditFields"
+			:key="field.name"
+			v-bind="field"
 		/>
 	</form>
 </template>

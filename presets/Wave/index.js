@@ -13,6 +13,7 @@ import tabs from '~/presets/Wave/tabs';
 import tag from '~/presets/Wave/tag';
 import textarea from '~/presets/Wave/textarea';
 import toast from '~/presets/Wave/toast';
+import knob from '~/presets/Wave/knob';
 
 export default {
 	global,
@@ -29,5 +30,6 @@ export default {
 	toast,
 	menu,
 	carousel,
+	knob,
 	...tabs,
 };

@@ -6,7 +6,7 @@ import type { infer as ZodInfer, ZodSchema } from 'zod';
  * @param schema - The Zod schema to use for validation.
  */
 export function useZodForm<T extends ZodSchema>(schema: T) {
-	const { meta, handleSubmit, isSubmitting, resetForm } = useForm<ZodInfer<T>>({
+	const { meta, handleSubmit, isSubmitting, resetForm, values } = useForm<ZodInfer<T>>({
 		validateOnMount: false,
 		validationSchema: toTypedSchema(schema),
 	});
@@ -24,5 +24,6 @@ export function useZodForm<T extends ZodSchema>(schema: T) {
 		handleSubmit,
 		isSubmitting,
 		resetForm,
+		values,
 	};
 }

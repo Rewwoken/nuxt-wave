@@ -1,15 +1,22 @@
-import type { MediaItem } from '~/types/new-post.types';
+interface MediaItem {
+	file: File;
+	mimetype: string;
+}
 
 export function useNewPostMedia() {
-	const items = ref<MediaItem[]>([]);
+	const items = reactive<MediaItem[]>([]);
 
-	const handleMediaAdd = (file: File, mimetype: string, url: string) => {
-		items.value.push({ file, mimetype, url });
+	const handleMediaAdd = (file: File, mimetype: string) => {
+		items.push({ file, mimetype });
 	};
 
 	const handleMediaDelete = (index: number) => {
-		items.value.splice(index, 1);
+		items.splice(index, 1);
 	};
 
-	return { items, handleMediaAdd, handleMediaDelete };
+	function clear() {
+		items.splice(0, items.length);
+	}
+
+	return { items, handleMediaAdd, handleMediaDelete, clear };
 }

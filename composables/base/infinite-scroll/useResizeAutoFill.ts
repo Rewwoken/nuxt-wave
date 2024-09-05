@@ -34,8 +34,8 @@ export function useResizeAutoFill(
 		const contentHeight = entry.contentRect.height;
 
 		// Resolve reactive values
-		const resolveCanLoadMore = resolveUnref(canLoadMore);
-		const resolveMinHeight = resolveUnref(minHeight);
+		const resolveCanLoadMore = toValue(canLoadMore);
+		const resolveMinHeight = toValue(minHeight);
 
 		// Check if more content is needed and can be loaded
 		const needsMoreContent = contentHeight < resolveMinHeight;

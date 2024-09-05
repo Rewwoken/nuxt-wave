@@ -7,7 +7,7 @@
 </script>
 
 <template>
-	<p class="py-px">
+	<p class="whitespace-pre-wrap py-px">
 		{{ data }}
 	</p>
 </template>

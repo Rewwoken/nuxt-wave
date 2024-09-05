@@ -9,21 +9,19 @@ model Post {
 
   mediaFiles MediaFile[]
 
-  reposts Repost[]
-
   // Link to the root post in the thread
   rootPost   Post?   @relation("ThreadRoot", fields: [rootPostId], references: [id])
   rootPostId String? @map("root_post_id") // ID of the root post in the thread
+
+  // All posts that reference this post as the root
+  threadPosts Post[] @relation("ThreadRoot")
 
   // Link to the parent post
   parentPost   Post?   @relation("PostReplies", fields: [parentPostId], references: [id])
   parentPostId String? @map("parent_post_id")
 
-  // Replies to this post
+  // All posts that reference this post as the parent
   replies Post[] @relation("PostReplies")
-
-  // All posts that reference this post as the root
-  threadPosts Post[] @relation("ThreadRoot")
 
   // Social interactions
   likes     PostLikeRelation[]     @relation("LikedPost")
@@ -44,19 +42,4 @@ model MediaFile {
   postId String @map("post_id")
 
   @@map("media_file")
-}
-
-model Repost {
-  id        String   @id @default(uuid()) @map("repost_id")
-  text      String?
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @map("user_id")
-
-  post   Post   @relation(fields: [postId], references: [id])
-  postId String
-
-  @@map("repost")
 }

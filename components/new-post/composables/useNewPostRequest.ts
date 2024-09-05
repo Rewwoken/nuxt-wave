@@ -1,22 +1,24 @@
-import type { MediaItem } from '~/types/new-post.types';
+import { POST_MAX_FILES_QUANTITY } from '~/shared/post/constants';
 
 export function useNewPostRequest() {
 	const { $api } = useNuxtApp();
 
 	const { handleRequest } = useHandleRequest();
-	const { showInfo, showError } = useNotification();
+	const { showSuccess, showError } = useNotification();
 
 	const submitNewPost = async (
 		values: CreatePostSchema,
-		items: Ref<MediaItem[]>,
+		files: MaybeRefOrGetter<File[]>,
 		parentId: string | undefined,
 		onSuccess: () => void,
 	) => {
 		const formData = new FormData();
 
 		formData.append('text', values.text);
-		items.value.forEach((item, index) => {
-			formData.append(`media/${index + 1}`, item.file);
+
+		const items = toValue(files);
+		items.forEach((item, index) => {
+			formData.append(`media/${index + 1}`, item);
 		});
 
 		await handleRequest({
@@ -27,10 +29,11 @@ export function useNewPostRequest() {
 			}),
 			onSuccess: async () => {
 				onSuccess();
-				showInfo('Post has been successfully created.');
+				showSuccess('Post has been successfully created.');
 			},
 			errors: {
-				'error/size': 'File size is too much! Allow for a maximum of 15 MB.',
+				'error/too-many-files': `Too many files! Maximum is ${POST_MAX_FILES_QUANTITY}.`,
+				'error/file-too-big': 'File size is too big!',
 				'error/invalid-type': 'Invalid file type!',
 				'error/unknown': 'Unexpected error!',
 			},

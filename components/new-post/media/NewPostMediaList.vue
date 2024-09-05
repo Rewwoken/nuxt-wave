@@ -1,8 +1,15 @@
 <script setup lang="ts">
-	import type { MediaItem } from '~/types/new-post.types';
+	interface MediaItem {
+		file: File;
+		mimetype: string;
+	}
 
 	defineProps<{
 		items: MediaItem[];
+	}>();
+
+	defineEmits<{
+		(e: 'deleteMedia', index: number): void;
 	}>();
 
 	const responsiveOptions = ref([
@@ -18,19 +25,24 @@
 	<NewPostMedia
 		v-if="items.length === 1"
 		:mimetype="items[0].mimetype"
-		:url="items[0].url"
+		:file="items[0].file"
+		@on-delete="$emit('deleteMedia', 0)"
 	/>
 	<div
 		v-else-if="items.length === 2"
-		class="grid w-full grid-cols-2 gap-x-1"
+		class="grid w-full grid-cols-2"
 	>
 		<NewPostMedia
+			class="mx-0.5"
 			:mimetype="items[0].mimetype"
-			:url="items[0].url"
+			:file="items[0].file"
+			@on-delete="$emit('deleteMedia', 0)"
 		/>
 		<NewPostMedia
+			class="mx-0.5"
 			:mimetype="items[1].mimetype"
-			:url="items[1].url"
+			:file="items[1].file"
+			@on-delete="$emit('deleteMedia', 1)"
 		/>
 	</div>
 	<Carousel
@@ -40,15 +52,16 @@
 		:num-visible="2"
 		:num-scroll="1"
 		:show-indicators="false"
-		:prev-button-props="{ class: '!absolute z-[1] left-2 border-none', rounded: true, severity: 'contrast' }"
-		:next-button-props="{ class: '!absolute z-[1] right-2 border-none', rounded: true, severity: 'contrast' }"
+		:prev-button-props="{ class: '!absolute z-[1] left-2 disabled:opacity-0 duration-300', rounded: true, severity: 'blur' }"
+		:next-button-props="{ class: '!absolute z-[1] right-2 disabled:opacity-0 duration-300', rounded: true, severity: 'blur' }"
 		:responsive-options="responsiveOptions"
 	>
-		<template #item="item">
+		<template #item="{ data, index }">
 			<NewPostMedia
-				class="size-full px-0.5"
-				:mimetype="item.data.mimetype"
-				:url="item.data.url"
+				class="mx-0.5"
+				:mimetype="data.mimetype"
+				:file="data.file"
+				@on-delete="$emit('deleteMedia', index)"
 			/>
 		</template>
 	</Carousel>

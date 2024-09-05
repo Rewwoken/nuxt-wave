@@ -1,23 +1,32 @@
 <script setup lang="ts">
+	import { PROFILE_IMAGE_ALLOWED_MIMES, PROFILE_IMAGE_MAX_SIZE } from '~/shared/profile/constants';
+
+	defineProps<{
+		url: string | null;
+		isCloudinary: boolean;
+	}>();
+
 	const emit = defineEmits<{
 		(e: 'onFile', file: File): void;
 	}>();
 
-	const { authUser } = useAuth();
-	const currentImage = authUser.value.profile!.imageUrl;
-
-	const image = ref(currentImage);
 	const hiddenInput = ref();
-
 	function onClick() {
 		hiddenInput.value.click();
 	}
 
-	function onFileChange(event: Event) {
-		const { file, url } = extractFileInputData(event);
-		emit('onFile', file);
+	const { showError } = useNotification();
 
-		image.value = url;
+	function onFileChange(event: Event) {
+		const { file } = extractFileInputData(event);
+
+		if (file.size > PROFILE_IMAGE_MAX_SIZE) {
+			const sizeInMb = (PROFILE_IMAGE_MAX_SIZE / 1024 / 1024).toFixed(2);
+
+			return void showError(`File size is too big! Max size is ${sizeInMb} MB.`);
+		}
+
+		emit('onFile', file);
 	}
 </script>
 
@@ -26,11 +35,12 @@
 		<div class="absolute bottom-4 ml-6 flex items-center justify-center">
 			<UserImage
 				class="cursor-pointer border-[3px] border-bg-color bg-color"
-				:cloudinary="image === currentImage"
-				:src="image"
+				:cloudinary="isCloudinary"
+				:src="url"
 				:px="128"
 			/>
 			<Button
+				aria-label="Upload image"
 				icon="pi pi-file-plus"
 				severity="contrast"
 				pt:root:class="!absolute"
@@ -42,8 +52,8 @@
 	</div>
 	<input
 		ref="hiddenInput"
-		accept="image/png, image/jpeg, image/webp"
 		type="file"
+		:accept="PROFILE_IMAGE_ALLOWED_MIMES.join(',')"
 		hidden
 		@change="onFileChange"
 	>

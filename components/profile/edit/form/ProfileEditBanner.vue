@@ -1,31 +1,41 @@
 <script setup lang="ts">
+	import { PROFILE_BANNER_ALLOWED_MIMES, PROFILE_BANNER_MAX_SIZE } from '~/shared/profile/constants';
+
+	defineProps<{
+		url: string | null;
+		isCloudinary: boolean;
+	}>();
+
 	const emit = defineEmits<{
 		(e: 'onFile', file: File): void;
 	}>();
 
-	const { authUser } = useAuth();
-	const currentBanner = authUser.value.profile!.bannerUrl;
-
-	const banner = ref(currentBanner);
 	const hiddenInput = ref();
 
 	function onClick() {
 		hiddenInput.value.click();
 	}
 
-	function onFileChange(event: Event) {
-		const { file, url } = extractFileInputData(event);
-		emit('onFile', file);
+	const { showError } = useNotification();
 
-		banner.value = url;
+	function onFileChange(event: Event) {
+		const { file } = extractFileInputData(event);
+
+		if (file.size > PROFILE_BANNER_MAX_SIZE) {
+			const sizeInMb = (PROFILE_BANNER_MAX_SIZE / 1024 / 1024).toFixed(2);
+
+			return void showError(`File size is too big! Max size is ${sizeInMb} MB.`);
+		}
+
+		emit('onFile', file);
 	}
 </script>
 
 <template>
 	<div class="relative flex items-center justify-center">
 		<UserBanner
-			:cloudinary="banner === currentBanner"
-			:src="banner"
+			:cloudinary="isCloudinary"
+			:src="url"
 			:height="192"
 			:width="586"
 		/>
@@ -40,8 +50,8 @@
 	</div>
 	<input
 		ref="hiddenInput"
-		accept="image/png, image/jpeg, image/webp"
 		type="file"
+		:accept="PROFILE_BANNER_ALLOWED_MIMES.join(',')"
 		hidden
 		@change="onFileChange"
 	>

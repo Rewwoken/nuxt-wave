@@ -6,7 +6,7 @@
 
 <template>
 	<NuxtImg
-		class="aspect-square w-full rounded-2xl object-cover"
+		class="aspect-[9/10] w-full object-cover"
 		:src="url"
 	/>
 </template>

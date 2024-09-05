@@ -51,7 +51,7 @@
 				type="submit"
 				label="Submit"
 				size="small"
-				pt:root:class="px-6"
+				class="px-6"
 				:loading="isSubmitting"
 				:disabled="hasErrors"
 				rounded

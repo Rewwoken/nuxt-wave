@@ -20,7 +20,7 @@
 		<component
 			:is="variant"
 			size="large"
-			pt:root:class="group py-5"
+			class="group py-4"
 			:class="{ 'resize-none': is === 'textarea' }"
 			:autocomplete="autocomplete"
 			:maxlength="maxLength"
@@ -34,7 +34,7 @@
 			fluid
 			v-on="listeners"
 		/>
-		<span class="absolute right-4 top-1 z-10 text-sm text-muted-color">
+		<span class="absolute right-4 top-1 z-10 text-xs text-muted-color">
 			{{ value?.length || 0 }} / {{ maxLength }}
 		</span>
 		<VeeErrorMessage

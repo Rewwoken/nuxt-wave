@@ -8,9 +8,9 @@
 		items: Array<Item>;
 	}>();
 
-	const mobile = resolveUnref(useMediaQuery('(max-width: 767px)'));
+	const isMobile = toValue(useMediaQuery('(max-width: 767px)'));
 	const DEFAULT_SIZE = 500;
-	const MULTIPLE_SIZE = computed(() => mobile ? DEFAULT_SIZE : (DEFAULT_SIZE / 2));
+	const MULTIPLE_SIZE = computed(() => isMobile ? DEFAULT_SIZE : (DEFAULT_SIZE / 2));
 
 	const responsiveOptions = ref([
 		{
@@ -50,8 +50,8 @@
 		:num-visible="2"
 		:num-scroll="1"
 		:show-indicators="false"
-		:prev-button-props="{ class: '!absolute z-[1] left-2 border-none', rounded: true, severity: 'contrast' }"
-		:next-button-props="{ class: '!absolute z-[1] right-2 border-none', rounded: true, severity: 'contrast' }"
+		:prev-button-props="{ class: '!absolute z-[1] left-2 disabled:opacity-0 duration-300', rounded: true, severity: 'blur' }"
+		:next-button-props="{ class: '!absolute z-[1] right-2 disabled:opacity-0 duration-300', rounded: true, severity: 'blur' }"
 		:responsive-options="responsiveOptions"
 	>
 		<template #item="item">

@@ -37,7 +37,7 @@
 			<i class="pi pi-bell relative !text-2xl">
 				<Badge
 					v-if="count"
-					pt:root:class="absolute -right-2 -top-2 font-sans text-white"
+					class="absolute -right-2 -top-2 font-sans text-white"
 					size="small"
 					:value="count"
 				/>

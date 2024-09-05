@@ -19,7 +19,7 @@
 </script>
 
 <template>
-	<section>
+	<section class="flex flex-col">
 		<Post
 			role="root"
 			class="px-4"

@@ -1,8 +1,15 @@
+import { z } from 'zod';
 import { deleteUserById } from '~/server/database/user/crud/delete';
 import { verifyUser } from '~/server/database/verification-code/verify';
 
+const querySchema = z
+	.object({
+		id: z.string(),
+		code: z.string(),
+	});
+
 export default defineEventHandler(async (event) => {
-	const { success: successQuery, data: query } = await getValidatedQuery(event, codeSchema.safeParse);
+	const { success: successQuery, data: query } = await getValidatedQuery(event, querySchema.safeParse);
 	if (!successQuery) {
 		throw serverError(400, 'invalid-query');
 	}

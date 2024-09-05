@@ -29,7 +29,7 @@
 			:key="post.id"
 			class="w-full cursor-pointer border-b border-surface"
 		>
-			<Post
+			<PostItem
 				class="px-4 py-3"
 				:post="post"
 			/>

@@ -6,16 +6,17 @@
 
 	defineEmits<{
 		(e: 'onClose'): void;
-		(e: 'onClose'): void;
+		(e: 'onSubmit'): void;
 	}>();
 </script>
 
 <template>
-	<header class="mb-2 flex items-center px-2 pt-3">
+	<header class="flex items-center py-1.5 pl-1 pr-2">
 		<Button
+			type="button"
 			icon="pi pi-times"
 			severity="contrast"
-			pt:root:class="!border-none"
+			class="!border-none"
 			outlined
 			rounded
 			@click="$emit('onClose')"
@@ -26,11 +27,12 @@
 		<Button
 			label="Save"
 			severity="contrast"
-			pt:root:class="ml-auto px-8"
+			size="small"
+			class="ml-auto px-8"
 			:loading="isSubmitting"
 			:disabled="hasErrors"
 			rounded
-			@click="$emit('onClose')"
+			@click="$emit('onSubmit')"
 		/>
 	</header>
 </template>

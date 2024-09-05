@@ -22,7 +22,7 @@ export function validateFormFile(
 	}
 
 	if (size > maxSize) {
-		throw serverError(400, 'size');
+		throw serverError(400, 'file-too-big');
 	}
 
 	const type = mimetype.startsWith('image/') ? 'image' : 'video';
@@ -31,6 +31,7 @@ export function validateFormFile(
 
 export function validateFormFiles(
 	files: formidable.Files<string>,
+	quantity: number,
 	allowedMimes: Readonly<string[]>,
 	maxSize: number,
 ): ValidatedFormFile[] {
@@ -41,6 +42,10 @@ export function validateFormFiles(
 
 		const validatedFile = validateFormFile(file, allowedMimes, maxSize);
 		result.push(validatedFile);
+	}
+
+	if (result.length > quantity) {
+		throw serverError(400, 'too-many-files');
 	}
 
 	return result;

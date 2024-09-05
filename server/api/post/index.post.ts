@@ -1,9 +1,7 @@
 import { z } from 'zod';
 import { createPost } from '~/server/database/post/crud/create';
 import { findPostWithRootById } from '~/server/database/post/crud/read';
-
-const ALLOWED_MIMES = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg', 'video/mp4'];
-const MAX_FILE_SIZE = 15_728_640; // 15mb
+import { POST_ALLOWED_MIMES, POST_MAX_FILES_QUANTITY, POST_MAX_FILE_SIZE_BYTES } from '~/shared/post/constants';
 
 const schema = z.object({
 	parentId: z.string().optional(),
@@ -16,14 +14,14 @@ export default defineAuthEventHandler(async (event) => {
 	}
 
 	const formParse = await parseForm(event.node.req);
-	const joinedText = formParse.fields.text ? joinFormField(formParse.fields.text) : ''; // TODO: handle \n
+	const joinedText = formParse.fields.text ? joinFormField(formParse.fields.text) : '';
 
 	const { success: successText, data: text } = postTextSchema.safeParse(joinedText);
 	if (!successText) {
 		throw serverError(400, 'invalid-text');
 	}
 
-	const files = validateFormFiles(formParse.files, ALLOWED_MIMES, MAX_FILE_SIZE);
+	const files = validateFormFiles(formParse.files, POST_MAX_FILES_QUANTITY, POST_ALLOWED_MIMES, POST_MAX_FILE_SIZE_BYTES);
 	const userId = authUser(event, 'id');
 
 	const parentId = query.parentId;

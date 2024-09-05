@@ -59,7 +59,7 @@ export function useInfiniteWindowScroll(
 
 	// Compute whether loading should stop based on the canLoadMore prop
 	const shouldStopLoading = computed(() => {
-		const resolveCanLoadMore = resolveUnref(canLoadMore);
+		const resolveCanLoadMore = toValue(canLoadMore);
 		return !resolveCanLoadMore;
 	});
 

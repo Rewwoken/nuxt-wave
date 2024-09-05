@@ -9,7 +9,7 @@ model User {
 
   profile          Profile?
   posts            Post[]            @relation("UserPosts")
-  reposts          Repost[]
+
   verificationCode VerificationCode?
   recoveryCode     RecoveryCode?
 

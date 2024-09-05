@@ -1,24 +1,18 @@
 /**
- * Provides a way to use a form field without immediately triggering a re-validation.
+ * Provides a way to use a form field with delayed validation.
  *
- * @remarks
- * This function is a helper to use a form field without immediately triggering a re-validation.
- * It's useful when you want a form field to be validated only when the user interacts with it (e.g. when the user
- * blurs the field, or when the user clicks on the submit button).
+ * Creates a form field that doesn't trigger immediate re-validation.
+ * Instead, it validates the field when the user interacts with it, such as on blur
+ * or when submitting the form.
  *
  * @param name - The name of the form field.
  *
- * @returns An object containing the value of the form field,
- * and an object with event listeners that should be attached to the form field.
+ * @returns An object containing the field's value, error message, and event listeners.
  */
 export function usePassiveField(name: string) {
-	const { value, handleChange, handleBlur, errorMessage } = useField<string>(
-		// Props are not reactive, so we get reactive-like behavior with function approach
-		// https://vee-validate.logaretm.com/v4/guide/composition-api/caveats#function-field-names-with-usefield
+	const { value, handleChange, handleBlur, errorMessage, resetField } = useField<string>(
 		() => name,
-		// Skip the rules param, leave it to useForm
 		undefined,
-		// Disable immediate validation on update.
 		{
 			validateOnMount: false,
 			validateOnValueUpdate: false,
@@ -35,5 +29,5 @@ export function usePassiveField(name: string) {
 		change: handleChange,
 	};
 
-	return { value, listeners, errorMessage };
+	return { value, listeners, errorMessage, resetField };
 }
