@@ -19,7 +19,7 @@
 	/>
 	<Dialog
 		v-model:visible="visible"
-		class="bg-transparent shadow-none"
+		class="!bg-transparent shadow-none"
 		:dismissable-mask="true"
 		:close-on-escape="true"
 		:show-header="false"

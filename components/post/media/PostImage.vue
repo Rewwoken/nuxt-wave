@@ -1,21 +1,22 @@
 <script setup lang="ts">
 	defineProps<{
 		source: string;
-		size: number;
+		width: number;
+		height: number;
 	}>();
 </script>
 
 <!-- TODO: Add GIF label -->
 <template>
 	<CldImage
-		class="aspect-square !max-h-full w-full !max-w-full rounded-3xl border object-cover border-surface"
+		class="rounded-3xl border object-cover border-surface"
 		alt="Post media file, image type"
 		loading="lazy"
 		gravity="center"
 		crop="thumb"
 		format="webp"
-		:width="size"
-		:height="size"
+		:width="width"
+		:height="height"
 		:src="source"
 	/>
 </template>

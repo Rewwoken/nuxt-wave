@@ -2,7 +2,8 @@
 	defineProps<{
 		url: string;
 		mimetype: string;
-		size: number;
+		width: number;
+		height: number;
 	}>();
 </script>
 
@@ -10,11 +11,13 @@
 	<PostImage
 		v-if="mimetype.startsWith('image')"
 		:source="url"
-		:size="size"
+		:width="width"
+		:height="height"
 	/>
 	<PostVideo
 		v-else
 		:source="url"
-		:size="size"
+		:width="width"
+		:height="height"
 	/>
 </template>

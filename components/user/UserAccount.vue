@@ -1,5 +1,9 @@
 <script setup lang="ts">
-	const { authUser } = useAuth();
+	defineProps<{
+		name: string;
+		username: string;
+		imageUrl: string | null;
+	}>();
 
 	const op = ref();
 
@@ -18,12 +22,12 @@
 		@click="toggle"
 	>
 		<UserImage
-			:src="authUser.profile!.imageUrl"
+			:src="imageUrl"
 			:px="44"
 		/>
 		<div class="hidden flex-col items-start justify-center overflow-hidden xl:flex">
-			<span class="text-ellipsis text-nowrap font-bold">{{ authUser.profile!.name }}</span>
-			<span class="relative bottom-1 text-muted-color">@{{ authUser.username }}</span>
+			<span class="text-ellipsis text-nowrap font-bold">{{ name }}</span>
+			<span class="relative bottom-1 text-muted-color">@{{ username }}</span>
 		</div>
 		<i class="pi pi-ellipsis-h ml-auto !hidden xl:!inline" />
 	</button>
@@ -32,7 +36,7 @@
 			class="w-48 text-left font-bold"
 			@click="logout"
 		>
-			Log out @{{ authUser.username }}
+			Log out @{{ username }}
 		</button>
 	</Popover>
 </template>

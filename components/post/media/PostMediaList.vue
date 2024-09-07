@@ -4,13 +4,11 @@
 		mimetype: string;
 	}
 
-	defineProps<{
+	const props = defineProps<{
 		items: Array<Item>;
 	}>();
 
-	const isMobile = toValue(useMediaQuery('(max-width: 767px)'));
-	const DEFAULT_SIZE = 500;
-	const MULTIPLE_SIZE = computed(() => isMobile ? DEFAULT_SIZE : (DEFAULT_SIZE / 2));
+	const { dimensions } = usePostMediaDimensions(props.items.length);
 
 	const responsiveOptions = ref([
 		{
@@ -26,7 +24,7 @@
 		v-if="items.length === 1"
 		:url="items[0].url"
 		:mimetype="items[0].mimetype"
-		:size="DEFAULT_SIZE"
+		v-bind="dimensions"
 	/>
 	<div
 		v-else-if="items.length === 2"
@@ -35,12 +33,12 @@
 		<PostMedia
 			:url="items[0].url"
 			:mimetype="items[0].mimetype"
-			:size="MULTIPLE_SIZE"
+			v-bind="dimensions"
 		/>
 		<PostMedia
 			:url="items[1].url"
 			:mimetype="items[1].mimetype"
-			:size="MULTIPLE_SIZE"
+			v-bind="dimensions"
 		/>
 	</div>
 	<Carousel
@@ -59,7 +57,7 @@
 				<PostMedia
 					:url="item.data.url"
 					:mimetype="item.data.mimetype"
-					:size="MULTIPLE_SIZE"
+					v-bind="dimensions"
 				/>
 			</div>
 		</template>

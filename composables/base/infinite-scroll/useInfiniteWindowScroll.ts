@@ -52,9 +52,7 @@ export function useInfiniteWindowScroll(
 		});
 
 		// Load more content when the computed value becomes true
-		whenever(shouldLoadMore, async () => {
-			await safeLoadMore();
-		});
+		whenever(shouldLoadMore, safeLoadMore);
 	});
 
 	// Compute whether loading should stop based on the canLoadMore prop

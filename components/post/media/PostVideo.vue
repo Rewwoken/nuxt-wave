@@ -1,7 +1,8 @@
 <script setup lang="ts">
 	defineProps<{
 		source: string;
-		size: number;
+		width: number;
+		height: number;
 	}>();
 
 	const colors = {
@@ -13,8 +14,8 @@
 	<CldVideoPlayer
 		font-face="Inter"
 		class-name="rounded-3xl border border-surface"
-		:width="size"
-		:height="size"
+		:width="width"
+		:height="height"
 		:logo="{ imageUrl: '/favicon.svg', onClickUrl: 'https://github.com/Rewwoken/wave' }"
 		:src="source"
 		:colors="colors"

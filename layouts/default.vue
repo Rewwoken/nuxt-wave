@@ -1,6 +1,8 @@
 <script setup lang="ts">
 	const { $api } = useNuxtApp();
+
 	const { authUser } = useAuth();
+	const { count } = useNotificationsCount();
 
 	await callOnce(async () => {
 		const response = await $api('/api/me', {
@@ -14,15 +16,30 @@
 <template>
 	<div class="flex min-h-screen justify-center">
 		<aside class="sticky top-0 hidden h-full select-none flex-col items-center gap-y-3 pr-4 md:flex xl:w-[300px] xl:items-stretch">
-			<Nav />
+			<NavHome />
+			<nav class="flex flex-col gap-y-4">
+				<Navigation
+					:username="authUser.username"
+					:count="count ?? 0"
+				/>
+			</nav>
 			<NewPostModal />
-			<UserAccount />
+			<UserAccount
+				:name="authUser.profile!.name"
+				:username="authUser.username"
+				:image-url="authUser.profile!.imageUrl"
+			/>
 		</aside>
 		<main class="w-[586px] border-x border-surface lg:mr-4">
 			<slot />
-			<nav class="fixed bottom-0 w-full max-w-[586px] md:hidden">
-				<MobileNav />
-			</nav>
+			<div class="fixed bottom-0 z-10 w-full max-w-[586px] border-x border-t bg-color border-surface md:hidden">
+				<nav class="flex justify-around gap-y-4 p-1">
+					<Navigation
+						:username="authUser.username"
+						:count="count ?? 0"
+					/>
+				</nav>
+			</div>
 		</main>
 		<aside class="sticky top-0 hidden h-full w-[350px] flex-col gap-y-2 pt-2 lg:flex">
 			<Search />

@@ -6,6 +6,6 @@ type User = Prisma.UserGetPayload<{ select: typeof UserSelect }>;
 
 declare module 'h3' {
 	interface H3EventContext {
-		user: User | undefined; // Set in ~/server/utils/auth.ts
+		user: User | undefined; // Set in ~/server/utils/auth/authHandler.ts
 	}
 }
